@@ -42,7 +42,7 @@
                     clearable>
                 </el-input>
                 <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
-                <el-button type="primary" style="margin-left: 80px;" @click="importUsers = true">批量导入</el-button>
+                <!-- <el-button type="primary" style="margin-left: 80px;" @click="importUsers = true">批量导入</el-button> -->
                 <!-- <el-button type="primary" style="margin-left: 60px;" @click="downLoadFile">导入模板下载</el-button> -->
                 <el-button type="primary" style="margin-left: 60px;" @click="addUser = true">单人新增</el-button>
                 
@@ -77,7 +77,7 @@
             
             >
                   <el-form ref="form" :model="form" label-width="120px" label-position="left" style="margin-left:20px;">
-                      <el-form-item label="工号" style="display: inline-block;">
+                      <el-form-item label="账号" style="display: inline-block;">
                         <el-input v-model="form.username" style="width: 200px;float: left;"></el-input>
                       </el-form-item>
                       <el-form-item label="密码" style="display: inline-block;margin-left:80px;">

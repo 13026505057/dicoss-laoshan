@@ -503,7 +503,7 @@
           },
           
           searchClick(){
-            console.log(this.value9)
+            
             this.getDataList();
           },
           handleChange(value) {

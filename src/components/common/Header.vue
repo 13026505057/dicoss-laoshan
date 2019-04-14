@@ -12,7 +12,7 @@
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item command="loginout">退出</el-dropdown-item>
                         <el-dropdown-item command="open3">修改密码</el-dropdown-item>
-                        <el-dropdown-item command="adminShow">机构资料</el-dropdown-item>
+                        <!-- <el-dropdown-item command="adminShow">机构资料</el-dropdown-item> -->
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
@@ -306,17 +306,15 @@ import md5 from 'js-md5';
                     self.$prompt('请输入新密码(6-18位，字母开头且只能是字母数字组合)', '提示', {
                       confirmButtonText: '确定',
                       cancelButtonText: '取消',
-                      inputPattern: /[a-zA-Z]\w{5,17}$/,
-                      inputErrorMessage: '密码格式不正确'
                     }).then(({ value }) => {
                         const self = this;
                         var passwordmd5 = md5.hex(value);
                         var params = new URLSearchParams();
                         var token = localStorage.getItem('auth');
-                        params.append('ad_password',passwordmd5);         
+                        params.append('password',passwordmd5);         
                         self.$axios({
                             method: 'post',
-                            url: '/stop/updateMyself',
+                            url: '/user/updatePass',
                             data: params,
                             headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                          }).then(function(data){

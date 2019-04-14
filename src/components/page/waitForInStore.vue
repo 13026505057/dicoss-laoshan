@@ -36,6 +36,7 @@
                 </el-date-picker> -->
                 
                 <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
+                <el-button type="warning" style="margin-left: 30px;" @click="addHistoryClick">历史案卷导入</el-button>
             </div>
 
           
@@ -43,6 +44,20 @@
         <!-- <div class="tree">
           <el-tree :data="data"    @node-click="handleNodeClick"></el-tree>
         </div> -->
+        <el-dialog title="历史案件导入" :visible.sync="addHisDialog">
+            <el-upload
+              style="text-align:center;"
+              class="upload-demo"
+              drag
+              :on-success="uploadSuccess"
+              :action="uploadUrl"
+              :headers="myHeaders"
+              multiple>
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+              <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
+        </el-dialog>
         <el-dialog title="案卷详情" :visible.sync="case_detail_dialog">
           <el-table
               :data="exhibits"
@@ -205,10 +220,7 @@
               loading: false,
               states: [],
               caseList: [
-                {
-                  case_name:'ceshi',
-                  case_desc:'哈哈是尽快的哈手机客户端手机卡带回家开始的健康哈哈是健康带回家卡萨哈哈是可敬的哈数据库好道具卡圣诞节看哈涉及到哈数据库等哈说客家话大客户就撒谎接地卡萨好看的哈萨克较好的空间撒谎的空间撒好看的接口撒很快就到哈市科技带回家撒客户空间哈哈是尽快的哈手机客户端手机卡带回家开始的健康哈哈是健康带回家卡萨哈哈是可敬的哈数据库好道具卡圣诞节看哈涉及到哈数据库等哈说客家话'
-                }
+                
               ],
               exhibits:[],
               total:0,
@@ -216,15 +228,33 @@
               pageSize:10,
               total2:0,
               pageNum2:1,
-              pageSize2:10
+              pageSize2:10,
+              addHisDialog:false,
+              uploadUrl:'',
+              myHeaders:''
             }
               
       },
       mounted() {
           this.getDataList();
-          
+          var myHeaders = localStorage.getItem('auth');
+          var uploadUrl = this.$axios.defaults.baseURL+'/cases/cases/addByExcel';
+          this.uploadUrl = uploadUrl;
+          var token = {"kf-token":myHeaders};
+          this.myHeaders = token;
       },
       methods: {
+          uploadSuccess(){
+            this.$message({
+              type: 'success',
+              message: '上传成功'
+            });
+            this.addHisDialog = false;
+            this.getDataList();
+          },
+          addHistoryClick(){
+            this.addHisDialog = true;
+          },
           // getConfigResult(e){
           //   console.log(e)
           //   // if(e.data==101){
@@ -245,7 +275,7 @@
           },
           //查询事件
           searchClick(){
-
+            this.getDataList();
           },
           //补打条码
           printAgain(res){

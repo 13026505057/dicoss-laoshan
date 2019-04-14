@@ -204,10 +204,7 @@
               loading: false,
               states: [],
               caseList: [
-                {
-                  case_name:'ceshi',
-                  case_des:'哈哈是尽快的哈手机客户端手机卡带回家开始的健康哈哈是健康带回家卡萨哈哈是可敬的哈数据库好道具卡圣诞节看哈涉及到哈数据库等哈说客家话大客户就撒谎接地卡萨好看的哈萨克较好的空间撒谎的空间撒好看的接口撒很快就到哈市科技带回家撒客户空间哈哈是尽快的哈手机客户端手机卡带回家开始的健康哈哈是健康带回家卡萨哈哈是可敬的哈数据库好道具卡圣诞节看哈涉及到哈数据库等哈说客家话'
-                }
+                
               ],
               exhibits:[],
               total:0,
@@ -238,13 +235,13 @@
           },
           //案卷详情点击事件
           caseDetailClick(res){
-            this.$socketApi.sendSock('text',this.getConfigResult);
+            
             this.exhibits = res.exhibits;
             this.case_detail_dialog = true;
           },
           //查询事件
           searchClick(){
-
+            this.getDataList();
           },
           //补打条码
           printAgain(res){

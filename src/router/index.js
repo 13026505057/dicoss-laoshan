@@ -108,6 +108,26 @@ export default new Router({
                     component: resolve => require(['../components/page/videoHistory.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
+                    name: '借阅总结',
+                    path: '/jieyuezongjie',
+                    component: resolve => require(['../components/page/jieyuezongjie.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '年度总结',
+                    path: '/nianzhongzongjie',
+                    component: resolve => require(['../components/page/nianzhongzongjie.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '历史沿革',
+                    path: '/lishiyange',
+                    component: resolve => require(['../components/page/lishiyange.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '案件查询',
+                    path: '/anjianchaxun',
+                    component: resolve => require(['../components/page/anjianchaxun.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
                     name: '打印测试',
                     path: '/printTest',
                     component: resolve => require(['../components/page/printTest.vue'], resolve) // Vue-Quill-Editor组件

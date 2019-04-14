@@ -24,7 +24,7 @@
                   </el-option>
                 </el-select>
 
-                <el-date-picker
+                <!-- <el-date-picker
                   style="margin-left: 20px;width:420px;"
                   v-model="date"
                   type="daterange"
@@ -33,9 +33,10 @@
                   value-format="yyyy-MM-dd"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期">
-                </el-date-picker>
+                </el-date-picker> -->
                 
                 <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
+                
             </div>
 
           
@@ -43,6 +44,20 @@
         <!-- <div class="tree">
           <el-tree :data="data"    @node-click="handleNodeClick"></el-tree>
         </div> -->
+        <el-dialog title="历史案件导入" :visible.sync="addHisDialog">
+            <el-upload
+              style="text-align:center;"
+              class="upload-demo"
+              drag
+              :on-success="uploadSuccess"
+              :action="uploadUrl"
+              :headers="myHeaders"
+              multiple>
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+              <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
+        </el-dialog>
         <el-dialog title="案卷详情" :visible.sync="case_detail_dialog">
           <el-table
               :data="exhibits"
@@ -148,24 +163,13 @@
                 >
               </el-table-column>
               <el-table-column
-                label="案卷号"
-                align="center"
-                prop="exhibit_id"
-                >
-              </el-table-column>
-              <el-table-column
-                label="入库时间"
-                align="center"
-                prop="stock_log_time"
-                >
-              </el-table-column>
-              <el-table-column
                 label="操作"
                 width="300px"
                 align="center"
                 >
                 <template slot-scope="props">
-                  <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">打印入库单</el-button>
+                  <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                 <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                 </template>
               </el-table-column>
               
@@ -215,7 +219,6 @@
               list: [],
               loading: false,
               states: [],
-              date:[],
               caseList: [
                 
               ],
@@ -225,59 +228,50 @@
               pageSize:10,
               total2:0,
               pageNum2:1,
-              pageSize2:10
+              pageSize2:10,
+              addHisDialog:false,
+              uploadUrl:'',
+              myHeaders:''
             }
               
       },
       mounted() {
           this.getDataList();
-          
+          var myHeaders = localStorage.getItem('auth');
+          var uploadUrl = this.$axios.defaults.baseURL+'/cases/cases/addByExcel';
+          this.uploadUrl = uploadUrl;
+          var token = {"kf-token":myHeaders};
+          this.myHeaders = token;
       },
       methods: {
-          getConfigResult(e){
-            console.log(e)
-            // if(e.data==101){
-            //   router.push('/readme')
-            // }else if(e.data==102){
-            //   router.push('/jiedurenliebiao')
-            // }else if(e.data==103){
-            //   router.push('/jiedurendangan')
-            // }else{
-            //   router.push('/jingyuanliebiao')
-            // }
+          uploadSuccess(){
+            this.$message({
+              type: 'success',
+              message: '上传成功'
+            });
+            this.addHisDialog = false;
+            this.getDataList();
           },
+          addHistoryClick(){
+            this.addHisDialog = true;
+          },
+          // getConfigResult(e){
+          //   console.log(e)
+          //   // if(e.data==101){
+          //   //   router.push('/readme')
+          //   // }else if(e.data==102){
+          //   //   router.push('/jiedurenliebiao')
+          //   // }else if(e.data==103){
+          //   //   router.push('/jiedurendangan')
+          //   // }else{
+          //   //   router.push('/jingyuanliebiao')
+          //   // }
+          // },
           //案卷详情点击事件
           caseDetailClick(res){
-                var self = this;
-                var params = new URLSearchParams();
-                var token = localStorage.getItem('auth');
-
-                
-                params.append('stock_log_id',res.stock_log_id);
-                
-                const loading = self.$loading({
-                  lock: true,
-                  text: '打印中',
-                  spinner: 'el-icon-loading',
-                  background: 'rgba(0, 0, 0, 0.6)'
-                });
-                self.$axios({
-                    method: 'post',
-                    url: '/stock/stock-log/printWord',
-                    data: params,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
-                 }).then(function(data){
-                    
-                    if(data.data.code==0){
-                      loading.close();
-                      self.$message({
-                        type: 'success',
-                        message: '已发送打印请求'
-                      });
-                    }else{
-                      self.$response(data,self);
-                    }
-                 });
+            // this.$socketApi.sendSock('text',this.getConfigResult);
+            this.exhibits = res.exhibits;
+            this.case_detail_dialog = true;
           },
           //查询事件
           searchClick(){
@@ -336,7 +330,7 @@
                 var token = localStorage.getItem('auth');
 
                 params.append('case_id',res.case_id);
-                params.append('exhibit_name','');
+                params.append('exhibit_name',res.case_name);
                 
 
                 self.$axios({
@@ -422,24 +416,16 @@
                
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-                if(self.date==null||self.date.length==0){
-                  var begin_time = '';
-                  var end_time = '';
-                }else{
-                  var begin_time = self.date[0];
-                  var end_time = self.date[1];
-                }
-                params.append('begin_time',begin_time);
-                params.append('end_time',end_time);
+
                 params.append('pageNum',self.pageNum);
                 params.append('pageSize',self.pageSize);
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
-                params.append('stock_log_type','back');
+                params.append('stock_status','');
 
                 self.$axios({
                     method: 'post',
-                    url: '/stock/stock-log/getByPage',
+                    url: '/cases/cases/getByPage',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
@@ -500,7 +486,7 @@
     }
     .tableList{
       width: 99%;
-      height: 575px!important;
+      height: 540px!important;
       overflow-y: scroll;
       border:1px solid #231a75;
      /* border-radius: 20px;*/

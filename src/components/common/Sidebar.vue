@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import md5 from 'js-md5';
     export default {
         data() {
             return {
@@ -47,7 +48,11 @@
                         index: 'readme',
                         title: '首页'
                     },
-                    
+                    {
+                        icon: 'el-icon-setting',
+                        index: 'anjianchaxun',
+                        title: '案件查询'
+                    },
                     {
                         icon: 'el-icon-setting',
                         index: '1',
@@ -95,23 +100,42 @@
                     },
                     {
                         icon: 'el-icon-setting',
-                        index: '4',
-                        title: '盘点管理',
-                        subs:[
-                            {   
-                                index: 'waitForCheck',
-                                title: '> 待盘点'
-                            },
-                            {   
-                                index: 'checkHistory',
-                                title: '> 盘点历史'
-                            },
-                        ]
+                        index: 'waitForCheck',
+                        title: '盘点管理'
+                        // subs:[
+                        //     {   
+                        //         index: 'waitForCheck',
+                        //         title: '> 待盘点'
+                        //     },
+                        //     {   
+                        //         index: 'checkHistory',
+                        //         title: '> 盘点历史'
+                        //     },
+                        // ]
                     },
                     {
                         icon: 'el-icon-setting',
                         index: 'actionHistory',
-                        title: '操作记录'
+                        title: '统计分析'
+                    },
+                    {
+                        icon: 'el-icon-setting',
+                        index: '6',
+                        title: '档案分析',
+                        subs:[
+                            {   
+                                index: 'jieyuezongjie',
+                                title: '> 借阅总结'
+                            },
+                            {   
+                                index: 'nianzhongzongjie',
+                                title: '> 年度总结'
+                            },
+                            {   
+                                index: 'lishiyange',
+                                title: '> 历史沿革'
+                            },
+                        ]
                     },
                     {
                         icon: 'el-icon-setting',
@@ -119,38 +143,12 @@
                         title: '现场还原'
                     },
                     
-                    {
-                        icon: 'el-icon-setting',
-                        index: 'history',
-                        title: '历史案卷'
-                    },
-                    {
-                        icon: 'el-icon-setting',
-                        index: '5',
-                        title: '通用设置',
-                        subs:[
-                            {   
-                                index: 'bumenAdmin',
-                                title: '> 部门设置'
-                            },
-                            {   
-                                index: 'zhiweiAdmin',
-                                title: '> 职位设置'
-                            },
-                            {   
-                                index: 'userAdmin',
-                                title: '> 人员设置'
-                            },
-                            {   
-                                index: 'camera',
-                                title: '> 摄像头设置'
-                            },
-                            {   
-                                index: 'storeLocation',
-                                title: '> 存储位置设置'
-                            }
-                        ]
-                    },
+                    // {
+                    //     icon: 'el-icon-setting',
+                    //     index: 'history',
+                    //     title: '历史案卷'
+                    // },
+                    
                     // {
                     //     icon: 'el-icon-setting',
                     //     index: '17',
@@ -214,51 +212,69 @@
             }
         },
         mounted(){
-            
+            var level = localStorage.getItem('user_type');
+            if(level=='1'){
+                var obj = {
+                                icon: 'el-icon-setting',
+                                index: '5',
+                                title: '通用设置',
+                                subs:[
+                                    {   
+                                        index: 'bumenAdmin',
+                                        title: '> 部门设置'
+                                    },
+                                    {   
+                                        index: 'zhiweiAdmin',
+                                        title: '> 职位设置'
+                                    },
+                                    {   
+                                        index: 'userAdmin',
+                                        title: '> 人员设置'
+                                    },
+                                    {   
+                                        index: 'camera',
+                                        title: '> 摄像头设置'
+                                    },
+                                    {   
+                                        index: 'storeLocation',
+                                        title: '> 存储位置设置'
+                                    }
+                                ]
+                            }
+                this.items.push(obj)
+            }else{
+
+            }
         },
         methods:{
            
             open3() {
                 var self = this;
-                self.$prompt('请输入新密码(6-18位，字母开头且只能是字母数字组合)', '提示', {
+                self.$prompt('请输入新密码', '提示', {
                   confirmButtonText: '确定',
                   cancelButtonText: '取消',
-                  inputPattern: /[a-zA-Z]\w{5,17}$/,
-                  inputErrorMessage: '密码格式不正确'
                 }).then(({ value }) => {
 
-                    var code = localStorage.getItem('ms_username');
-                    
-                    var aaa = "[{'fcode':'b05','usercode':'"+code+"','newpass':'"+value+"'}]"
-                    var bbb = md5.hex(aaa+'urty');
-                    self.$axios({
-                        method: 'post',
-                        url: 'http://www.kofanchina.com/main.php/Home/Request/post2',
-                        data: {
-                            requireUrl:'https://www.srwghb.com/jdfw/lhfw.aspx',
-                            wmsdata: aaa,
-                            dbname:'wmsdata',
-                            wmskey:bbb
-                        },
-                        headers: {'Content-Type': 'application/json'},
-                     }).then(function(data){
-                        console.log(data)
-                        if(data.data.errNum==0){
-                              self.$message({
-                                type: 'success',
-                                message: '修改成功!'
-                              });
-                             
-                            
-                            
-                        }else{
-                            self.$message({
-                              type: 'info',
-                              message: '添加失败'
-                            });   
-                                          
-                        }
-                     });
+                        
+                        var passwordmd5 = md5.hex(value);
+                        var params = new URLSearchParams();
+                        var token = localStorage.getItem('auth');
+                        params.append('password',passwordmd5);         
+                        self.$axios({
+                            method: 'post',
+                            url: '/user/updatePass',
+                            data: params,
+                            headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                         }).then(function(data){
+                            if(data.data.code==0){
+                                self.$message({
+                                  type: 'success',
+                                  message: '修改成功'
+                                });  
+                            }else{
+                              self.$response(data,self);
+                            }
+                         });      
                   
                 }).catch(() => {
                   self.$message({

@@ -159,15 +159,15 @@
                 prop="stock_log_time"
                 >
               </el-table-column>
-              <!-- <el-table-column
+              <el-table-column
                 label="操作"
                 width="300px"
                 align="center"
                 >
                 <template slot-scope="props">
-                  <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                  <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">打印入库单</el-button>
                 </template>
-              </el-table-column> -->
+              </el-table-column>
               
               <!-- <el-table-column
                 align="center"
@@ -217,10 +217,7 @@
               states: [],
               date:[],
               caseList: [
-                {
-                  case_name:'ceshi',
-                  case_desc:'哈哈是尽快的哈手机客户端手机卡带回家开始的健康哈哈是健康带回家卡萨哈哈是可敬的哈数据库好道具卡圣诞节看哈涉及到哈数据库等哈说客家话大客户就撒谎接地卡萨好看的哈萨克较好的空间撒谎的空间撒好看的接口撒很快就到哈市科技带回家撒客户空间哈哈是尽快的哈手机客户端手机卡带回家开始的健康哈哈是健康带回家卡萨哈哈是可敬的哈数据库好道具卡圣诞节看哈涉及到哈数据库等哈说客家话'
-                }
+                
               ],
               exhibits:[],
               total:0,
@@ -251,13 +248,40 @@
           },
           //案卷详情点击事件
           caseDetailClick(res){
-            this.$socketApi.sendSock('text',this.getConfigResult);
-            this.exhibits = res.exhibits;
-            this.case_detail_dialog = true;
+                var self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+
+                
+                params.append('stock_log_id',res.stock_log_id);
+                
+                const loading = self.$loading({
+                  lock: true,
+                  text: '打印中',
+                  spinner: 'el-icon-loading',
+                  background: 'rgba(0, 0, 0, 0.6)'
+                });
+                self.$axios({
+                    method: 'post',
+                    url: '/stock/stock-log/printWord',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                      loading.close();
+                      self.$message({
+                        type: 'success',
+                        message: '已发送打印请求'
+                      });
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
           },
           //查询事件
           searchClick(){
-
+            this.getDataList();
           },
           //补打条码
           printAgain(res){
@@ -398,11 +422,20 @@
                
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-
+                if(self.date==null||self.date.length==0){
+                  var begin_time = '';
+                  var end_time = '';
+                }else{
+                  var begin_time = self.date[0];
+                  var end_time = self.date[1];
+                }
+                params.append('begin_time',begin_time);
+                params.append('end_time',end_time);
                 params.append('pageNum',self.pageNum);
                 params.append('pageSize',self.pageSize);
-                // params.append('case_name',self.case_name);
-                // params.append('case_bh',self.case_number);
+                params.append('case_name',self.case_name);
+                params.append('case_bh',self.case_number);
+
                 params.append('stock_log_type','in');
 
                 self.$axios({

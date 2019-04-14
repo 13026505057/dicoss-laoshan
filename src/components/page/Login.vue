@@ -57,7 +57,7 @@
                        
                         localStorage.setItem('auth',data.data.data.token);
                         localStorage.setItem('ad_user_true_name',data.data.data.user.user_true_name);
-                        
+                        localStorage.setItem('user_type',data.data.data.user.userGroups[0].group_id);
                         self.$router.push('/readme');
                     }else{
                         self.$response(data,self);

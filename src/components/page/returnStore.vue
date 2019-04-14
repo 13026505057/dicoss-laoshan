@@ -244,7 +244,7 @@
           },
           //查询事件
           searchClick(){
-
+            this.getDataList();
           },
           //补打条码
           printAgain(res){

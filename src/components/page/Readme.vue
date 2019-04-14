@@ -4,7 +4,7 @@
            <div class="rightTop">
                <div class="littleBox" @click="newsClick()">
                    <div class="leftIcon" style="background-color: #fe5c45;">
-                       <i class="el-icon-bell"></i> <span style="margin-left: 10px; font-size: 20px;">{{newsNum}}</span>
+                       <i class="el-icon-bell"></i> <span style="margin-left: 10px; font-size: 20px;">{{numInfo.warnMsgCount}}</span>
                    </div>
                    <div class="rightTitle">
                        告警提示
@@ -12,7 +12,7 @@
                </div>
                <div class="littleBox" @click="shenpiClick()">
                    <div class="leftIcon" style="background-color: #fa9801;">
-                       <i class="el-icon-date"></i> <span style="margin-left: 10px; font-size: 20px;">{{needApproveNum}}</span>
+                       <i class="el-icon-date"></i> <span style="margin-left: 10px; font-size: 20px;">{{numInfo.noneCaseCount}}</span>
                    </div>
                    <div class="rightTitle">
                        待入库卷宗
@@ -20,7 +20,7 @@
                </div>
                <div class="littleBox" @click="jieshouClick()">
                    <div class="leftIcon" style="background-color: #74c810;">
-                       <i class="el-icon-sort"></i> <span style="margin-left: 10px; font-size: 20px;">{{needAcceptNum}}</span>
+                       <i class="el-icon-sort"></i> <span style="margin-left: 10px; font-size: 20px;">{{numInfo.woutCaseCount}}</span>
                    </div>
                    <div class="rightTitle">
                        待出库卷宗
@@ -28,7 +28,7 @@
                </div>
                <div class="littleBox" @click="newsClick()">
                    <div class="leftIcon" style="background-color: #1fb8a4;">
-                       <i class="el-icon-refresh"></i> <span style="margin-left: 10px; font-size: 20px;">{{newsNum}}</span>
+                       <i class="el-icon-refresh"></i> <span style="margin-left: 10px; font-size: 20px;">{{numInfo.noticeMsgCount}}</span>
                    </div>
                    <div class="rightTitle">
                        通知消息
@@ -36,12 +36,12 @@
                </div>
            </div>
            <div class="rightCenter">
-               <div class="table">
+               <div class="table" style="overflow-y:scroll;">
                     <div class="tableTop">
                         系统公告
                     </div>
-                    <div class="tableBody" >
-                        1111<span style="margin-right:10px;float: right;">2222</span>
+                    <div class="tableBody" v-for="item in msgList" >
+                        {{item.msg_content}}<span style="margin-right:10px;float: right;">{{item.msg_time}}</span>
                     </div>
                    
                </div>
@@ -65,16 +65,16 @@
                         入库告警案件
                     </div>
                     <div class="tableBody2" style="color:#71b7db;">
-                        {{status_in}}
+                        {{numInfo.inCaseCount}}
                     </div>
                     <div class="tableBody2" style="color:#71b7db;">
-                        {{flow_in}}
+                        {{numInfo.inCasesMonth}}
                     </div>
                     <div class="tableBody2" style="color:#71b7db;">
-                        {{flow_out}}
+                        {{numInfo.outCaseCount}}
                     </div>
                     <div class="tableBody2" style="border-right:none;color:#71b7db;">
-                        {{exhibit_expir}}
+                        {{numInfo.nonoWarnCount}}
                     </div>
                     <div class="tableBody2">
                         待入库案件
@@ -89,16 +89,16 @@
                         出库告警案件
                     </div>
                     <div class="tableBody2" style="color:#71b7db;">
-                        {{guizhong}}
+                        {{numInfo.noneCaseCount}}
                     </div>
                     <div class="tableBody2" style="color:#71b7db;">
-                        {{dupin}}
+                        {{numInfo.woutCaseCount}}
                     </div>
                     <div class="tableBody2" style="color:#71b7db;">
-                        {{qiangzhi}}
+                        {{numInfo.outCaseCount}}
                     </div>
                     <div class="tableBody2" style="border-right:none;color:#71b7db;">
-                        {{weihua}}
+                        {{numInfo.woutWarnCount}}
                     </div>
                </div>
            </div>
@@ -142,6 +142,8 @@
   name: 'hello',
   data () {
     return {
+      numInfo:{},
+      msgList:[],
       monthStr:'',
       status_in:'0',
       flow_in:'0',
@@ -162,126 +164,246 @@
       user_info:{},
       option:{
      
-    title: {
-        text: '在库案件数按月统计',
-        subtext: '按月分布'
-    },
-    tooltip: {
-        trigger: 'axis'
-    },
-    grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-    },
-    xAxis: [{
-        type: 'category',
-        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-        splitLine: {
-            show: false
-        },
-        axisTick: {
-            alignWithLabel: true
-        }
-    }],
-    yAxis: [{
-        type: 'value',
-        splitLine: {
-            show: false
-        },
-        splitArea: {
-            show: true,
-        },
-    }],
-    series: [{
-        name: '数量',
-        type: 'bar',
-        label: {
-            normal: {
-                show: true,
-                position: 'top'
-            }
-        },
-        itemStyle: {
-            normal: {
-                // 随机显示
-                //color:function(d){return "#"+Math.floor(Math.random()*(256*256*256-1)).toString(16);}
-              
-                // 定制显示（按顺序）
-                color: function(params) { 
-                    var colorList = ['#C33531','#EFE42A','#64BD3D','#EE9201','#29AAE3', '#B74AE5','#0AAF9F','#E89589','#16A085','#4A235A','#C39BD3 ','#F9E79F','#BA4A00','#ECF0F1','#616A6B','#EAF2F8','#4A235A','#3498DB' ]; 
-                    return colorList[params.dataIndex] 
-                }
-            },
-        },
-        data: [32.6, 25.9, 39.0, 26.4, 28.7, 70.7, 75.6, 82.2, 48.7, 58.8, 16.0, 32.3],
-    }]
-},
+          title: {
+              text: '在库案件数按月统计',
+              subtext: '按月分布'
+          },
+          tooltip: {
+              trigger: 'axis'
+          },
+          grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
+          },
+          xAxis: [{
+              type: 'category',
+              data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+              splitLine: {
+                  show: false
+              },
+              axisTick: {
+                  alignWithLabel: true
+              }
+          }],
+          yAxis: [{
+              type: 'value',
+              splitLine: {
+                  show: false
+              },
+              splitArea: {
+                  show: true,
+              },
+          }],
+          series: [{
+              name: '数量',
+              type: 'bar',
+              label: {
+                  normal: {
+                      show: true,
+                      position: 'top'
+                  }
+              },
+              itemStyle: {
+                  normal: {
+                      // 随机显示
+                      //color:function(d){return "#"+Math.floor(Math.random()*(256*256*256-1)).toString(16);}
+                    
+                      // 定制显示（按顺序）
+                      color: function(params) { 
+                          var colorList = ['#C33531','#EFE42A','#64BD3D','#EE9201','#29AAE3', '#B74AE5','#0AAF9F','#E89589','#16A085','#4A235A','#C39BD3 ','#F9E79F','#BA4A00','#ECF0F1','#616A6B','#EAF2F8','#4A235A','#3498DB' ]; 
+                          return colorList[params.dataIndex] 
+                      }
+                  },
+              },
+              data: [32.6, 25.9, 39.0, 26.4, 28.7, 70.7, 75.6, 82.2, 48.7, 58.8, 16.0, 32.3],
+          }]
+      },
       option1:{
      
-    title: {
-        text: '在库案件数按月统计',
-        subtext: '按月分布'
-    },
-    tooltip: {
-        trigger: 'axis'
-    },
-    grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-    },
-    xAxis: [{
-        type: 'category',
-        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-        splitLine: {
-            show: false
-        },
-        axisTick: {
-            alignWithLabel: true
-        }
-    }],
-    yAxis: [{
-        type: 'value',
-        splitLine: {
-            show: false
-        },
-        splitArea: {
-            show: true,
-        },
-    }],
-    series: [{
-        name: '数量',
-        type: 'bar',
-        label: {
-            normal: {
-                show: true,
-                position: 'top'
-            }
-        },
-        itemStyle: {
-            normal: {
-                // 随机显示
-                //color:function(d){return "#"+Math.floor(Math.random()*(256*256*256-1)).toString(16);}
-              
-                // 定制显示（按顺序）
-                color: function(params) { 
-                    var colorList = ['#C33531','#EFE42A','#64BD3D','#EE9201','#29AAE3', '#B74AE5','#0AAF9F','#E89589','#16A085','#4A235A','#C39BD3 ','#F9E79F','#BA4A00','#ECF0F1','#616A6B','#EAF2F8','#4A235A','#3498DB' ]; 
-                    return colorList[params.dataIndex] 
-                }
-            },
-        },
-        data: [32.6, 25.9, 39.0, 26.4, 28.7, 70.7, 75.6, 82.2, 48.7, 58.8, 16.0, 32.3],
-    }]
-}
-}
+          title: {
+              text: '在库案件数按月统计',
+              subtext: '按月分布'
+          },
+          tooltip: {
+              trigger: 'axis'
+          },
+          grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
+          },
+          xAxis: [{
+              type: 'category',
+              data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+              splitLine: {
+                  show: false
+              },
+              axisTick: {
+                  alignWithLabel: true
+              }
+          }],
+          yAxis: [{
+              type: 'value',
+              splitLine: {
+                  show: false
+              },
+              splitArea: {
+                  show: true,
+              },
+          }],
+          series: [{
+              name: '数量',
+              type: 'bar',
+              label: {
+                  normal: {
+                      show: true,
+                      position: 'top'
+                  }
+              },
+              itemStyle: {
+                  normal: {
+                      // 随机显示
+                      //color:function(d){return "#"+Math.floor(Math.random()*(256*256*256-1)).toString(16);}
+                    
+                      // 定制显示（按顺序）
+                      color: function(params) { 
+                          var colorList = ['#C33531','#EFE42A','#64BD3D','#EE9201','#29AAE3', '#B74AE5','#0AAF9F','#E89589','#16A085','#4A235A','#C39BD3 ','#F9E79F','#BA4A00','#ECF0F1','#616A6B','#EAF2F8','#4A235A','#3498DB' ]; 
+                          return colorList[params.dataIndex] 
+                      }
+                  },
+              },
+              data: [32.6, 25.9, 39.0, 26.4, 28.7, 70.7, 75.6, 82.2, 48.7, 58.8, 16.0, 32.3],
+          }]
+      },
+      option2:{
+     
+          title: {
+              text: '在库案件数按月统计',
+              subtext: '按月分布'
+          },
+          tooltip: {
+              trigger: 'axis'
+          },
+          grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
+          },
+          xAxis: [{
+              type: 'category',
+              data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+              splitLine: {
+                  show: false
+              },
+              axisTick: {
+                  alignWithLabel: true
+              }
+          }],
+          yAxis: [{
+              type: 'value',
+              splitLine: {
+                  show: false
+              },
+              splitArea: {
+                  show: true,
+              },
+          }],
+          series: [{
+              name: '数量',
+              type: 'bar',
+              label: {
+                  normal: {
+                      show: true,
+                      position: 'top'
+                  }
+              },
+              itemStyle: {
+                  normal: {
+                      // 随机显示
+                      //color:function(d){return "#"+Math.floor(Math.random()*(256*256*256-1)).toString(16);}
+                    
+                      // 定制显示（按顺序）
+                      color: function(params) { 
+                          var colorList = ['#C33531','#EFE42A','#64BD3D','#EE9201','#29AAE3', '#B74AE5','#0AAF9F','#E89589','#16A085','#4A235A','#C39BD3 ','#F9E79F','#BA4A00','#ECF0F1','#616A6B','#EAF2F8','#4A235A','#3498DB' ]; 
+                          return colorList[params.dataIndex] 
+                      }
+                  },
+              },
+              data: [32.6, 25.9, 39.0, 26.4, 28.7, 70.7, 75.6, 82.2, 48.7, 58.8, 16.0, 32.3],
+          }]
+      },
+      option3:{
+     
+          title: {
+              text: '在库案件数按月统计',
+              subtext: '按月分布'
+          },
+          tooltip: {
+              trigger: 'axis'
+          },
+          grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
+          },
+          xAxis: [{
+              type: 'category',
+              data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+              splitLine: {
+                  show: false
+              },
+              axisTick: {
+                  alignWithLabel: true
+              }
+          }],
+          yAxis: [{
+              type: 'value',
+              splitLine: {
+                  show: false
+              },
+              splitArea: {
+                  show: true,
+              },
+          }],
+          series: [{
+              name: '数量',
+              type: 'bar',
+              label: {
+                  normal: {
+                      show: true,
+                      position: 'top'
+                  }
+              },
+              itemStyle: {
+                  normal: {
+                      // 随机显示
+                      //color:function(d){return "#"+Math.floor(Math.random()*(256*256*256-1)).toString(16);}
+                    
+                      // 定制显示（按顺序）
+                      color: function(params) { 
+                          var colorList = ['#C33531','#EFE42A','#64BD3D','#EE9201','#29AAE3', '#B74AE5','#0AAF9F','#E89589','#16A085','#4A235A','#C39BD3 ','#F9E79F','#BA4A00','#ECF0F1','#616A6B','#EAF2F8','#4A235A','#3498DB' ]; 
+                          return colorList[params.dataIndex] 
+                      }
+                  },
+              },
+              data: [32.6, 25.9, 39.0, 26.4, 28.7, 70.7, 75.6, 82.2, 48.7, 58.8, 16.0, 32.3],
+          }]
+      }
+    }
   },
   mounted(){
     
     this.getWeek();
     this.getDate();
+    this.getInByDept();
+    this.getOutByDept();
+    this.getInByTime();
+    this.getOutByTime();
     this.getUserName();
     this.loading();
     this.getNum();
@@ -291,16 +413,170 @@
     this.drawLine();
   },
   methods: {
+    getInByDept(){
+                var self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+               
+                self.$axios({
+                    method: 'post',
+                    url: '/chart/getInCaseCountByDept',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                        var countArr = [];
+                        var countArr1 = [];
+                        for(var i = 0;i<data.data.data.length;i++){
+                            countArr.push(data.data.data[i].dept_name);
+                            countArr1.push(data.data.data[i].quantity);
+                        }
+                        self.option.xAxis[0].data = countArr;
+                        self.option.series[0].data = countArr1;
+                        self.drawLine();
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+    },
+    getOutByDept(){
+                var self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+               
+                self.$axios({
+                    method: 'post',
+                    url: '/chart/getOutCaseCountByDept',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                        var countArr = [];
+                        var countArr1 = [];
+                        for(var i = 0;i<data.data.data.length;i++){
+                            countArr.push(data.data.data[i].dept_name);
+                            countArr1.push(data.data.data[i].quantity);
+                        }
+                        self.option1.xAxis[0].data = countArr;
+                        self.option1.series[0].data = countArr1;
+                        self.drawLine();
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+    },
+    getInByTime(){
+                var self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+               
+                self.$axios({
+                    method: 'post',
+                    url: '/chart/getInCaseCountByMonth',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                        var countArr = [];
+                        var countArr1 = [];
+                        for(var i = 0;i<data.data.data.length;i++){
+                            countArr.push(data.data.data[i].month);
+                            countArr1.push(data.data.data[i].quantity);
+                        }
+                        self.option2.xAxis[0].data = countArr;
+                        self.option2.series[0].data = countArr1;
+                        self.drawLine();
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+    },
+    getOutByTime(){
+                var self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+               
+                self.$axios({
+                    method: 'post',
+                    url: '/chart/getOutCaseCountByMonth',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                        var countArr = [];
+                        var countArr1 = [];
+                        for(var i = 0;i<data.data.data.length;i++){
+                            countArr.push(data.data.data[i].month);
+                            countArr1.push(data.data.data[i].quantity);
+                        }
+                        self.option3.xAxis[0].data = countArr;
+                        self.option3.series[0].data = countArr1;
+                        self.drawLine();
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+    },
     getSheetDate(){
       var self = this;
       
     },
     getNewsList(){
-      var self = this;
+                var self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('pageNum',1);
+                params.append('pageSize',10);
+                params.append('msg_read','0');
+                // const loading = self.$loading({
+                //   lock: true,
+                //   text: '打印中',
+                //   spinner: 'el-icon-loading',
+                //   background: 'rgba(0, 0, 0, 0.6)'
+                // });
+                self.$axios({
+                    method: 'post',
+                    url: '/msg/getByPage',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                      self.msgList = data.data.data.list;
+                      // loading.close();
+                      // self.$message({
+                      //   type: 'success',
+                      //   message: '已发送打印请求'
+                      // });
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
       
     },
     getNum(){
-                
+                var self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+               
+                self.$axios({
+                    method: 'post',
+                    url: '/chart/index',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                     self.numInfo = data.data.data;
+                      
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });      
     },
     jieshouClick(){
       
@@ -362,11 +638,11 @@
         // 基于准备好的dom，初始化echarts实例
             let myEchars3 = this.$echarts.init(document.getElementById('myEchars3'))
         // 绘制图表
-            myEchars3.setOption(self.option1);
+            myEchars3.setOption(self.option2);
         // 基于准备好的dom，初始化echarts实例
             let myEchars4 = this.$echarts.init(document.getElementById('myEchars4'))
         // 绘制图表
-            myEchars4.setOption(self.option1);
+            myEchars4.setOption(self.option3);
              
            
         
