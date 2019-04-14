@@ -4,204 +4,240 @@
         <div >
 
             <div class="block">
-                
-                <el-input style="width:250px;" v-model="input" placeholder="案卷号查询"></el-input>
-                <!-- 关键词联想组建 -->
-                <el-select
-                  v-model="value9"
-                  style="width: 250px;margin-left: 30px;"
-                  filterable
-                  remote
-                  reserve-keyword
-                  placeholder="请输入关键词"
-                  :remote-method="remoteMethod"
-                  :loading="loading">
+               
+                <el-select v-model="dept_id" filterable placeholder="请选择">
                   <el-option
-                    v-for="item in options4"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    v-for="item in bumenList"
+                    :key="item.dept_id"
+                    :label="item.dept_name"
+                    :value="item.dept_id">
                   </el-option>
                 </el-select>
-
-                <el-date-picker
-                  style="margin-left: 20px;width:420px;"
-                  v-model="date"
-                  type="daterange"
-                  range-separator="至"
-                  format="yyyy 年 MM 月 dd 日"
-                  value-format="yyyy-MM-dd"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期">
-                </el-date-picker>
                 
+
+              <el-select 
+                clearable 
+                v-model="user_true_name" 
+                style="height:40px;" 
+                remote 
+                reserve-keyword 
+                :remote-method="remoteMethod" 
+                :loading="loading" 
+                filterable 
+                placeholder="物品名称">
+                  <el-option
+                    style="height:40px;"
+                    v-for="item,index in userNameList"
+                    :key="index"
+                    :label="item.label"
+                    :value="item.label">
+                  </el-option>
+                </el-select>
+                
+                <el-input
+                    clearable
+                    placeholder="工号查询"
+                    style="width: 200px;margin-left: 60px;"
+                    v-model="number"
+                    clearable>
+                </el-input>
                 <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
+                <el-button type="primary" style="margin-left: 80px;" @click="importUsers = true">批量导入</el-button>
+                <!-- <el-button type="primary" style="margin-left: 60px;" @click="downLoadFile">导入模板下载</el-button> -->
+                <el-button type="primary" style="margin-left: 60px;" @click="addUser = true">单人新增</el-button>
+                
             </div>
 
           
         </div>
-        <!-- <div class="tree">
-          <el-tree :data="data"    @node-click="handleNodeClick"></el-tree>
-        </div> -->
-        <div id="container" style="width: 100%;height: 110%;  float: right;">
-          
-            <el-dialog title="新增考勤规则" :visible.sync="dialogFormVisible">
-              <el-form :model="form">
-                <el-form-item label="一体机名称:" label-width="120px">
-                  <el-input v-model="form.imac_name" autocomplete="off" style="width:400px;float:left;"></el-input>
-                </el-form-item>
-                <el-form-item label="选择位置:" label-width="120px">
-                  <el-button type="primary"  @click="mapClick">点击选择</el-button>
-                </el-form-item>
-                <el-form-item label="维度:" label-width="120px">
-                  <el-input v-model="form.latitude" autocomplete="off" style="width:200px;float:left;"></el-input>
-                </el-form-item>
-                <el-form-item label="经度:" label-width="120px">
-                  <el-input v-model="form.longitude" autocomplete="off" style="width:200px;float:left;"></el-input>
-                </el-form-item>
-                <el-form-item label="位置描述" label-width="120px">
-                  <el-input v-model="form.imac_location" autocomplete="off" style="width:200px;float:left;"></el-input>
-                </el-form-item>
-              </el-form>
+        <div id="container" style="width: 100%;height: 110%; margin-top: 20px;">
+          <el-dialog
+            title="人员批量导入"
+            :visible.sync="importUsers"
+            width="40%"
+            style="text-align:center;"
+            >
+            <el-upload
+              class="upload-demo"
+              drag
+              :action="addManyUserUploadUrl"
+              multiple>
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+              <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="importUsers = false">取 消</el-button>
+              <el-button type="primary" @click="importUsers = false">确 定</el-button>
+            </span>
+          </el-dialog>
+          <el-dialog
+            title="新增单个人员"
+            :visible.sync="addUser"
+            
+            >
+                  <el-form ref="form" :model="form" label-width="120px" label-position="left" style="margin-left:20px;">
+                      <el-form-item label="工号" style="display: inline-block;">
+                        <el-input v-model="form.username" style="width: 200px;float: left;"></el-input>
+                      </el-form-item>
+                      <el-form-item label="密码" style="display: inline-block;margin-left:80px;">
+                        <el-input v-model="form.password" style="width: 200px;float: left;"></el-input>
+                      </el-form-item>
+                      <el-form-item label="真实姓名" style="display: inline-block;">
+                        <el-input v-model="form.user_true_name" style="width: 200px;float: left;"></el-input>
+                      </el-form-item>
+                     
+                      
+                      <el-form-item label="部门" style="display: block;">
+                        <el-select multiple filterable v-model="form.dept_id" placeholder="请选择" style="width:208px;">
+                          <el-option
+                            v-for="item in bumenList"
+                            :key="item.dept_id"
+                            :label="item.dept_total_name"
+                            :value="item.dept_id">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                      <el-form-item label="职位" style="display: block;">
+                        <el-select multiple filterable v-model="form.position_id" placeholder="请选择" style="width:208px;">
+                          <el-option
+                            v-for="item in zhiweiList"
+                            :key="item.position_id"
+                            :label="item.position_name"
+                            :value="item.position_id">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                      <el-form-item label="权限组" style="display: block;">
+                        <el-select multiple  v-model="form.group_id" placeholder="请选择" style="width:208px;">
+                          <el-option
+                            v-for="item in powerList"
+                            :key="item.group_id"
+                            :label="item.group_name"
+                            :value="item.group_id">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-form>            
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="addUser = false">取 消</el-button>
+              <el-button type="primary" @click="addUserClick">确 定</el-button>
+            </span>
+          </el-dialog>
+          <el-dialog  title="修改用户资料" :visible.sync="dialogFormVisible">
+                <el-tabs type="border-card">
+                  <el-tab-pane label="用户资料">
+                    <el-form ref="form" :model="changeform" label-width="120px" label-position="left" style="margin-left:20px;">
+                      <el-form-item label="工号" style="display: inline-block;">
+                        <el-input v-model="changeform.username" style="width: 200px;float: left;"></el-input>
+                      </el-form-item>
+                      <el-form-item label="密码" style="display: inline-block;margin-left:80px;">
+                        <el-input placeholder="重置密码" v-model="form.password" style="width: 200px;float: left;"></el-input>
+                      </el-form-item>
+                      <el-form-item label="真实姓名" style="display: block;">
+                        <el-input v-model="changeform.user_true_name" style="width: 200px;float: left;"></el-input>
+                      </el-form-item>
+                      
+                      
+                      <el-form-item label="部门" style="display: block;">
+                        <el-select multiple filterable v-model="changeform.dept_id" placeholder="请选择" style="width:208px;">
+                          <el-option
+                            v-for="item in bumenList"
+                            :key="item.dept_id"
+                            :label="item.dept_total_name"
+                            :value="item.dept_id">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                      <el-form-item label="职位" style="display: block;">
+                        <el-select multiple filterable v-model="changeform.position_id" placeholder="请选择" style="width:208px;">
+                          <el-option
+                            v-for="item in zhiweiList"
+                            :key="item.position_id"
+                            :label="item.position_name"
+                            :value="item.position_id">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                      <el-form-item label="权限组" style="display: block;">
+                        <el-select multiple v-model="changeform.group_id" placeholder="请选择" style="width:208px;">
+                          <el-option
+                            v-for="item in powerList"
+                            :key="item.group_id"
+                            :label="item.group_name"
+                            :value="item.group_id">
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-form>
+                  </el-tab-pane>
+                  
+                </el-tabs>
+
               <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="addNew">确 定</el-button>
+                <el-button type="primary" @click="sureToChange">确定修改</el-button>
               </div>
-            </el-dialog>
-            <el-dialog title="修改考勤规则" :visible.sync="dialogFormVisible2">
-              <el-form :model="form">
-                <!-- <el-form-item label="考勤名称:" label-width="120px">
-                  <el-input v-model="form.org_sign_time_am" autocomplete="off" style="width:400px;"></el-input>
-                </el-form-item> -->
-                <el-form-item label="上午签到时间:" label-width="120px">
-                  <el-time-picker
-                    arrow-control
-                    v-model="form.org_sign_time_am"
-                    value-format="HH:mm:ss"
-                    :picker-options="{
-                      selectableRange: '01:00:00 - 23:00:00'
-                    }"
-                    placeholder="任意时间点">
-                  </el-time-picker>
-                </el-form-item>
-                <el-form-item label="下午签到时间:" label-width="120px">
-                  <el-time-picker
-                    arrow-control
-                    value-format="HH:mm:ss"
-                    v-model="form.org_sign_time_pm"
-                    :picker-options="{
-                      selectableRange: '01:00:00 - 23:00:00'
-                    }"
-                    placeholder="任意时间点">
-                  </el-time-picker>
-                </el-form-item>
-                <!-- <el-form-item label="选择签到位置:" label-width="120px">
-                  <el-button type="primary"  @click="mapClick">点击选择</el-button>
-                </el-form-item>
-                <el-form-item label="维度:" label-width="120px">
-                  <el-input v-model="form.org_sign_latitude" autocomplete="off" style="width:200px;float:left;"></el-input>
-                </el-form-item>
-                <el-form-item label="经度:" label-width="120px">
-                  <el-input v-model="form.org_sign_longitude" autocomplete="off" style="width:200px;float:left;"></el-input>
-                </el-form-item>
-                <el-form-item label="位置描述" label-width="120px">
-                  <el-input v-model="form.org_sign_location" autocomplete="off" style="width:200px;float:left;"></el-input>
-                </el-form-item> -->
-                <el-form-item label="是否启用" label-width="120px">
-                  <el-radio v-model="form.org_sign_status" label="1">启用</el-radio>
-                  <el-radio v-model="form.org_sign_status" label="0">关闭</el-radio>
-                </el-form-item>
-              </el-form>
-              <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible2 = false">取 消</el-button>
-                <el-button type="primary" @click="upData">确 定</el-button>
-              </div>
-            </el-dialog>
-            <el-dialog title="地图选点组件" :visible.sync="mapVisible" top="5vh">
-              <iframe id="mapPage" width="100%" height="700px" frameborder=0
-                  src="https://apis.map.qq.com/tools/locpicker?search=1&type=1&key=7NLBZ-VMS6F-I7OJ6-JC2DF-VKD43-IABKA&referer=myapp">
-              </iframe>
-              <div slot="footer" class="dialog-footer">
-                <el-button @click="mapVisible = false">关 闭</el-button>
-                <el-button type="primary" @click="upDataLocalMapMsg">确 定</el-button>
-              </div>
-            </el-dialog>
-          
+          </el-dialog>
           <div class="tableList">
             <el-table
               :data="tableData5"
               :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
               :row-style="rowStyle"
+              row-key="user_card_id"
               class="tableClass"
               style="">
-              
               <el-table-column
-                label="考勤人员"
+                type="index"
                 align="center"
-                prop="ad_user_true_name">
-                <!-- <template slot-scope="props">
-                  <span>签到考勤</span>
-                </template> -->
-              </el-table-column>
-              <el-table-column
-                label="打卡日期"
-                align="center"
-                prop="ad_user_sign_time"
                 >
               </el-table-column>
               <el-table-column
-                label="上午打卡时间"
+                label="工号"
                 align="center"
-                prop="ad_user_sign_am"
-                >
+                prop="username">
               </el-table-column>
               <el-table-column
-                label="上午打卡位置"
+                label="姓名"
                 align="center"
-                prop="ad_user_sign_am_location"
-                >
+                prop="user_true_name">
               </el-table-column>
               <el-table-column
-                label="下午打卡时间"
-                align="center"
-                prop="ad_user_sign_pm"
-                >
-              </el-table-column>
-              <el-table-column
-                label="下午打卡位置"
-                align="center"
-                prop="ad_user_sign_pm_location"
-                >
-              </el-table-column>
-              <el-table-column
-                label="工作日志"
-                align="center"
-                prop="org_sign_content"
-                >
-              </el-table-column>
-              <el-table-column
-                label="考勤结果"
+                label="部门"
                 align="center"
                 >
                 <template slot-scope="props">
-                  <span :class="[props.row.ad_user_sign_status==1?'':'colorRed']">{{props.row.ad_user_sign_status==0?'未签到':''}}{{props.row.ad_user_sign_status==1?'签到':''}}{{props.row.ad_user_sign_status==2?'迟到':''}}{{props.row.ad_user_sign_status==3?'早退':''}}</span>
+                  <span v-for="item in props.row.userDepts">{{item.dept_name}}、</span>
                 </template>
               </el-table-column>
-              
-              <!-- <el-table-column
+              <el-table-column
+                label="职位"
                 align="center"
-                label="操作">
+                >
+                <template slot-scope="props">
+                  <span v-for="item in props.row.userPositions">{{item.position_name}}、</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="创建时间"
+                align="center"
+                prop="create_time">
+              </el-table-column>
+              <el-table-column
+                label="操作"
+                align="center">
                 <template slot-scope="props">
                   <el-button
                   size="mini"
-                  type="danger"
-                  @click="handleupDate(props.row)">修改</el-button>
+                  @click="updataClick(props.row)">修改</el-button>
                   <el-button
                   size="mini"
                   type="danger"
                   @click="handleEdit(props.row)">删除</el-button>
                 </template>
-              </el-table-column> -->
+              </el-table-column>
+              
+             
             </el-table> 
                 
           </div>
@@ -211,7 +247,7 @@
                 style="text-align: center;margin-top: 20px;"
                 @current-change="handleCurrentChange"
                 :current-page.sync="currentPage"
-                :page-size="pageSize"
+                :page-size="9"
                 layout="prev, pager, next, jumper"
                 :total="total">
           </el-pagination>
@@ -224,199 +260,204 @@
 <script>
   import  TMap from '../../TMap';
   import md5 from 'js-md5';
+  import vBreadcrumb from '../common/breadcrumb.vue';
   export default {
+      components:{
+            vBreadcrumb
+      },
       data: function(){
           return {
-              options4: [],
-              value9: [],
-              list: [],
-              loading: false,
-              states: [],
-              ad_user_true_name:'',
-              currentPage:1,
+              loading:false,
+              user_true_name:'',
+              addManyUserUploadUrl:'',
+              dept_id:'',
+              bumenList:[],
+              importUsers:false,
+              addUser:false,
+              show_btn:true,
               dialogFormVisible:false,
-              dialogFormVisible2:false,
-              mapVisible:false,
-              total:10,
-              org_idList:[],
+              currentPage:1,
+              total:4,
+              pageSize:10,
               name:'',
+              number:'',
+              userNameList:[],
+              powerList:[],
               restaurants: [],
               value1:'',
-              date:[],
               value2:'',
-              options:[],
               selectedOptions: [],
-              data: [],
-              pageSize:8,
+              options: [],
+              options1:[],
               value:'',
               tableData5: [],
-              defaultProps: {
-                children: 'children',
-                label: 'label'
+              expands: [],
+              org_idList:[],
+              zhiyeList:[],
+              changeform:{
+                dept_id:[],
+                group_id:[],
+                position_id:[],
+                username:'',
+                user_true_name:'',
+                password:'',
+                user_id:'',
+                user_status:''
               },
               form:{
-               org_sign_time_am:new Date(2016, 9, 10, 18, 40),
-               org_sign_time_pm:new Date(2016, 9, 10, 18, 40),
-               org_sign_longitude:'',
-               org_sign_latitude:'',
-               org_sign_status:'',
-               org_sign_location:''
+                password:'',
+                dept_id:[],
+                group_id:[],
+                position_id:[],
               },
-              adUserCount:'',
-              djk:'',
-              jkjs:'',
-              jkz:'',
-              userCount:'',
-              org_name:'',
-              level:''
+              zhiweiList:[],
+              bumenList: [],
             }
               
       },
       mounted() {
-          
-          var adUserCount =  localStorage.getItem('adUserCount');
-          var level = localStorage.getItem('org_type');
-          this.level = level;
-          var djk =  localStorage.getItem('djk');
-          var jkjs =  localStorage.getItem('jkjs');
-          var jkz =  localStorage.getItem('jkz');
-          var userCount =  localStorage.getItem('userCount');
-          var org_name =  localStorage.getItem('org_name');
-          localStorage.setItem('isLocalChoosed',0);
-          this.adUserCount = adUserCount;
-          this.djk = djk;
-          this.jkjs = jkjs;
-          this.jkz = jkz;
-          this.userCount = userCount;
-          this.org_name = org_name;
-          this.getNameList();
-          this.getDataList(); 
-          this.getOrgsList();
-          this.restaurants = this.loadAll();
+         
+          var addManyUserUploadUrl = this.$axios.defaults.baseURL+'/user/addByExcel';
+          this.addManyUserUploadUrl = addManyUserUploadUrl;
+          this.getDeptList();
+          this.getPowerList();
+          this.getDataList();
+          this.getZhiweiList();
+          this.getNameSearchList('')
       },
       methods: {
-          remoteMethod(query) {
-            if (query !== '') {
-              this.loading = true;
-              setTimeout(() => {
-                this.loading = false;
-                this.options4 = this.list.filter(item => {
-                  return item.label.toLowerCase()
-                    .indexOf(query.toLowerCase()) > -1;
-                });
-              }, 200);
-            } else {
-              this.options4 = [];
-            }
-          },
-          //地图信息确定
-          upDataLocalMapMsg(){
-            if(localStorage.getItem('isLocalChoosed')==1){
-              this.form.org_sign_latitude = localStorage.getItem('localLat');
-              this.form.org_sign_longitude = localStorage.getItem('localLng');
-              this.form.org_sign_location = localStorage.getItem('locationDes');
-              this.mapVisible = false;
-            }else{
-              this.$message.error('未选择任何位置,请点击位置列表中的一个位置');
-            }
-            
-          },
-          //姓名模糊查询提示
-          getNameList(){
+          //人员删除
+          handleEdit(res){
                 const self = this;
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-                params.append('ad_user_true_name',self.name);
+                
+                
+                params.append('user_id',res.user_id);
                 self.$axios({
                     method: 'post',
-                    url: '/stop/getAdUserNames',
+                    url: '/user/del',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
-                    
                     if(data.data.code==0){
-                        self.states = data.data.data;
-                        self.list = self.states.map(item => {
-                          return { value: item.value, label: item.value};
-                        });
+                        self.$message({
+                          type: 'success',
+                          message: '删除成功'
+                        }); 
+                        self.getDataList();
                     }else{
                       self.$response(data,self);
                     }
                  });
           },
-          //展示地图组件
-          mapClick(){
-            this.mapVisible = true;
+          //下载文件
+          downLoadFile(){
+            var url = this.$axios.defaults.baseURL+'/ejk/file/物料批量导入模板.xls';
+            try{ 
+                var elemIF = document.createElement("iframe");   
+                elemIF.src = url;   
+                elemIF.style.display = "none";   
+                document.body.appendChild(elemIF);   
+            }catch(e){ 
+     
+            } 
           },
-          showAddNew(){
+          handleChange1(value) {
+              // console.log(value)
+          },
+          
+          //跳转档案页面
+          danganClick(data){
+            localStorage.setItem('user_true_name',data.user_true_name);
+            this.$router.push('/jiedurendangan');
+          },
+          //打开修改弹窗
+          updataClick(data){
+            // localStorage.setItem('xiugai_card_id',data.user_card_id);
+            // this.$router.push('/justXiugai');
+            this.dialogFormVisible = true;
+            this.changeform.user_id = data.user_id;
+            this.changeform.user_status = data.user_status;
+            this.changeform.username = data.username;
+            this.changeform.user_true_name = data.user_true_name;
+            this.changeform.password = '';
+            for(var i = 0; i < data.userDepts.length;i++){
+              this.changeform.dept_id.push(data.userDepts[i].dept_id)
+            }
+            for(var k = 0; k < data.userGroups.length;k++){
+              this.changeform.group_id.push(data.userGroups[k].group_id)
+            }
+            for(var l= 0; l < data.userPositions.length;l++){
+              this.changeform.position_id.push(data.userPositions[l].position_id)
+            }
+            console.log(this.changeform )
+            
+            // alert(11)
+            // console.log(this.changeform)
+          },
+          //新增单个用户
+          addUserClick(){
                 const self = this;
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-                        
+                console.log(self.form)
+                if(self.form.password==''||self.form.password==null){
+                  var passwordmd5 = '';
+                }else{
+                  var passwordmd5 = md5.hex(self.form.password);
+                }
+                
+                params.append('password',passwordmd5);
+                params.append('username',self.form.username);
+                params.append('user_true_name',self.form.user_true_name);
+                params.append('group_ids',self.form.group_id.join(","));
+                params.append('position_ids',self.form.position_id.join(','));
+                params.append('dept_ids',self.form.dept_id.join(','));
+                
+                
                 self.$axios({
                     method: 'post',
-                    url: '/stop/org/sign/get',
+                    url: '/user/add',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
                     if(data.data.code==0){
-                       self.form = data.data.data[0];
-                       self.dialogFormVisible2 = true;
+                        self.$message({
+                          type: 'success',
+                          message: '添加成功'
+                        }); 
+                        self.getDataList();
                     }else{
                       self.$response(data,self);
                     }
-                 });      
+                 });
           },
-          //删除机构
-          handleEdit(data){
-              const self = this;
-              self.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-              }).then(() => {
-                  var params = new URLSearchParams();
-                  var token = localStorage.getItem('auth');
-                  params.append('imac_id',data.imac_id);    
-                  self.$axios({
-                      method: 'post',
-                      url: '/stop/delImac',
-                      data: params,
-                      headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
-                   }).then(function(data){
-                      if(data.data.code==0){
-                        self.$message({
-                          type: 'success',
-                          message: '删除成功!'
-                        });
-                        self.getDataList();
-                      }else{
-                        self.$response(data,self);
-                      }
-                   });
-                
-              }).catch(() => {
-                self.$message({
-                  type: 'info',
-                  message: '已取消删除'
-                });          
-              });
-          },
-          //修改资料
-          upData(data){
+          //确定修改资料
+          sureToChange(){
                 const self = this;
-                console.log(this.form)
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-                params.append('org_sign_time_am',self.form.org_sign_time_am);    
-                params.append('org_sign_time_pm',self.form.org_sign_time_pm);
-                params.append('org_sign_longitude',self.form.org_sign_longitude);
-                params.append('org_sign_latitude',self.form.org_sign_latitude);
-                params.append('org_sign_location',self.form.org_sign_location);
-                params.append('org_sign_status',self.form.org_sign_status);
+                console.log(self.changeform.password)
+                if(self.form.password==''||self.form.password==null){
+                  var passwordmd5 = '';
+                }else{
+                  var passwordmd5 = md5.hex(self.form.password);
+                }
+                
+                params.append('password',passwordmd5);
+                params.append('user_id',self.changeform.user_id); 
+                params.append('username',self.changeform.username);
+                params.append('user_true_name',self.changeform.user_true_name);
+                params.append('user_status',self.changeform.user_status);
+                params.append('group_ids',self.changeform.group_id.join(","));
+                params.append('position_ids',self.changeform.position_id.join(','));
+                params.append('dept_ids',self.changeform.dept_id.join(','));
+                
+                
                 self.$axios({
                     method: 'post',
-                    url: '/stop/org/sign/update',
+                    url: '/user/update',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
@@ -424,54 +465,40 @@
                         self.$message({
                           type: 'success',
                           message: '修改成功'
-                        });  
-                        self.dialogFormVisible2  = false;
+                        }); 
                         self.getDataList();
                     }else{
                       self.$response(data,self);
                     }
-                 });      
+                 });
           },
-          //新增机构
-          addNew(){
-                const self = this;
-                var params = new URLSearchParams();
-                var token = localStorage.getItem('auth');
-                params.append('imac_name',self.form.imac_name);
-                params.append('longitude',self.form.longitude);
-                params.append('latitude',self.form.latitude);
-                params.append('imac_location',self.form.imac_location);          
-                self.$axios({
-                    method: 'post',
-                    url: '/stop/addImac',
-                    data: params,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
-                 }).then(function(data){
-                    if(data.data.code==0){
-                        self.$message({
-                          type: 'success',
-                          message: '创建成功'
-                        });  
-                        self.dialogFormVisible  = false;
-                        self.getDataList();
-                    }else{
-                      self.$response(data,self);
+          //点击展开表格展示处置
+          rowClick(row, event, column) {
+                Array.prototype.remove = function (val) {
+                    let index = this.indexOf(val);
+                    if (index > -1) {
+                        this.splice(index, 1);
                     }
-                 });      
+                };
+ 
+                if (this.expands.indexOf(row.user_card_id) < 0) {
+                    this.expands = []
+                    this.expands.push(row.user_card_id);
+                } else {
+                    this.expands.remove(row.user_card_id);
+                }
+                // console.log(this.expands)
+ 
           },
-          //修改机构信息
-          handleupDate(data){
-            console.log(data)
-            this.dialogFormVisible2 = true;
-            this.form = data
-          },
-          handleNodeClick(data) {
-            console.log(data);
+          //单元格双击跳转档案页
+          rowDbclick(row, event){
+            console.log(row)
           },
           handleCurrentChange(){
+            //页码发生变化请求新数据
             this.getDataList();
           },
-         //修改单元行颜色
+          //修改单元行颜色
           rowStyle({ row, rowIndex}){
             if(rowIndex%2 ==0){
               return 'background:#eee;color:#000;'
@@ -480,9 +507,12 @@
             }
           },      
           handleChange(value) {
-              console.log(value);
+              var newArr = [];
+              newArr.push(value[value.length-1]) 
+              this.org_idList = newArr;
           },
           querySearch(queryString, cb) {
+              this.getNameList();
               var restaurants = this.restaurants;
               var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
               // 调用 callback 返回建议列表的数据
@@ -493,135 +523,161 @@
                 return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
               };
           },
-          loadAll() {
-              return [
-                { "value": "三全鲜食（北新泾店）", "address": "长宁区新渔路144号" },
-              ];
-          },
           handleSelect(item) {
-              console.log(item);
-          },
-          
-          searchClick(){
-            console.log(this.value9)
             this.getDataList();
           },
-          handleChange(value) {
-              var newArr = [];
-              newArr.push(value[value.length-1]) 
-              this.org_idList = newArr;
+          //搜索点击事件
+          searchClick(){
+            this.getDataList();
           },
-          
-          //默认获取一体机信息
+          //默认获取用户列表页面
           getDataList(){
                 const self = this;
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-                params.append('currentPage',self.currentPage);
+                params.append('pageNum',self.currentPage); 
                 params.append('pageSize',self.pageSize); 
-                params.append('org_id',self.org_idList);
-                params.append('ad_user_true_name',self.value9);
-                if(self.date==null||self.date.length==0){
-                  var begin_time ='';
-                  var end_time ='';
-                }else{
-                  var begin_time = self.date[0];
-                  var end_time = self.date[1];
-                } 
-                params.append('sign_begin_time',begin_time);
-                params.append('sign_end_time',end_time);      
+                params.append('user_true_name',self.user_true_name); 
+                params.append('user_gonghao',self.number);
                 self.$axios({
                     method: 'post',
-                    url: '/stop/org/sign/log/getByPage',
+                    url: '/user/getByPage',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
                     if(data.data.code==0){
-                       self.tableData5 = data.data.data.list;
-                       self.total =  data.data.data.total;
+                      self.tableData5 = data.data.data.list;
+                      self.total = data.data.data.total;
+                      
                     }else{
                       self.$response(data,self);
                     }
-                 });      
+                 });
           },
-          //递归处理树形结构最后一项为空
-          digui(data){
-            for(var i = 0; i<data.length;i++){
-              if(data[i].children.length==0){
-                var obj = {};
-                obj.label = data[i].label;
-                obj.org_id = data[i].org_id;
-                obj.org_type = data[i].org_type;
-                obj.value = data[i].value;
-                data[i] = obj;
-              }else{
-                this.digui(data[i].children)
-              }
-            }
-            this.data = data;
-            return data
-          },
-          //获取分组信息
-          getOrgsList(){
+          
+         
+          //获取职业信息
+          getZhiweiList(){
                 const self = this;
                 var params = new URLSearchParams();
-                var token = localStorage.getItem('auth');
-                // params.append('currentPage',self.currentPage);        
+                var token = localStorage.getItem('auth'); 
+                params.append('pageNum',1); 
+                params.append('pageSize',100);        
                 self.$axios({
                     method: 'post',
-                    url: '/stop/getOrgTree',
+                    url: '/position/getByPage',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
                     if(data.data.code==0){
-                       self.options = self.digui(data.data.data);
+                       self.zhiweiList = data.data.data.list;
+                       
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
+          // //姓名模糊查询提示
+          
+          remoteMethod(query){
+              if (query !== '') {
+                this.loading = true;
+                this.getNameSearchList(query);
+                      setTimeout(() => {
+                        this.loading = false;
+                        this.userNameList = this.list.filter(item => {
+                          return item.label.toLowerCase()
+                            .indexOf(query.toLowerCase()) > -1;
+                        });
+                      }, 200);
+              } else {
+                this.userNameList = [];
+              }
+          },
+          getNameSearchList(query){
+                const self = this;
+                self.user_true_name = query;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('user_true_name',query); 
+                params.append('pageNum',1);
+                params.append('pageSize',10);
+                self.$axios({
+                    method: 'post',
+                    url: '/user/getByPage',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    if(data.data.code==0){
+                      self.states = data.data.data.list;
+                      self.list = self.states.map(item => {
+                        return { value: item.user_true_name, label: item.user_true_name };
+                      });
+                      self.userNameList = self.list;
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
+          
+          //获取部门信息
+          getDeptList(){
+                const self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('pageNum',1); 
+                params.append('pageSize',100);          
+                self.$axios({
+                    method: 'post',
+                    url: '/dept/getByPage',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    if(data.data.code==0){
+                       self.bumenList = data.data.data.list;
 
                     }else{
                       self.$response(data,self);
                     }
                  });
           },
+          //获取权限组列表
+          getPowerList(){
+                const self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');         
+                self.$axios({
+                    method: 'post',
+                    url: '/group/get',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    if(data.data.code==0){
+                       self.powerList = data.data.data;
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          }
       }
      
   }
-    window.addEventListener('message', function(event) {
-        // 接收位置信息，用户选择确认位置点后选点组件会触发该事件，回传用户的位置信息
-        var loc = event.data;
-        if (loc && loc.module == 'locationPicker') {//防止其他应用也会向该页面post信息，需判断module是否为'locationPicker'
-          console.log('location', loc);
-          localStorage.setItem('locationDes',loc.poiaddress);
-          localStorage.setItem('localLat',loc.latlng.lat);
-          localStorage.setItem('localLng',loc.latlng.lng);
-          localStorage.setItem('isLocalChoosed',1);
-        }
-    }, false);
 </script>
 
 <style scoped>
-    .tree{
-      float: left;
-      width: 20%;
-      height: 600px;
-      
-    }
-    .el-tree{
-      background: rgba(255,215,0,0.3);
-      color: #fff;
-    }
-
     .tableClass{
       width: 100%;
       height: auto;
-      background-color: #231a75;
+      /*background-color: #231a75;*/
     }
     .tableList{
       width: 99%;
-      height: 540px!important;
+      height: 550px!important;
       overflow-y: scroll;
       border:1px solid #231a75;
      /* border-radius: 20px;*/
       margin-top: 20px;
-      background-color: #231a75;
+      /*background-color: #231a75;*/
     }
     .tableList::-webkit-scrollbar {/*滚动条整体样式*/
             width: 4px;     /*高宽分别对应横竖滚动条的尺寸*/
@@ -649,7 +705,7 @@
       height: 60px;
       line-height: 60px;
       color: #fefefe;
-      background-color: #231a75;
+      /*background-color: #231a75;*/
       background-image: url(../../../static/img/tableBanner.png);
     }
 
@@ -706,19 +762,13 @@
     .demonstration{
         width: 300px;
     }
-    .demo-table-expand {
-      font-size: 0;
+
+   
+    .row-expand-cover td:last-child .el-icon-arrow-right{
+      visibility: hidden;
     }
-    .demo-table-expand label {
-      width: 90px;
-      color: #99a9bf;
-    }
-    .demo-table-expand .el-form-item {
-      margin-right: 0;
-      margin-bottom: 0;
-      width: 50%;
-    }
-    .colorRed{
-      color: red;
+    .demo-table-expand{
+      
+      padding: 20px;
     }
 </style>

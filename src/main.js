@@ -23,6 +23,7 @@ axios.defaults.baseURL = "http://192.168.2.217:8080/dossier";
 Vue.prototype.$axios = axios;
 Vue.prototype.$moment = Moment;
 Vue.prototype.$echarts = echarts;
+Vue.prototype.$socketApi = socketApi;
 Vue.prototype.$response = function(data, self) {
     var statu = data.data.code.substr(0, 1);
     if (statu == 2) {
@@ -50,6 +51,11 @@ Vue.prototype.$response = function(data, self) {
         self.$message({
             type: 'error',
             message: '账号密码错误'
+        });
+    }else if(statu == 6){
+        self.$message({
+            type: 'error',
+            message: '权限不足'
         });
     }
 }
@@ -106,4 +112,4 @@ function getConfigResult(e){
   //   router.push('/jingyuanliebiao')
   // }
 }
-socketApi.sendSock('text',getConfigResult);
+// socketApi.sendSock('text',getConfigResult);

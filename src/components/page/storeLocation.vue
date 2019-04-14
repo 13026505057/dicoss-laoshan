@@ -42,42 +42,8 @@
                     <span>签到考勤</span>
                   </template> -->
                 </el-table-column>
-                <el-table-column
-                  label="打卡日期"
-                  align="center"
-                  prop="ad_user_sign_time"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="上午打卡时间"
-                  align="center"
-                  prop="ad_user_sign_am"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="上午打卡位置"
-                  align="center"
-                  prop="ad_user_sign_am_location"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="下午打卡时间"
-                  align="center"
-                  prop="ad_user_sign_pm"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="下午打卡位置"
-                  align="center"
-                  prop="ad_user_sign_pm_location"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="工作日志"
-                  align="center"
-                  prop="org_sign_content"
-                  >
-                </el-table-column>
+                
+               
                 <el-table-column
                   label="考勤结果"
                   align="center"
@@ -141,42 +107,8 @@
                     <span>签到考勤</span>
                   </template> -->
                 </el-table-column>
-                <el-table-column
-                  label="打卡日期"
-                  align="center"
-                  prop="ad_user_sign_time"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="上午打卡时间"
-                  align="center"
-                  prop="ad_user_sign_am"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="上午打卡位置"
-                  align="center"
-                  prop="ad_user_sign_am_location"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="下午打卡时间"
-                  align="center"
-                  prop="ad_user_sign_pm"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="下午打卡位置"
-                  align="center"
-                  prop="ad_user_sign_pm_location"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="工作日志"
-                  align="center"
-                  prop="org_sign_content"
-                  >
-                </el-table-column>
+                
+                
                 <el-table-column
                   label="考勤结果"
                   align="center"
@@ -240,42 +172,8 @@
                     <span>签到考勤</span>
                   </template> -->
                 </el-table-column>
-                <el-table-column
-                  label="打卡日期"
-                  align="center"
-                  prop="ad_user_sign_time"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="上午打卡时间"
-                  align="center"
-                  prop="ad_user_sign_am"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="上午打卡位置"
-                  align="center"
-                  prop="ad_user_sign_am_location"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="下午打卡时间"
-                  align="center"
-                  prop="ad_user_sign_pm"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="下午打卡位置"
-                  align="center"
-                  prop="ad_user_sign_pm_location"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="工作日志"
-                  align="center"
-                  prop="org_sign_content"
-                  >
-                </el-table-column>
+               
+               
                 <el-table-column
                   label="考勤结果"
                   align="center"
@@ -339,42 +237,7 @@
                     <span>签到考勤</span>
                   </template> -->
                 </el-table-column>
-                <el-table-column
-                  label="打卡日期"
-                  align="center"
-                  prop="ad_user_sign_time"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="上午打卡时间"
-                  align="center"
-                  prop="ad_user_sign_am"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="上午打卡位置"
-                  align="center"
-                  prop="ad_user_sign_am_location"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="下午打卡时间"
-                  align="center"
-                  prop="ad_user_sign_pm"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="下午打卡位置"
-                  align="center"
-                  prop="ad_user_sign_pm_location"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="工作日志"
-                  align="center"
-                  prop="org_sign_content"
-                  >
-                </el-table-column>
+
                 <el-table-column
                   label="考勤结果"
                   align="center"
@@ -397,7 +260,7 @@
             </el-pagination>
           </div>
         </el-tab-pane>
-        <el-tab-pane  name="location5">
+        <el-tab-pane v-if="false"  name="location5">
           <span slot="label"><i class="el-icon-date"></i>房内布局设置</span>
           <div class="block">
                 <!-- 关键词联想组建 -->
@@ -438,42 +301,7 @@
                     <span>签到考勤</span>
                   </template> -->
                 </el-table-column>
-                <el-table-column
-                  label="打卡日期"
-                  align="center"
-                  prop="ad_user_sign_time"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="上午打卡时间"
-                  align="center"
-                  prop="ad_user_sign_am"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="上午打卡位置"
-                  align="center"
-                  prop="ad_user_sign_am_location"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="下午打卡时间"
-                  align="center"
-                  prop="ad_user_sign_pm"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="下午打卡位置"
-                  align="center"
-                  prop="ad_user_sign_pm_location"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="工作日志"
-                  align="center"
-                  prop="org_sign_content"
-                  >
-                </el-table-column>
+
                 <el-table-column
                   label="考勤结果"
                   align="center"
@@ -518,8 +346,44 @@
                 </el-select>
                 
                 <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
+                <el-button type="warning" style="margin-left: 30px;" @click="addNewClick">新增设备</el-button>
+                
             </div>
-
+            <el-dialog title="新增设备" :visible.sync="addNewShebei">
+              <el-form :model="form" :inline="true" >
+                <el-form-item label="设备名称" label-width="120px">
+                  <el-input style="width:200px;" v-model="form.shale_name" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="设备行数" >
+                  <el-input style="width:200px;" v-model="form.hang" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="设备列数" >
+                  <el-input style="width:200px;" v-model="form.lie" auto-complete="off"></el-input>
+                </el-form-item>
+              </el-form>
+              <div slot="footer" class="dialog-footer">
+                <el-button @click="addNewShebei = false">取 消</el-button>
+                <el-button type="primary" @click="sureToAddNewForShebei">确 定</el-button>
+              </div>
+            </el-dialog>
+            <el-dialog title="条码打印" :visible.sync="printAgain">
+              <el-form :model="againForm"  >
+                <el-form-item label="打印类型" >
+                    <el-radio v-model="radio" label="1">全部打印</el-radio>
+                    <el-radio v-model="radio" label="2">单项打印</el-radio>
+                </el-form-item>
+                <el-form-item v-if="radio==1?false:true" label="设备行数" >
+                  <el-input style="width:200px;" v-model="againForm.hang" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item v-if="radio==1?false:true" label="设备列数" >
+                  <el-input style="width:200px;" v-model="againForm.lie" auto-complete="off"></el-input>
+                </el-form-item>
+              </el-form>
+              <div slot="footer" class="dialog-footer">
+                <el-button @click="printAgain = false">取 消</el-button>
+                <el-button type="primary" @click="sureToPrint">确 定</el-button>
+              </div>
+            </el-dialog>
             <div id="container" style="width: 100%;height: 110%;  float: right;">
             <div class="tableList">
               <el-table
@@ -530,55 +394,30 @@
                 style="">
                 
                 <el-table-column
-                  label="考勤人员"
+                  label="设备名称"
                   align="center"
-                  prop="ad_user_true_name">
-                  <!-- <template slot-scope="props">
-                    <span>签到考勤</span>
-                  </template> -->
+                  prop="shale_name">
                 </el-table-column>
                 <el-table-column
-                  label="打卡日期"
-                  align="center"
-                  prop="ad_user_sign_time"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="上午打卡时间"
-                  align="center"
-                  prop="ad_user_sign_am"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="上午打卡位置"
-                  align="center"
-                  prop="ad_user_sign_am_location"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="下午打卡时间"
-                  align="center"
-                  prop="ad_user_sign_pm"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="下午打卡位置"
-                  align="center"
-                  prop="ad_user_sign_pm_location"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="工作日志"
-                  align="center"
-                  prop="org_sign_content"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="考勤结果"
+                  label="设备状态"
                   align="center"
                   >
                   <template slot-scope="props">
-                    <span :class="[props.row.ad_user_sign_status==1?'':'colorRed']">{{props.row.ad_user_sign_status==0?'未签到':''}}{{props.row.ad_user_sign_status==1?'签到':''}}{{props.row.ad_user_sign_status==2?'迟到':''}}{{props.row.ad_user_sign_status==3?'早退':''}}</span>
+                    <span>使用中</span>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  label="创建时间"
+                  align="center"
+                  prop="shale_name">
+                </el-table-column>
+                <el-table-column
+                  label="操作"
+                  align="center"
+
+                  >
+                  <template slot-scope="props">
+                    <el-button size="mini" type="warning" style="margin-left: 30px;" @click="printAgainClick(props.row)">条码打印</el-button>
                   </template>
                 </el-table-column>
               </el-table>   
@@ -591,11 +430,11 @@
                   :current-page.sync="pageNum1"
                   :page-size="pageSize1"
                   layout="prev, pager, next, jumper"
-                  :total="total">
+                  :total="total1">
             </el-pagination>
           </div>
         </el-tab-pane>
-        <el-tab-pane name="location7">
+        <el-tab-pane name="location7" v-if="false">
           <span slot="label"><i class="el-icon-date"></i>设备位置设置</span>
           <div class="block">
                 <!-- 关键词联想组建 -->
@@ -636,49 +475,12 @@
                     <span>签到考勤</span>
                   </template> -->
                 </el-table-column>
-                <el-table-column
-                  label="打卡日期"
-                  align="center"
-                  prop="ad_user_sign_time"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="上午打卡时间"
-                  align="center"
-                  prop="ad_user_sign_am"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="上午打卡位置"
-                  align="center"
-                  prop="ad_user_sign_am_location"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="下午打卡时间"
-                  align="center"
-                  prop="ad_user_sign_pm"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="下午打卡位置"
-                  align="center"
-                  prop="ad_user_sign_pm_location"
-                  >
-                </el-table-column>
-                <el-table-column
-                  label="工作日志"
-                  align="center"
-                  prop="org_sign_content"
-                  >
-                </el-table-column>
+
                 <el-table-column
                   label="考勤结果"
                   align="center"
                   >
-                  <template slot-scope="props">
-                    <span :class="[props.row.ad_user_sign_status==1?'':'colorRed']">{{props.row.ad_user_sign_status==0?'未签到':''}}{{props.row.ad_user_sign_status==1?'签到':''}}{{props.row.ad_user_sign_status==2?'迟到':''}}{{props.row.ad_user_sign_status==3?'早退':''}}</span>
-                  </template>
+                  
                 </el-table-column>
               </el-table>   
             </div>
@@ -704,23 +506,176 @@
   export default {
       data: function(){
           return {
-              activeName:'location5',
-              areaList:[{
-
-              }],
+              shale_id_count:'',
+              radio:'1',
+              value9:[],  
+              activeName:'location6',
+              areaList:[],
+              addNewShebei:false,
+              againForm:{},
+              form:{
+                shale_name:''
+              },
+              
+              printAgain:false,
+              options4: [],
+              loading:false,
               pageNum1:1,
               pageSize1:10,
-              total:0,
+              total1:0,
 
             }
               
       },
       mounted() {
           
-         
+         this.getDataList();
       },
       methods: {
-         
+          sureToPrint(res){
+                const self = this;
+                if(this.radio==1){
+                  var type = 'shale';
+                  var hang = '';
+                  var lie = '';
+                }else{
+                  var type = 'cell'
+                  var hang = self.againForm.hang;
+                  var lie = self.againForm.lie;
+                }
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('print_type',type);
+                params.append('shale_id',self.shale_id_count);
+                params.append('hang',hang);
+                params.append('lie',lie);
+                
+
+                self.$axios({
+                    method: 'post',
+                    url: '/shale/shale/printShaleCode',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                      self.$message({
+                          type: 'success',
+                          message: '打印成功'
+                      });
+                      self.printAgain = false;
+                      self.getDataList();
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
+          printAgainClick(res){
+            this.printAgain = true;
+            console.log(res)
+            this.shale_id_count = res.shale_id;
+          },
+          sureToAddNewForShebei(){
+                const self = this;
+                
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('shale_name',self.form.shale_name);
+                params.append('location_id',1);
+                params.append('floor_id',1);
+                params.append('room_id',1);
+                params.append('hang',self.form.hang);
+                params.append('lie',self.form.lie);
+
+                self.$axios({
+                    method: 'post',
+                    url: '/shale/shale/add',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                      self.$message({
+                          type: 'success',
+                          message: '新增成功'
+                      });
+                      self.addNewShebei = false;
+                      self.getDataList();
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
+          //
+          searchClick(){
+
+          },
+          addNewClick(){
+            this.addNewShebei = true;
+          },
+          //关键字模糊查询提示
+          remoteMethod(query) {
+            if (query !== '') {
+              this.loading = true;
+              this.getNameList(query);
+              setTimeout(() => {
+                this.loading = false;
+                this.options4 = this.list.filter(item => {
+                  return item.label.toLowerCase()
+                    .indexOf(query.toLowerCase()) > -1;
+                });
+              }, 200);
+            } else {
+              this.options4 = [];
+            }
+          },
+          
+          //关键字模糊查询提示
+          getNameList(query){
+                const self = this;
+                self.case_name = query;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('ad_user_true_name',self.name);
+                self.$axios({
+                    method: 'post',
+                    url: '/stop/getAdUserNames',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                        self.states = data.data.data;
+                        self.list = self.states.map(item => {
+                          return { value: item.value, label: item.value};
+                        });
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
+          getDataList(){
+                const self = this;
+                
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('pageNum',self.pageNum1);
+                params.append('pageSize',self.pageSize1);
+                self.$axios({
+                    method: 'post',
+                    url: '/shale/shale/getByPage',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                        self.areaList = data.data.data.list;
+                        self.total1 = data.data.data.total;
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
           //翻页事件
           pageChange1(){
 

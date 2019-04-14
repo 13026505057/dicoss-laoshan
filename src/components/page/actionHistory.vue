@@ -5,15 +5,15 @@
 
             <div class="block">
                 
-                <el-input style="width:250px;" v-model="input" placeholder="案卷号查询"></el-input>
+                <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
                 <!-- 关键词联想组建 -->
                 <el-select
-                  v-model="value9"
+                  v-model="case_name"
                   style="width: 250px;margin-left: 30px;"
                   filterable
                   remote
                   reserve-keyword
-                  placeholder="请输入关键词"
+                  placeholder="请输入案件名"
                   :remote-method="remoteMethod"
                   :loading="loading">
                   <el-option
@@ -43,150 +43,131 @@
         <!-- <div class="tree">
           <el-tree :data="data"    @node-click="handleNodeClick"></el-tree>
         </div> -->
-        <div id="container" style="width: 100%;height: 110%;  float: right;">
-          
-            <el-dialog title="新增考勤规则" :visible.sync="dialogFormVisible">
-              <el-form :model="form">
-                <el-form-item label="一体机名称:" label-width="120px">
-                  <el-input v-model="form.imac_name" autocomplete="off" style="width:400px;float:left;"></el-input>
-                </el-form-item>
-                <el-form-item label="选择位置:" label-width="120px">
-                  <el-button type="primary"  @click="mapClick">点击选择</el-button>
-                </el-form-item>
-                <el-form-item label="维度:" label-width="120px">
-                  <el-input v-model="form.latitude" autocomplete="off" style="width:200px;float:left;"></el-input>
-                </el-form-item>
-                <el-form-item label="经度:" label-width="120px">
-                  <el-input v-model="form.longitude" autocomplete="off" style="width:200px;float:left;"></el-input>
-                </el-form-item>
-                <el-form-item label="位置描述" label-width="120px">
-                  <el-input v-model="form.imac_location" autocomplete="off" style="width:200px;float:left;"></el-input>
-                </el-form-item>
-              </el-form>
-              <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="addNew">确 定</el-button>
-              </div>
-            </el-dialog>
-            <el-dialog title="修改考勤规则" :visible.sync="dialogFormVisible2">
-              <el-form :model="form">
-                <!-- <el-form-item label="考勤名称:" label-width="120px">
-                  <el-input v-model="form.org_sign_time_am" autocomplete="off" style="width:400px;"></el-input>
-                </el-form-item> -->
-                <el-form-item label="上午签到时间:" label-width="120px">
-                  <el-time-picker
-                    arrow-control
-                    v-model="form.org_sign_time_am"
-                    value-format="HH:mm:ss"
-                    :picker-options="{
-                      selectableRange: '01:00:00 - 23:00:00'
-                    }"
-                    placeholder="任意时间点">
-                  </el-time-picker>
-                </el-form-item>
-                <el-form-item label="下午签到时间:" label-width="120px">
-                  <el-time-picker
-                    arrow-control
-                    value-format="HH:mm:ss"
-                    v-model="form.org_sign_time_pm"
-                    :picker-options="{
-                      selectableRange: '01:00:00 - 23:00:00'
-                    }"
-                    placeholder="任意时间点">
-                  </el-time-picker>
-                </el-form-item>
-                <!-- <el-form-item label="选择签到位置:" label-width="120px">
-                  <el-button type="primary"  @click="mapClick">点击选择</el-button>
-                </el-form-item>
-                <el-form-item label="维度:" label-width="120px">
-                  <el-input v-model="form.org_sign_latitude" autocomplete="off" style="width:200px;float:left;"></el-input>
-                </el-form-item>
-                <el-form-item label="经度:" label-width="120px">
-                  <el-input v-model="form.org_sign_longitude" autocomplete="off" style="width:200px;float:left;"></el-input>
-                </el-form-item>
-                <el-form-item label="位置描述" label-width="120px">
-                  <el-input v-model="form.org_sign_location" autocomplete="off" style="width:200px;float:left;"></el-input>
-                </el-form-item> -->
-                <el-form-item label="是否启用" label-width="120px">
-                  <el-radio v-model="form.org_sign_status" label="1">启用</el-radio>
-                  <el-radio v-model="form.org_sign_status" label="0">关闭</el-radio>
-                </el-form-item>
-              </el-form>
-              <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible2 = false">取 消</el-button>
-                <el-button type="primary" @click="upData">确 定</el-button>
-              </div>
-            </el-dialog>
-            <el-dialog title="地图选点组件" :visible.sync="mapVisible" top="5vh">
-              <iframe id="mapPage" width="100%" height="700px" frameborder=0
-                  src="https://apis.map.qq.com/tools/locpicker?search=1&type=1&key=7NLBZ-VMS6F-I7OJ6-JC2DF-VKD43-IABKA&referer=myapp">
-              </iframe>
-              <div slot="footer" class="dialog-footer">
-                <el-button @click="mapVisible = false">关 闭</el-button>
-                <el-button type="primary" @click="upDataLocalMapMsg">确 定</el-button>
-              </div>
-            </el-dialog>
-          
-          <div class="tableList">
-            <el-table
-              :data="tableData5"
+        <el-dialog title="案卷详情" :visible.sync="case_detail_dialog">
+          <el-table
+              :data="exhibits"
               :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
               :row-style="rowStyle"
               class="tableClass"
-              style="">
-              
+              >
               <el-table-column
-                label="考勤人员"
+                type="index"
                 align="center"
-                prop="ad_user_true_name">
+                width="50">
+              </el-table-column>
+              <el-table-column
+                label="案卷编号"
+                align="center"
+                prop="exhibit_id">
                 <!-- <template slot-scope="props">
                   <span>签到考勤</span>
                 </template> -->
               </el-table-column>
               <el-table-column
-                label="打卡日期"
-                align="center"
-                prop="ad_user_sign_time"
-                >
-              </el-table-column>
-              <el-table-column
-                label="上午打卡时间"
-                align="center"
-                prop="ad_user_sign_am"
-                >
-              </el-table-column>
-              <el-table-column
-                label="上午打卡位置"
-                align="center"
-                prop="ad_user_sign_am_location"
-                >
-              </el-table-column>
-              <el-table-column
-                label="下午打卡时间"
-                align="center"
-                prop="ad_user_sign_pm"
-                >
-              </el-table-column>
-              <el-table-column
-                label="下午打卡位置"
-                align="center"
-                prop="ad_user_sign_pm_location"
-                >
-              </el-table-column>
-              <el-table-column
-                label="工作日志"
-                align="center"
-                prop="org_sign_content"
-                >
-              </el-table-column>
-              <el-table-column
-                label="考勤结果"
+                label="案卷状态"
                 align="center"
                 >
                 <template slot-scope="props">
-                  <span :class="[props.row.ad_user_sign_status==1?'':'colorRed']">{{props.row.ad_user_sign_status==0?'未签到':''}}{{props.row.ad_user_sign_status==1?'签到':''}}{{props.row.ad_user_sign_status==2?'迟到':''}}{{props.row.ad_user_sign_status==3?'早退':''}}</span>
+                  <span v-bind:class="[props.row.stock_status=='in'?'':'colorRed']">{{props.row.stock_status=='in'?'已入库':'待入库'}}</span>
                 </template>
               </el-table-column>
+              <el-table-column
+                label="存放位置"
+                align="center"
+                prop="case_type"
+                >
+              </el-table-column>
+              <el-table-column
+                label="操作"
+                width="200px"
+                align="center"
+                >
+                <template slot-scope="props">
+                  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printAgain(props.row)">补打条码</el-button>
+                </template>
+              </el-table-column>
+            </el-table> 
+            <el-pagination
+                small
+                background
+                style="text-align: center;margin-top: 20px;"
+                @current-change="pageChange2"
+                :current-page.sync="pageNum2"
+                :page-size="pageSize2"
+                layout="prev, pager, next, jumper"
+                :total="total2">
+          </el-pagination>
+        </el-dialog>
+        <div id="container" style="width: 100%;height: 110%;  float: right;">
+          
+          
+          <div class="tableList">
+            <el-table
+              :data="caseList"
+              :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+              :row-style="rowStyle"
+              class="tableClass"
+              >
+              <el-table-column
+                type="index"
+                align="center"
+                width="50">
+              </el-table-column>
+              <el-table-column
+                label="案件编号"
+                align="center"
+                prop="case_bh">
+                <!-- <template slot-scope="props">
+                  <span>签到考勤</span>
+                </template> -->
+              </el-table-column>
+              <el-table-column
+                label="案件名称"
+                align="center"
+                prop="case_name"
+                >
+              </el-table-column>
+              <el-table-column
+                label="案件类型"
+                align="center"
+                prop="case_type_name"
+                >
+              </el-table-column>
+              <el-table-column
+                label="案件描述"
+                align="center"
+                show-overflow-tooltip
+                width="400"
+                prop="case_desc"
+                >
+              </el-table-column>
+              <el-table-column
+                label="承办人"
+                align="center"
+                prop="case_user"
+                >
+              </el-table-column>
+              <el-table-column
+                label="案卷号"
+                align="center"
+                prop="exhibit_id"
+                >
+              </el-table-column>
+              <el-table-column
+                label="入库时间"
+                align="center"
+                prop="stock_log_time"
+                >
+              </el-table-column>
+              <!-- <el-table-column
+                label="操作"
+                width="300px"
+                align="center"
+                >
+                <template slot-scope="props">
+                  <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                </template>
+              </el-table-column> -->
               
               <!-- <el-table-column
                 align="center"
@@ -209,8 +190,8 @@
                 small
                 background
                 style="text-align: center;margin-top: 20px;"
-                @current-change="handleCurrentChange"
-                :current-page.sync="currentPage"
+                @current-change="pageChange"
+                :current-page.sync="pageNum"
                 :page-size="pageSize"
                 layout="prev, pager, next, jumper"
                 :total="total">
@@ -227,77 +208,154 @@
   export default {
       data: function(){
           return {
+              case_detail_dialog:false,
+              case_number:'',
               options4: [],
-              value9: [],
+              case_name: [],
               list: [],
               loading: false,
               states: [],
-              ad_user_true_name:'',
-              currentPage:1,
-              dialogFormVisible:false,
-              dialogFormVisible2:false,
-              mapVisible:false,
-              total:10,
-              org_idList:[],
-              name:'',
-              restaurants: [],
-              value1:'',
               date:[],
-              value2:'',
-              options:[],
-              selectedOptions: [],
-              data: [],
-              pageSize:8,
-              value:'',
-              tableData5: [],
-              defaultProps: {
-                children: 'children',
-                label: 'label'
-              },
-              form:{
-               org_sign_time_am:new Date(2016, 9, 10, 18, 40),
-               org_sign_time_pm:new Date(2016, 9, 10, 18, 40),
-               org_sign_longitude:'',
-               org_sign_latitude:'',
-               org_sign_status:'',
-               org_sign_location:''
-              },
-              adUserCount:'',
-              djk:'',
-              jkjs:'',
-              jkz:'',
-              userCount:'',
-              org_name:'',
-              level:''
+              caseList: [
+                {
+                  case_name:'ceshi',
+                  case_des:'哈哈是尽快的哈手机客户端手机卡带回家开始的健康哈哈是健康带回家卡萨哈哈是可敬的哈数据库好道具卡圣诞节看哈涉及到哈数据库等哈说客家话大客户就撒谎接地卡萨好看的哈萨克较好的空间撒谎的空间撒好看的接口撒很快就到哈市科技带回家撒客户空间哈哈是尽快的哈手机客户端手机卡带回家开始的健康哈哈是健康带回家卡萨哈哈是可敬的哈数据库好道具卡圣诞节看哈涉及到哈数据库等哈说客家话'
+                }
+              ],
+              exhibits:[],
+              total:0,
+              pageNum:1,
+              pageSize:10,
+              total2:0,
+              pageNum2:1,
+              pageSize2:10
             }
               
       },
       mounted() {
+          this.getDataList();
           
-          var adUserCount =  localStorage.getItem('adUserCount');
-          var level = localStorage.getItem('org_type');
-          this.level = level;
-          var djk =  localStorage.getItem('djk');
-          var jkjs =  localStorage.getItem('jkjs');
-          var jkz =  localStorage.getItem('jkz');
-          var userCount =  localStorage.getItem('userCount');
-          var org_name =  localStorage.getItem('org_name');
-          localStorage.setItem('isLocalChoosed',0);
-          this.adUserCount = adUserCount;
-          this.djk = djk;
-          this.jkjs = jkjs;
-          this.jkz = jkz;
-          this.userCount = userCount;
-          this.org_name = org_name;
-          this.getNameList();
-          this.getDataList(); 
-          this.getOrgsList();
-          this.restaurants = this.loadAll();
       },
       methods: {
+          getConfigResult(e){
+            console.log(e)
+            // if(e.data==101){
+            //   router.push('/readme')
+            // }else if(e.data==102){
+            //   router.push('/jiedurenliebiao')
+            // }else if(e.data==103){
+            //   router.push('/jiedurendangan')
+            // }else{
+            //   router.push('/jingyuanliebiao')
+            // }
+          },
+          //案卷详情点击事件
+          caseDetailClick(res){
+            this.$socketApi.sendSock('text',this.getConfigResult);
+            this.exhibits = res.exhibits;
+            this.case_detail_dialog = true;
+          },
+          //查询事件
+          searchClick(){
+
+          },
+          //补打条码
+          printAgain(res){
+                var self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+
+                
+                params.append('exhibit_id',res.exhibit_id);
+                
+                const loading = self.$loading({
+                  lock: true,
+                  text: '打印中',
+                  spinner: 'el-icon-loading',
+                  background: 'rgba(0, 0, 0, 0.6)'
+                });
+                self.$axios({
+                    method: 'post',
+                    url: '/exhibit/exhibit/printAgain',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                      loading.close();
+                      self.$message({
+                        type: 'success',
+                        message: '已发送打印请求'
+                      });
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
+          //条码打印事件
+          printClick(res){
+            var self = this;
+            var numCount = res.exhibits.length+1;
+            this.$confirm('即将打印该案件的第'+numCount+'份案卷条码, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+
+                const loading = self.$loading({
+                  lock: true,
+                  text: '打印中',
+                  spinner: 'el-icon-loading',
+                  background: 'rgba(0, 0, 0, 0.6)'
+                });
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+
+                params.append('case_id',res.case_id);
+                params.append('exhibit_name','');
+                
+
+                self.$axios({
+                    method: 'post',
+                    url: '/exhibit/exhibit/add',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                      loading.close();
+                      self.$message({
+                        type: 'success',
+                        message: '已发送打印请求'
+                      });
+                      self.getDataList();
+                    }else{
+
+                      self.$response(data,self);
+                      loading.close();
+                    }
+                 });
+              
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消打印'
+              });          
+            });
+          },
+          //分页器点击事件
+          pageChange(){
+            this.getDataList();
+          },
+          //分页器点击事件
+          pageChange2(){
+
+          },
+          //关键字模糊查询提示
           remoteMethod(query) {
             if (query !== '') {
               this.loading = true;
+              this.getNameList(query);
               setTimeout(() => {
                 this.loading = false;
                 this.options4 = this.list.filter(item => {
@@ -309,21 +367,11 @@
               this.options4 = [];
             }
           },
-          //地图信息确定
-          upDataLocalMapMsg(){
-            if(localStorage.getItem('isLocalChoosed')==1){
-              this.form.org_sign_latitude = localStorage.getItem('localLat');
-              this.form.org_sign_longitude = localStorage.getItem('localLng');
-              this.form.org_sign_location = localStorage.getItem('locationDes');
-              this.mapVisible = false;
-            }else{
-              this.$message.error('未选择任何位置,请点击位置列表中的一个位置');
-            }
-            
-          },
-          //姓名模糊查询提示
-          getNameList(){
+          
+          //关键字模糊查询提示
+          getNameList(query){
                 const self = this;
+                self.case_name = query;
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
                 params.append('ad_user_true_name',self.name);
@@ -344,133 +392,35 @@
                     }
                  });
           },
-          //展示地图组件
-          mapClick(){
-            this.mapVisible = true;
-          },
-          showAddNew(){
+          //获取默认列表数据
+          getDataList(){
                 const self = this;
+               
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-                        
+
+                params.append('pageNum',self.pageNum);
+                params.append('pageSize',self.pageSize);
+                // params.append('case_name',self.case_name);
+                // params.append('case_bh',self.case_number);
+                params.append('stock_log_type','in');
+
                 self.$axios({
                     method: 'post',
-                    url: '/stop/org/sign/get',
+                    url: '/stock/stock-log/getByPage',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
+                    
                     if(data.data.code==0){
-                       self.form = data.data.data[0];
-                       self.dialogFormVisible2 = true;
+                        self.caseList = data.data.data.list;
+                        self.total = data.data.data.total;
                     }else{
                       self.$response(data,self);
                     }
-                 });      
+                 });
           },
-          //删除机构
-          handleEdit(data){
-              const self = this;
-              self.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-              }).then(() => {
-                  var params = new URLSearchParams();
-                  var token = localStorage.getItem('auth');
-                  params.append('imac_id',data.imac_id);    
-                  self.$axios({
-                      method: 'post',
-                      url: '/stop/delImac',
-                      data: params,
-                      headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
-                   }).then(function(data){
-                      if(data.data.code==0){
-                        self.$message({
-                          type: 'success',
-                          message: '删除成功!'
-                        });
-                        self.getDataList();
-                      }else{
-                        self.$response(data,self);
-                      }
-                   });
-                
-              }).catch(() => {
-                self.$message({
-                  type: 'info',
-                  message: '已取消删除'
-                });          
-              });
-          },
-          //修改资料
-          upData(data){
-                const self = this;
-                console.log(this.form)
-                var params = new URLSearchParams();
-                var token = localStorage.getItem('auth');
-                params.append('org_sign_time_am',self.form.org_sign_time_am);    
-                params.append('org_sign_time_pm',self.form.org_sign_time_pm);
-                params.append('org_sign_longitude',self.form.org_sign_longitude);
-                params.append('org_sign_latitude',self.form.org_sign_latitude);
-                params.append('org_sign_location',self.form.org_sign_location);
-                params.append('org_sign_status',self.form.org_sign_status);
-                self.$axios({
-                    method: 'post',
-                    url: '/stop/org/sign/update',
-                    data: params,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
-                 }).then(function(data){
-                    if(data.data.code==0){
-                        self.$message({
-                          type: 'success',
-                          message: '修改成功'
-                        });  
-                        self.dialogFormVisible2  = false;
-                        self.getDataList();
-                    }else{
-                      self.$response(data,self);
-                    }
-                 });      
-          },
-          //新增机构
-          addNew(){
-                const self = this;
-                var params = new URLSearchParams();
-                var token = localStorage.getItem('auth');
-                params.append('imac_name',self.form.imac_name);
-                params.append('longitude',self.form.longitude);
-                params.append('latitude',self.form.latitude);
-                params.append('imac_location',self.form.imac_location);          
-                self.$axios({
-                    method: 'post',
-                    url: '/stop/addImac',
-                    data: params,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
-                 }).then(function(data){
-                    if(data.data.code==0){
-                        self.$message({
-                          type: 'success',
-                          message: '创建成功'
-                        });  
-                        self.dialogFormVisible  = false;
-                        self.getDataList();
-                    }else{
-                      self.$response(data,self);
-                    }
-                 });      
-          },
-          //修改机构信息
-          handleupDate(data){
-            console.log(data)
-            this.dialogFormVisible2 = true;
-            this.form = data
-          },
-          handleNodeClick(data) {
-            console.log(data);
-          },
-          handleCurrentChange(){
-            this.getDataList();
-          },
+          
          //修改单元行颜色
           rowStyle({ row, rowIndex}){
             if(rowIndex%2 ==0){
@@ -479,108 +429,10 @@
              return 'background:#e5e7e8;color:#000;'
             }
           },      
-          handleChange(value) {
-              console.log(value);
-          },
-          querySearch(queryString, cb) {
-              var restaurants = this.restaurants;
-              var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-              // 调用 callback 返回建议列表的数据
-              cb(results);
-          },
-          createFilter(queryString) {
-              return (restaurant) => {
-                return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-              };
-          },
-          loadAll() {
-              return [
-                { "value": "三全鲜食（北新泾店）", "address": "长宁区新渔路144号" },
-              ];
-          },
-          handleSelect(item) {
-              console.log(item);
-          },
+         
           
-          searchClick(){
-            console.log(this.value9)
-            this.getDataList();
-          },
-          handleChange(value) {
-              var newArr = [];
-              newArr.push(value[value.length-1]) 
-              this.org_idList = newArr;
-          },
           
-          //默认获取一体机信息
-          getDataList(){
-                const self = this;
-                var params = new URLSearchParams();
-                var token = localStorage.getItem('auth');
-                params.append('currentPage',self.currentPage);
-                params.append('pageSize',self.pageSize); 
-                params.append('org_id',self.org_idList);
-                params.append('ad_user_true_name',self.value9);
-                if(self.date==null||self.date.length==0){
-                  var begin_time ='';
-                  var end_time ='';
-                }else{
-                  var begin_time = self.date[0];
-                  var end_time = self.date[1];
-                } 
-                params.append('sign_begin_time',begin_time);
-                params.append('sign_end_time',end_time);      
-                self.$axios({
-                    method: 'post',
-                    url: '/stop/org/sign/log/getByPage',
-                    data: params,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
-                 }).then(function(data){
-                    if(data.data.code==0){
-                       self.tableData5 = data.data.data.list;
-                       self.total =  data.data.data.total;
-                    }else{
-                      self.$response(data,self);
-                    }
-                 });      
-          },
-          //递归处理树形结构最后一项为空
-          digui(data){
-            for(var i = 0; i<data.length;i++){
-              if(data[i].children.length==0){
-                var obj = {};
-                obj.label = data[i].label;
-                obj.org_id = data[i].org_id;
-                obj.org_type = data[i].org_type;
-                obj.value = data[i].value;
-                data[i] = obj;
-              }else{
-                this.digui(data[i].children)
-              }
-            }
-            this.data = data;
-            return data
-          },
-          //获取分组信息
-          getOrgsList(){
-                const self = this;
-                var params = new URLSearchParams();
-                var token = localStorage.getItem('auth');
-                // params.append('currentPage',self.currentPage);        
-                self.$axios({
-                    method: 'post',
-                    url: '/stop/getOrgTree',
-                    data: params,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
-                 }).then(function(data){
-                    if(data.data.code==0){
-                       self.options = self.digui(data.data.data);
-
-                    }else{
-                      self.$response(data,self);
-                    }
-                 });
-          },
+         
       }
      
   }
@@ -616,7 +468,7 @@
     }
     .tableList{
       width: 99%;
-      height: 540px!important;
+      height: 575px!important;
       overflow-y: scroll;
       border:1px solid #231a75;
      /* border-radius: 20px;*/

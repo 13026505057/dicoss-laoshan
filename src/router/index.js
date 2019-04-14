@@ -103,6 +103,11 @@ export default new Router({
                     component: resolve => require(['../components/page/actionHistory.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
+                    name: '现场还原',
+                    path: '/videoHistory',
+                    component: resolve => require(['../components/page/videoHistory.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
                     name: '打印测试',
                     path: '/printTest',
                     component: resolve => require(['../components/page/printTest.vue'], resolve) // Vue-Quill-Editor组件

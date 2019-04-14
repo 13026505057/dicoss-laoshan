@@ -1,7 +1,7 @@
 <template>
    <!--  <p class="page-container">检测到该账号暂未绑定公众号</p> -->
    <div>
-      <p class="page-container">此功能暂未开通</p>
+      <p class="page-container">未检测到硬件设备</p>
       <!-- <p class="page-container1" @click="handleClick2">绑定公众号</p> -->
    </div>
 </template>

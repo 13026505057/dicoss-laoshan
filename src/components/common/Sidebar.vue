@@ -95,11 +95,6 @@
                     },
                     {
                         icon: 'el-icon-setting',
-                        index: 'actionHistory',
-                        title: '操作记录'
-                    },
-                    {
-                        icon: 'el-icon-setting',
                         index: '4',
                         title: '盘点管理',
                         subs:[
@@ -113,6 +108,17 @@
                             },
                         ]
                     },
+                    {
+                        icon: 'el-icon-setting',
+                        index: 'actionHistory',
+                        title: '操作记录'
+                    },
+                    {
+                        icon: 'el-icon-setting',
+                        index: 'videoHistory',
+                        title: '现场还原'
+                    },
+                    
                     {
                         icon: 'el-icon-setting',
                         index: 'history',

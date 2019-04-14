@@ -45,7 +45,7 @@
         </div> -->
         <el-dialog title="案卷详情" :visible.sync="case_detail_dialog">
           <el-table
-              :data="tableData5"
+              :data="exhibits"
               :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
               :row-style="rowStyle"
               class="tableClass"
@@ -58,7 +58,7 @@
               <el-table-column
                 label="案卷编号"
                 align="center"
-                prop="case_number">
+                prop="exhibit_id">
                 <!-- <template slot-scope="props">
                   <span>签到考勤</span>
                 </template> -->
@@ -66,8 +66,10 @@
               <el-table-column
                 label="案卷状态"
                 align="center"
-                prop="case_name"
                 >
+                <template slot-scope="props">
+                  <span v-bind:class="[props.row.stock_status=='in'?'':'colorRed']">{{props.row.stock_status=='in'?'已入库':'待入库'}}</span>
+                </template>
               </el-table-column>
               <el-table-column
                 label="存放位置"
@@ -81,7 +83,7 @@
                 align="center"
                 >
                 <template slot-scope="props">
-                  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="updataClick(props.row)">补打条码</el-button>
+                  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printAgain(props.row)">补打条码</el-button>
                 </template>
               </el-table-column>
             </el-table> 
@@ -101,7 +103,7 @@
           
           <div class="tableList">
             <el-table
-              :data="tableData5"
+              :data="caseList"
               :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
               :row-style="rowStyle"
               class="tableClass"
@@ -114,7 +116,7 @@
               <el-table-column
                 label="案件编号"
                 align="center"
-                prop="case_number">
+                prop="case_bh">
                 <!-- <template slot-scope="props">
                   <span>签到考勤</span>
                 </template> -->
@@ -128,7 +130,7 @@
               <el-table-column
                 label="案件类型"
                 align="center"
-                prop="case_type"
+                prop="case_type_name"
                 >
               </el-table-column>
               <el-table-column
@@ -136,7 +138,7 @@
                 align="center"
                 show-overflow-tooltip
                 width="400"
-                prop="case_des"
+                prop="case_desc"
                 >
               </el-table-column>
               <el-table-column
@@ -146,28 +148,41 @@
                 >
               </el-table-column>
               <el-table-column
+                label="案卷号"
+                align="center"
+                prop="exhibit_id"
+                >
+              </el-table-column>
+              <el-table-column
                 label="入库时间"
                 align="center"
-                prop="case_user"
+                prop="stock_log_time"
                 >
               </el-table-column>
-              <el-table-column
-                label="存放位置"
-                align="center"
-                prop="case_user"
-                >
-              </el-table-column>
-              <el-table-column
+              <!-- <el-table-column
                 label="操作"
-                width="150px"
+                width="300px"
                 align="center"
                 >
                 <template slot-scope="props">
                   <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
               
-              
+              <!-- <el-table-column
+                align="center"
+                label="操作">
+                <template slot-scope="props">
+                  <el-button
+                  size="mini"
+                  type="danger"
+                  @click="handleupDate(props.row)">修改</el-button>
+                  <el-button
+                  size="mini"
+                  type="danger"
+                  @click="handleEdit(props.row)">删除</el-button>
+                </template>
+              </el-table-column> -->
             </el-table> 
                 
           </div>
@@ -193,7 +208,6 @@
   export default {
       data: function(){
           return {
-              date:[],
               case_detail_dialog:false,
               case_number:'',
               options4: [],
@@ -201,12 +215,14 @@
               list: [],
               loading: false,
               states: [],
-              tableData5: [
+              date:[],
+              caseList: [
                 {
                   case_name:'ceshi',
-                  case_des:'哈哈是尽快的哈手机客户端手机卡带回家开始的健康哈哈是健康带回家卡萨哈哈是可敬的哈数据库好道具卡圣诞节看哈涉及到哈数据库等哈说客家话大客户就撒谎接地卡萨好看的哈萨克较好的空间撒谎的空间撒好看的接口撒很快就到哈市科技带回家撒客户空间哈哈是尽快的哈手机客户端手机卡带回家开始的健康哈哈是健康带回家卡萨哈哈是可敬的哈数据库好道具卡圣诞节看哈涉及到哈数据库等哈说客家话'
+                  case_desc:'哈哈是尽快的哈手机客户端手机卡带回家开始的健康哈哈是健康带回家卡萨哈哈是可敬的哈数据库好道具卡圣诞节看哈涉及到哈数据库等哈说客家话大客户就撒谎接地卡萨好看的哈萨克较好的空间撒谎的空间撒好看的接口撒很快就到哈市科技带回家撒客户空间哈哈是尽快的哈手机客户端手机卡带回家开始的健康哈哈是健康带回家卡萨哈哈是可敬的哈数据库好道具卡圣诞节看哈涉及到哈数据库等哈说客家话'
                 }
               ],
+              exhibits:[],
               total:0,
               pageNum:1,
               pageSize:10,
@@ -217,49 +233,119 @@
               
       },
       mounted() {
-          
+          this.getDataList();
           
       },
       methods: {
+          getConfigResult(e){
+            console.log(e)
+            // if(e.data==101){
+            //   router.push('/readme')
+            // }else if(e.data==102){
+            //   router.push('/jiedurenliebiao')
+            // }else if(e.data==103){
+            //   router.push('/jiedurendangan')
+            // }else{
+            //   router.push('/jingyuanliebiao')
+            // }
+          },
           //案卷详情点击事件
           caseDetailClick(res){
+            this.$socketApi.sendSock('text',this.getConfigResult);
+            this.exhibits = res.exhibits;
             this.case_detail_dialog = true;
           },
           //查询事件
           searchClick(){
 
           },
+          //补打条码
+          printAgain(res){
+                var self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+
+                
+                params.append('exhibit_id',res.exhibit_id);
+                
+                const loading = self.$loading({
+                  lock: true,
+                  text: '打印中',
+                  spinner: 'el-icon-loading',
+                  background: 'rgba(0, 0, 0, 0.6)'
+                });
+                self.$axios({
+                    method: 'post',
+                    url: '/exhibit/exhibit/printAgain',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                      loading.close();
+                      self.$message({
+                        type: 'success',
+                        message: '已发送打印请求'
+                      });
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
           //条码打印事件
-          printClick(){
+          printClick(res){
             var self = this;
-            this.$confirm('即将打印该案件的第1份案卷条码, 是否继续?', '提示', {
+            var numCount = res.exhibits.length+1;
+            this.$confirm('即将打印该案件的第'+numCount+'份案卷条码, 是否继续?', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'
             }).then(() => {
-              const loading = self.$loading({
-                lock: true,
-                text: '打印中',
-                spinner: 'el-icon-loading',
-                background: 'rgba(0, 0, 0, 0.6)'
-              });
-              setTimeout(() => {
-                loading.close();
-              }, 2000);
-              // this.$message({
-              //   type: 'success',
-              //   message: '删除成功!'
-              // });
+
+                const loading = self.$loading({
+                  lock: true,
+                  text: '打印中',
+                  spinner: 'el-icon-loading',
+                  background: 'rgba(0, 0, 0, 0.6)'
+                });
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+
+                params.append('case_id',res.case_id);
+                params.append('exhibit_name','');
+                
+
+                self.$axios({
+                    method: 'post',
+                    url: '/exhibit/exhibit/add',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                      loading.close();
+                      self.$message({
+                        type: 'success',
+                        message: '已发送打印请求'
+                      });
+                      self.getDataList();
+                    }else{
+
+                      self.$response(data,self);
+                      loading.close();
+                    }
+                 });
+              
             }).catch(() => {
-              // this.$message({
-              //   type: 'info',
-              //   message: '已取消删除'
-              // });          
+              this.$message({
+                type: 'info',
+                message: '已取消打印'
+              });          
             });
           },
           //分页器点击事件
           pageChange(){
-
+            this.getDataList();
           },
           //分页器点击事件
           pageChange2(){
@@ -285,26 +371,54 @@
           //关键字模糊查询提示
           getNameList(query){
                 const self = this;
-                var params = new URLSearchParams();
                 self.case_name = query;
+                var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
                 params.append('ad_user_true_name',self.name);
-                // self.$axios({
-                //     method: 'post',
-                //     url: '/stop/getAdUserNames',
-                //     data: params,
-                //     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
-                // }).then(function(data){
+                self.$axios({
+                    method: 'post',
+                    url: '/stop/getAdUserNames',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
                     
-                //     if(data.data.code==0){
-                //         self.states = data.data.data;
-                //         self.list = self.states.map(item => {
-                //           return { value: item.value, label: item.value};
-                //         });
-                //     }else{
-                //       self.$response(data,self);
-                //     }
-                // });
+                    if(data.data.code==0){
+                        self.states = data.data.data;
+                        self.list = self.states.map(item => {
+                          return { value: item.value, label: item.value};
+                        });
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
+          //获取默认列表数据
+          getDataList(){
+                const self = this;
+               
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+
+                params.append('pageNum',self.pageNum);
+                params.append('pageSize',self.pageSize);
+                // params.append('case_name',self.case_name);
+                // params.append('case_bh',self.case_number);
+                params.append('stock_log_type','in');
+
+                self.$axios({
+                    method: 'post',
+                    url: '/stock/stock-log/getByPage',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                        self.caseList = data.data.data.list;
+                        self.total = data.data.data.total;
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
           },
           
          //修改单元行颜色
@@ -354,7 +468,7 @@
     }
     .tableList{
       width: 99%;
-      height: 540px!important;
+      height: 575px!important;
       overflow-y: scroll;
       border:1px solid #231a75;
      /* border-radius: 20px;*/
