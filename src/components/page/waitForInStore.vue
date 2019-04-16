@@ -159,7 +159,7 @@
               <el-table-column
                 label="承办人"
                 align="center"
-                prop="case_user"
+                prop="case_take_user_name"
                 >
               </el-table-column>
               <el-table-column

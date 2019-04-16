@@ -300,7 +300,6 @@ import md5 from 'js-md5';
                     localStorage.removeItem('ad_user_true_name');
                     localStorage.removeItem('org_type');
                     localStorage.removeItem('ad_user_tel');
-                    self.$axios.defaults.baseURL = 'http://192.168.2.217:8080/dossier'
                     this.$router.push('/login');
                 }else if(command == 'open3'){
                     self.$prompt('请输入新密码(6-18位，字母开头且只能是字母数字组合)', '提示', {
