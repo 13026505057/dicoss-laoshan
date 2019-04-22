@@ -2,18 +2,32 @@
     <div>
         
         <div >
-
+            <div class="titleBg">年终总结</div>
             <div class="block">
                 
-                <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
+                <el-date-picker
+                  v-model="years"
+                  align="right"
+                  style="width: 250px;margin-left: 30px;"
+                  type="year"
+                  value-format="yyyy"
+                  placeholder="选择年">
+                </el-date-picker>
+                <el-date-picker
+                  v-model="months"
+                  type="month"
+                  value-format="yyyy-MM"
+                  style="width: 250px;margin-left: 30px;"
+                  placeholder="选择月">
+                </el-date-picker>
                 <!-- 关键词联想组建 -->
-                <el-select
+                <!-- <el-select
                   v-model="case_name"
                   style="width: 250px;margin-left: 30px;"
                   filterable
                   remote
                   reserve-keyword
-                  placeholder="请输入案件名"
+                  placeholder="选择部门"
                   :remote-method="remoteMethod"
                   :loading="loading">
                   <el-option
@@ -22,9 +36,9 @@
                     :label="item.label"
                     :value="item.value">
                   </el-option>
-                </el-select>
+                </el-select> -->
 
-                <el-date-picker
+                <!-- <el-date-picker
                   style="margin-left: 20px;width:420px;"
                   v-model="date"
                   type="daterange"
@@ -33,9 +47,10 @@
                   value-format="yyyy-MM-dd"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期">
-                </el-date-picker>
+                </el-date-picker> -->
                 
-                <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
+                <el-button type="warning" style="margin-left: 50px;" @click="searchClick">查询</el-button>
+                <el-button type="warning" style="margin-left: 30px;" @click="addHistoryClick">年终总结</el-button>
             </div>
 
           
@@ -43,6 +58,20 @@
         <!-- <div class="tree">
           <el-tree :data="data"    @node-click="handleNodeClick"></el-tree>
         </div> -->
+        <el-dialog title="年终总结" :visible.sync="addHisDialog">
+            <el-upload
+              style="text-align:center;"
+              class="upload-demo"
+              drag
+              :on-success="uploadSuccess"
+              :action="uploadUrl"
+              :headers="myHeaders"
+              multiple>
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+              <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
+        </el-dialog>
         <el-dialog title="案卷详情" :visible.sync="case_detail_dialog">
           <el-table
               :data="exhibits"
@@ -103,7 +132,8 @@
           
           <div class="tableList">
             <el-table
-              :data="caseList"
+              
+              :data="bumenList"
               :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
               :row-style="rowStyle"
               class="tableClass"
@@ -114,16 +144,7 @@
                 width="50">
               </el-table-column>
               <el-table-column
-                label="操作类型"
-                align="center"
-                >
-                <template slot-scope="props">
-                  <span>{{props.row.stock_log_type=='in'?'入库':'出库'}}</span>
-                </template>
-              </el-table-column>
-              
-              <el-table-column
-                label="案件编号"
+                label="文章标题"
                 align="center"
                 prop="case_bh">
                 <!-- <template slot-scope="props">
@@ -131,67 +152,29 @@
                 </template> -->
               </el-table-column>
               <el-table-column
-                label="案件名称"
+                label="上传时间"
                 align="center"
                 prop="case_name"
+                
                 >
               </el-table-column>
               <el-table-column
-                label="案件类型"
+                label="上传人"
                 align="center"
                 prop="case_type_name"
                 >
               </el-table-column>
+              
               <el-table-column
-                label="案件描述"
-                align="center"
-                show-overflow-tooltip
-                width="400"
-                prop="case_desc"
-                >
-              </el-table-column>
-              <el-table-column
-                label="承办人"
-                align="center"
-                prop="case_take_user_name"
-                >
-              </el-table-column>
-              <el-table-column
-                label="案卷号"
-                align="center"
-                prop="exhibit_id"
-                >
-              </el-table-column>
-              <el-table-column
-                label="操作时间"
-                align="center"
-                prop="stock_log_time"
-                >
-              </el-table-column>
-              <!-- <el-table-column
                 label="操作"
                 width="300px"
                 align="center"
                 >
                 <template slot-scope="props">
-                  <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                  <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="downLoad(props.row)">下载</el-button>
+                  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="delClick(props.row)">删除</el-button>
                 </template>
-              </el-table-column> -->
-              
-              <!-- <el-table-column
-                align="center"
-                label="操作">
-                <template slot-scope="props">
-                  <el-button
-                  size="mini"
-                  type="danger"
-                  @click="handleupDate(props.row)">修改</el-button>
-                  <el-button
-                  size="mini"
-                  type="danger"
-                  @click="handleEdit(props.row)">删除</el-button>
-                </template>
-              </el-table-column> -->
+              </el-table-column>
             </el-table> 
                 
           </div>
@@ -218,55 +201,87 @@
       data: function(){
           return {
               case_detail_dialog:false,
+              years:'2019',
+              months:'2019-04',
               case_number:'',
               options4: [],
               case_name: [],
               list: [],
               loading: false,
               states: [],
-              date:[],
+              bumenList:[{
+                case_name:1
+              }],
               caseList: [
                 {
-                  case_name:'ceshi',
-                  case_des:'哈哈是尽快的哈手机客户端手机卡带回家开始的健康哈哈是健康带回家卡萨哈哈是可敬的哈数据库好道具卡圣诞节看哈涉及到哈数据库等哈说客家话大客户就撒谎接地卡萨好看的哈萨克较好的空间撒谎的空间撒好看的接口撒很快就到哈市科技带回家撒客户空间哈哈是尽快的哈手机客户端手机卡带回家开始的健康哈哈是健康带回家卡萨哈哈是可敬的哈数据库好道具卡圣诞节看哈涉及到哈数据库等哈说客家话'
+                  case_name:2
                 }
               ],
-              exhibits:[],
+              
+              exhibits:[{
+
+              }],
               total:0,
               pageNum:1,
               pageSize:10,
               total2:0,
               pageNum2:1,
-              pageSize2:10
+              pageSize2:10,
+              addHisDialog:false,
+              uploadUrl:'',
+              myHeaders:''
             }
               
       },
       mounted() {
-          this.getDataList();
-          
+          // this.getDataList();
+          this.getNameList();
+          var myHeaders = localStorage.getItem('auth');
+          var uploadUrl = this.$axios.defaults.baseURL+'/cases/cases/addByExcel';
+          this.uploadUrl = uploadUrl;
+          var token = {"kf-token":myHeaders};
+          this.myHeaders = token;
       },
       methods: {
-          getConfigResult(e){
-            console.log(e)
-            // if(e.data==101){
-            //   router.push('/readme')
-            // }else if(e.data==102){
-            //   router.push('/jiedurenliebiao')
-            // }else if(e.data==103){
-            //   router.push('/jiedurendangan')
-            // }else{
-            //   router.push('/jingyuanliebiao')
-            // }
+          // cellClick(row, column, cell, event){
+          //   this.addHisDialog = true;
+          //   console.log(row)
+          //   console.log(column.property)
+          // },
+          uploadSuccess(){
+            this.$message({
+              type: 'success',
+              message: '上传成功'
+            });
+            this.addHisDialog = false;
+            this.getDataList();
           },
+          addHistoryClick(){
+            this.addHisDialog = true;
+          },
+          // getConfigResult(e){
+          //   console.log(e)
+          //   // if(e.data==101){
+          //   //   router.push('/readme')
+          //   // }else if(e.data==102){
+          //   //   router.push('/jiedurenliebiao')
+          //   // }else if(e.data==103){
+          //   //   router.push('/jiedurendangan')
+          //   // }else{
+          //   //   router.push('/jingyuanliebiao')
+          //   // }
+          // },
           //案卷详情点击事件
-          caseDetailClick(res){
-            this.$socketApi.sendSock('text',this.getConfigResult);
-            this.exhibits = res.exhibits;
-            this.case_detail_dialog = true;
+          downLoad(res){
+            // this.$socketApi.sendSock('text',this.getConfigResult);
+            // this.exhibits = res.exhibits;
+            // this.case_detail_dialog = true;
           },
           //查询事件
           searchClick(){
-            this.getDataList();
+            console.log(this.months)
+            console.log(this.years)
+            // this.getDataList();
           },
           //补打条码
           printAgain(res){
@@ -302,26 +317,26 @@
                  });
           },
           //条码打印事件
-          printClick(res){
+          delClick(res){
             var self = this;
-            var numCount = res.exhibits.length+1;
-            this.$confirm('即将打印该案件的第'+numCount+'份案卷条码, 是否继续?', '提示', {
+            
+            this.$confirm('即将删除该文章, 是否继续?', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning'
             }).then(() => {
 
-                const loading = self.$loading({
-                  lock: true,
-                  text: '打印中',
-                  spinner: 'el-icon-loading',
-                  background: 'rgba(0, 0, 0, 0.6)'
-                });
+                // const loading = self.$loading({
+                //   lock: true,
+                //   text: '打印中',
+                //   spinner: 'el-icon-loading',
+                //   background: 'rgba(0, 0, 0, 0.6)'
+                // });
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
 
                 params.append('case_id',res.case_id);
-                params.append('exhibit_name','');
+                params.append('exhibit_name',res.case_name);
                 
 
                 self.$axios({
@@ -332,10 +347,10 @@
                  }).then(function(data){
                     
                     if(data.data.code==0){
-                      loading.close();
+                      // loading.close();
                       self.$message({
                         type: 'success',
-                        message: '已发送打印请求'
+                        message: '删除成功'
                       });
                       self.getDataList();
                     }else{
@@ -348,7 +363,7 @@
             }).catch(() => {
               this.$message({
                 type: 'info',
-                message: '已取消打印'
+                message: '已取消删除'
               });          
             });
           },
@@ -407,24 +422,16 @@
                
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-                if(self.date==null||self.date.length==0){
-                  var begin_time = '';
-                  var end_time = '';
-                }else{
-                  var begin_time = self.date[0];
-                  var end_time = self.date[1];
-                }
-                params.append('begin_time',begin_time);
-                params.append('end_time',end_time);
+
                 params.append('pageNum',self.pageNum);
                 params.append('pageSize',self.pageSize);
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
-                params.append('stock_log_type','in');
+                params.append('stock_status','none');
 
                 self.$axios({
                     method: 'post',
-                    url: '/stock/stock-log/getByPage',
+                    url: '/cases/cases/getByPage',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
@@ -485,7 +492,7 @@
     }
     .tableList{
       width: 99%;
-      height: 575px!important;
+      height: 460px!important;
       overflow-y: scroll;
       border:1px solid #231a75;
      /* border-radius: 20px;*/

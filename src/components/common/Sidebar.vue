@@ -50,73 +50,146 @@ import md5 from 'js-md5';
                     },
                     {
                         icon: 'el-icon-setting',
-                        index: 'anjianchaxun',
-                        title: '案件查询'
+                        index: '0',
+                        title: '案件档案梳理',
+                        subs:[
+                            {   
+                                index: 'returnBacking',
+                                title: '> 待回执案件档案梳理'
+                            },
+                            {   
+                                index: 'returnBacked',
+                                title: '> 已回执案件档案梳理'
+                            },
+                            {   
+                                index: 'instore',
+                                title: '> 在库案件档案梳理表'
+                            },
+                            {   
+                                index: 'anjianchaxun',
+                                title: '> 整体案件档案梳理表'
+                            },
+                        ]
                     },
                     {
                         icon: 'el-icon-setting',
                         index: '1',
-                        title: '入库管理',
+                        title: '应入库档案管理',
                         subs:[
                             {   
                                 index: 'waitForInStore',
-                                title: '> 待入库'
+                                title: '> 应入库案件档案'
+                            },
+                            {   
+                                index: 'inStored',
+                                title: '> 已入库案件档案'
                             },
                             {   
                                 index: 'inStoreHistory',
-                                title: '> 入库历史'
+                                title: '> 案件档案归档操作记录'
                             },
                         ]
                     },
                     {
                         icon: 'el-icon-setting',
                         index: '2',
-                        title: '出库管理',
+                        title: '待出库档案管理',
                         subs:[
                             {   
                                 index: 'waitForOutStore',
-                                title: '> 待出库'
+                                title: '> 待出库案件档案'
+                            },
+                            {   
+                                index: 'outStored',
+                                title: '> 已出库案件档案'
                             },
                             {   
                                 index: 'outStoreHistory',
-                                title: '> 出库历史'
+                                title: '> 案件档案出库操作记录'
                             },
                         ]
                     },
                     {
                         icon: 'el-icon-setting',
                         index: '3',
-                        title: '归还管理',
+                        title: '待归还档案管理',
                         subs:[
                             {   
                                 index: 'returnStore',
-                                title: '> 待归还'
+                                title: '> 待归还案件档案'
+                            },
+                            {   
+                                index: 'returnStored',
+                                title: '> 已归还案件档案'
                             },
                             {   
                                 index: 'returnHistory',
-                                title: '> 归还历史'
+                                title: '> 案件档案归还历史'
                             },
                         ]
                     },
                     {
                         icon: 'el-icon-setting',
-                        index: 'waitForCheck',
-                        title: '盘点管理'
-                        // subs:[
-                        //     {   
-                        //         index: 'waitForCheck',
-                        //         title: '> 待盘点'
-                        //     },
-                        //     {   
-                        //         index: 'checkHistory',
-                        //         title: '> 盘点历史'
-                        //     },
-                        // ]
+                        index: '7',
+                        title: '档案盘点管理',
+                        subs:[
+                            {   
+                                index: 'checkByMounth',
+                                title: '> 月盘点管理'
+                            },
+                            {   
+                                index: 'checkByYear',
+                                title: '> 年盘点管理'
+                            },
+                            {   
+                                index: 'waitForCheck',
+                                title: '> 自定义盘点'
+                            },
+                        ]
                     },
                     {
                         icon: 'el-icon-setting',
-                        index: 'actionHistory',
-                        title: '统计分析'
+                        index: '8',
+                        title: '统计分析',
+                        subs:[
+                            {   
+                                index: 'chengbanrenBymonth',
+                                title: '> 承办人月归档梳理'
+                            },
+                            {   
+                                index: 'chengbanrenByYear',
+                                title: '> 承办人年归档梳理'
+                            },
+                            {   
+                                index: 'chengbanren',
+                                title: '> 承办人整体归档梳理'
+                            },
+                            {   
+                                index: 'bumenBymonth',
+                                title: '> 部门月归档梳理'
+                            },
+                            {   
+                                index: 'bumenByYear',
+                                title: '> 部门年归档梳理'
+                            },
+                            {   
+                                index: 'inStoreByBumen',
+                                title: '> 部门整体归档梳理'
+                            },
+                           
+                            {   
+                                index: 'bumenBymonthOut',
+                                title: '> 部门月借阅梳理'
+                            },
+                            {   
+                                index: 'bumenByYearOut',
+                                title: '> 部门年借阅梳理'
+                            },
+                            {   
+                                index: 'historyByBumen',
+                                title: '> 部门整体借阅梳理'
+                            }
+                        ]
                     },
                     {
                         icon: 'el-icon-setting',
@@ -352,6 +425,9 @@ import md5 from 'js-md5';
     .el-submenu .el-menu-item{
         background: #fff;
         border-bottom:none;
+    }
+    .el-menu-vertical-demo el-menu{
+        background-color: #ccc;
     }
 
 </style>

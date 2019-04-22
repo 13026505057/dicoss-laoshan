@@ -165,7 +165,7 @@
       option:{
      
           title: {
-              text: '在库案件数按月统计',
+              text: '入库案件按部门统计',
               subtext: '按月分布'
           },
           tooltip: {
@@ -217,13 +217,13 @@
                       }
                   },
               },
-              data: [32.6, 25.9, 39.0, 26.4, 28.7, 70.7, 75.6, 82.2, 48.7, 58.8, 16.0, 32.3],
+              data: [32, 25, 39, 26, 28, 70, 75, 82, 48, 58, 16, 32],
           }]
       },
       option1:{
      
           title: {
-              text: '在库案件数按月统计',
+              text: '出库案件按部门统计',
               subtext: '按月分布'
           },
           tooltip: {
@@ -275,13 +275,13 @@
                       }
                   },
               },
-              data: [32.6, 25.9, 39.0, 26.4, 28.7, 70.7, 75.6, 82.2, 48.7, 58.8, 16.0, 32.3],
+              data: [32, 25, 39, 26, 28, 70, 75, 82, 48, 58, 16, 32],
           }]
       },
       option2:{
      
           title: {
-              text: '在库案件数按月统计',
+              text: '入库案件按时间统计',
               subtext: '按月分布'
           },
           tooltip: {
@@ -333,13 +333,13 @@
                       }
                   },
               },
-              data: [32.6, 25.9, 39.0, 26.4, 28.7, 70.7, 75.6, 82.2, 48.7, 58.8, 16.0, 32.3],
+              data: [32, 25, 39, 26, 28, 70, 75, 82, 48, 58, 16, 32],
           }]
       },
       option3:{
      
           title: {
-              text: '在库案件数按月统计',
+              text: '出库案件按时间统计',
               subtext: '按月分布'
           },
           tooltip: {
@@ -391,7 +391,7 @@
                       }
                   },
               },
-              data: [32.6, 25.9, 39.0, 26.4, 28.7, 70.7, 75.6, 82.2, 48.7, 58.8, 16.0, 32.3],
+              data: [32, 25, 39, 26, 28, 70, 75, 82, 48, 58, 16, 32],
           }]
       }
     }
@@ -400,10 +400,10 @@
     
     this.getWeek();
     this.getDate();
-    this.getInByDept();
-    this.getOutByDept();
-    this.getInByTime();
-    this.getOutByTime();
+    // this.getInByDept();
+    // this.getOutByDept();
+    // this.getInByTime();
+    // this.getOutByTime();
     this.getUserName();
     this.loading();
     this.getNum();

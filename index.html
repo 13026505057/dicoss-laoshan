@@ -45,7 +45,16 @@
     })();
 </script> -->
 <style type="text/css" >
-.is-dark{
+  .badgeClass{
+   /* margin-top:10px;*/
+  }
+  .el-tabs__item{
+    width: 200px;
+    text-align: center;
+    height: 60px;
+    line-height: 60px;
+  }
+  .is-dark{
       width:500px!important;
     }
   .is-success{
@@ -87,7 +96,7 @@
    /* background-image: url(static/img/banner.jpg);*/
   }
   #app.el-dropdown-menu__item--divided:before, .el-menu, .el-menu--horizontal>.el-menu-item:not(.is-disabled):focus, .el-menu--horizontal>.el-menu-item:not(.is-disabled):hover, .el-menu--horizontal>.el-submenu .el-submenu__title:hover{
-        background-color:rgba(255,255,255,0.1)!important;
+        background-color:#eee!important;
   }
   .el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed{
     border-right:1px solid #231a75!important;
@@ -238,6 +247,7 @@
     .block{
       width: 98%;
       height: 90px;
+      margin-top:20px;
       border:1px solid #ccc;
       padding-left: 10px;
       line-height: 125px;
@@ -276,6 +286,22 @@
     .el-tree{
       background: #fff!important;
       color: #000!important;
+    }
+    .titleBg{
+      width:99%;
+      height: 100px;
+      background-image: url(./static/img/titleBg.png);
+      background-size:100%100%;
+      font-size: 35px;
+      line-height: 100px;
+      text-align: center;
+      color: red;
+      font-weight: 900;
+      text-shadow: 0 0 0 0.1px #fff;
+      -webkit-text-stroke: 0.3px white;
+      -webkit-text-fill-color:0.2px black;
+      letter-spacing: 10px;
+      font-family: 'KaiTi';
     }
 </style>
 </body>

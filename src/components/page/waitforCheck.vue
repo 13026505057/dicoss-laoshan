@@ -2,42 +2,8 @@
     <div>
         
         <div >
-
-            <div class="block">
-                
-                <el-input style="width:250px;" v-model="input" placeholder="案卷号查询"></el-input>
-                <!-- 关键词联想组建 -->
-                <el-select
-                  v-model="value9"
-                  style="width: 250px;margin-left: 30px;"
-                  filterable
-                  remote
-                  reserve-keyword
-                  placeholder="请输入关键词"
-                  :remote-method="remoteMethod"
-                  :loading="loading">
-                  <el-option
-                    v-for="item in options4"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-
-                <el-date-picker
-                  style="margin-left: 20px;width:420px;"
-                  v-model="date"
-                  type="daterange"
-                  range-separator="至"
-                  format="yyyy 年 MM 月 dd 日"
-                  value-format="yyyy-MM-dd"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期">
-                </el-date-picker>
-                
-                <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
-                <el-button type="warning" style="margin-left: 30px;" @click="addPandian">新增盘点</el-button>
-            </div>
+            <div class="titleBg">档案月盘点管理</div>
+            
 
           
         </div>
@@ -77,6 +43,11 @@
               class="tableClass"
               style="">
                 <el-table-column
+                  type="index"
+                  align="center"
+                  width="50">
+                </el-table-column>
+                <el-table-column
                   label="案件编号"
                   align="center"
                   prop="case_bh">
@@ -104,7 +75,7 @@
                   width="300"
                   align="center"
                   >
-                  <template slot-scope="props">
+                  <template slot-scope="props" v-if="props.row.check_status=='checked'?false:true">
                     <el-button size="mini" type="warning" style="margin-left: 10px;" @click="dealClick(props.row,'in')">
                     手动入库</el-button>
                     <el-button size="mini" type="warning" style="margin-left: 10px;" @click="dealClick(props.row,'miss')">
@@ -137,7 +108,11 @@
               :row-style="rowStyle"
               class="tableClass"
               style="">
-              
+              <el-table-column
+                type="index"
+                align="center"
+                width="50">
+              </el-table-column>
               <el-table-column
                 label="盘点名称"
                 align="center"
@@ -155,6 +130,29 @@
                 <template slot-scope="props">
                   <span :class="[props.row.check_status=='uncheck'?'colorRed':'']">{{props.row.check_status=='uncheck'?'未盘点':''}}{{props.row.check_status=='checked'?'已盘点':''}}</span>
                 </template>
+              </el-table-column>
+              <el-table-column
+                label="总案卷数量"
+                align="center"
+                >
+                <template slot-scope="props">
+                  <span :class="">{{props.row.check_quantity+props.row.uncheck_quantity+props.row.deal_quantity}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="已盘点案卷数量"
+                align="center"
+                prop="check_quantity">
+              </el-table-column>
+              <el-table-column
+                label="未盘点案卷数量"
+                align="center"
+                prop="uncheck_quantity">
+              </el-table-column>
+              <el-table-column
+                label="已处理异常案卷数量"
+                align="center"
+                prop="deal_quantity">
               </el-table-column>
               <el-table-column
                 label="操作"
@@ -395,6 +393,7 @@
                 params.append('pageNum',self.pageNum1);
                 params.append('pageSize',self.pageSize1); 
                 params.append('check_head_id','');
+                params.append('check_type','user');
                      
                 self.$axios({
                     method: 'post',
@@ -446,7 +445,7 @@
     }
     .tableList{
       width: 99%;
-      height: 540px!important;
+      height: 575px!important;
       overflow-y: scroll;
       border:1px solid #231a75;
      /* border-radius: 20px;*/

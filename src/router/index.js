@@ -53,6 +53,16 @@ export default new Router({
                     component: resolve => require(['../components/page/waitForCheck.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
+                    name: '月盘点',
+                    path: '/checkByMounth',
+                    component: resolve => require(['../components/page/checkByMounth.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '年盘点',
+                    path: '/checkByYear',
+                    component: resolve => require(['../components/page/checkByYear.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
                     name: '盘点历史',
                     path: '/checkHistory',
                     component: resolve => require(['../components/page/checkHistory.vue'], resolve) // Vue-Quill-Editor组件
@@ -123,9 +133,85 @@ export default new Router({
                     component: resolve => require(['../components/page/lishiyange.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
-                    name: '案件查询',
+                    name: '整体案件梳理',
                     path: '/anjianchaxun',
                     component: resolve => require(['../components/page/anjianchaxun.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '已回执案件梳理',
+                    path: '/returnBacked',
+                    component: resolve => require(['../components/page/returnBacked.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '待回执案件梳理',
+                    path: '/returnBacking',
+                    component: resolve => require(['../components/page/returnBacking.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '在库案件档案梳理表',
+                    path: '/instore',
+                    component: resolve => require(['../components/page/instore.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '部门归档梳理',
+                    path: '/inStoreByBumen',
+                    component: resolve => require(['../components/page/inStoreByBumen.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '部门借阅梳理',
+                    path: '/historyByBumen',
+                    component: resolve => require(['../components/page/historyByBumen.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '已入库案件档案',
+                    path: '/inStored',
+                    component: resolve => require(['../components/page/inStored.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '已出库案件档案',
+                    path: '/outStored',
+                    component: resolve => require(['../components/page/outStored.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '已归还案件档案',
+                    path: '/returnStored',
+                    component: resolve => require(['../components/page/returnStored.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '部门月归档统计',
+                    path: '/bumenByMonth',
+                    component: resolve => require(['../components/page/bumenByMonth.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '部门年归档统计',
+                    path: '/bumenByYear',
+                    component: resolve => require(['../components/page/bumenByYear.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '部门年借阅统计',
+                    path: '/bumenByYearOut',
+                    component: resolve => require(['../components/page/bumenByYearOut.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '部门月借阅统计',
+                    path: '/bumenByMonthOut',
+                    component: resolve => require(['../components/page/bumenByMonthOut.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+
+                    name: '承办人月归档梳理',
+                    path: '/chengbanrenByMonth',
+                    component: resolve => require(['../components/page/chengbanrenByMonth.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '承办人年归档梳理',
+                    path: '/chengbanrenByYear',
+                    component: resolve => require(['../components/page/chengbanrenByYear.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '承办人整体归档梳理',
+                    path: '/chengbanren',
+                    component: resolve => require(['../components/page/chengbanren.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
                     name: '打印测试',

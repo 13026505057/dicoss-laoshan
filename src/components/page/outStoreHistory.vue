@@ -2,7 +2,7 @@
     <div>
         
         <div >
-
+            <div class="titleBg">案件档案出库操作记录</div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
@@ -137,7 +137,6 @@
                 label="案件描述"
                 align="center"
                 show-overflow-tooltip
-                width="400"
                 prop="case_desc"
                 >
               </el-table-column>
@@ -500,7 +499,7 @@
     }
     .tableList{
       width: 99%;
-      height: 575px!important;
+      height: 460px!important;
       overflow-y: scroll;
       border:1px solid #231a75;
      /* border-radius: 20px;*/

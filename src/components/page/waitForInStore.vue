@@ -2,7 +2,7 @@
     <div>
         
         <div >
-
+            <div class="titleBg">待出库案件档案梳理</div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
@@ -36,14 +36,12 @@
                 </el-date-picker> -->
                 
                 <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
-                <el-button type="warning" style="margin-left: 30px;" @click="addHistoryClick">历史案卷导入</el-button>
+                <el-button type="warning" style="margin-left: 130px;" @click="addHisDialog=true">历史案卷导入</el-button>
+                
             </div>
 
           
         </div>
-        <!-- <div class="tree">
-          <el-tree :data="data"    @node-click="handleNodeClick"></el-tree>
-        </div> -->
         <el-dialog title="历史案件导入" :visible.sync="addHisDialog">
             <el-upload
               style="text-align:center;"
@@ -117,77 +115,501 @@
           
           
           <div class="tableList">
-            <el-table
-              :data="caseList"
-              :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
-              :row-style="rowStyle"
-              class="tableClass"
-              >
-              <el-table-column
-                type="index"
-                align="center"
-                width="50">
-              </el-table-column>
-              <el-table-column
-                label="案件编号"
-                align="center"
-                prop="case_bh">
-                <!-- <template slot-scope="props">
-                  <span>签到考勤</span>
-                </template> -->
-              </el-table-column>
-              <el-table-column
-                label="案件名称"
-                align="center"
-                prop="case_name"
-                >
-              </el-table-column>
-              <el-table-column
-                label="案件类型"
-                align="center"
-                prop="case_type_name"
-                >
-              </el-table-column>
-              <el-table-column
-                label="案件描述"
-                align="center"
-                show-overflow-tooltip
-                width="400"
-                prop="case_desc"
-                >
-              </el-table-column>
-              <el-table-column
-                label="承办人"
-                align="center"
-                prop="case_take_user_name"
-                >
-              </el-table-column>
-              <el-table-column
-                label="操作"
-                width="300px"
-                align="center"
-                >
-                <template slot-scope="props">
-                  <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
-                  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
-                </template>
-              </el-table-column>
-              
-              <!-- <el-table-column
-                align="center"
-                label="操作">
-                <template slot-scope="props">
-                  <el-button
-                  size="mini"
-                  type="danger"
-                  @click="handleupDate(props.row)">修改</el-button>
-                  <el-button
-                  size="mini"
-                  type="danger"
-                  @click="handleEdit(props.row)">删除</el-button>
-                </template>
-              </el-table-column> -->
-            </el-table> 
+            <el-tabs type="border-card" v-model="activeName" @tab-click="tabClick">
+              <el-tab-pane name="tabName1" class="tabClass">
+                <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
+                  侦监业务
+                  <el-badge :value="num1" :hidden="num1==0?true:false" :max="99" class="badgeClass"> 
+                  </el-badge>
+                </span>
+                 <el-table
+                  :data="caseList"
+                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                  :row-style="rowStyle"
+                  class="tableClass"
+                  >
+                  <el-table-column
+                    type="index"
+                    align="center"
+                    width="50">
+                  </el-table-column>
+                  <el-table-column
+                    label="案件编号"
+                    align="center"
+                    prop="case_bh">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="案件名称"
+                    align="center"
+                    prop="case_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件类型"
+                    align="center"
+                    prop="case_type_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件描述"
+                    align="center"
+                    show-overflow-tooltip
+                    prop="case_desc"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="总案卷数"
+                    align="center"
+                    prop="total_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="在库案卷数"
+                    align="center"
+                    prop="in_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="待入库案卷数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                     <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
+                    </template>
+                  </el-table-column>
+                </el-table> 
+              </el-tab-pane>
+              <el-tab-pane name="tabName2" class="tabClass">
+                <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
+                  公诉业务
+                  <el-badge :value="num2" :hidden="num2==0?true:false" :max="99" class="badgeClass"> 
+                  </el-badge>
+                </span>
+                <el-table
+                  :data="caseList"
+                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                  :row-style="rowStyle"
+                  class="tableClass"
+                  >
+                  <el-table-column
+                    type="index"
+                    align="center"
+                    width="50">
+                  </el-table-column>
+                  <el-table-column
+                    label="案件编号"
+                    align="center"
+                    prop="case_bh">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="案件名称"
+                    align="center"
+                    prop="case_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件类型"
+                    align="center"
+                    prop="case_type_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件描述"
+                    align="center"
+                    show-overflow-tooltip
+                    prop="case_desc"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="总案卷数"
+                    align="center"
+                    prop="total_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="在库案卷数"
+                    align="center"
+                    prop="in_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="待入库案卷数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                     <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-tab-pane>
+              <el-tab-pane name="tabName3" class="tabClass">
+                <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
+                  民行业务
+                  <el-badge :value="num3" :hidden="num3==0?true:false" :max="99" class="badgeClass"> 
+                  </el-badge>
+                </span>
+                <el-table
+                  :data="caseList"
+                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                  :row-style="rowStyle"
+                  class="tableClass"
+                  >
+                  <el-table-column
+                    type="index"
+                    align="center"
+                    width="50">
+                  </el-table-column>
+                  <el-table-column
+                    label="案件编号"
+                    align="center"
+                    prop="case_bh">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="案件名称"
+                    align="center"
+                    prop="case_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件类型"
+                    align="center"
+                    prop="case_type_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件描述"
+                    align="center"
+                    show-overflow-tooltip
+                    prop="case_desc"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="总案卷数"
+                    align="center"
+                    prop="total_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="在库案卷数"
+                    align="center"
+                    prop="in_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="待入库案卷数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                     <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-tab-pane>
+              <el-tab-pane name="tabName4" class="tabClass">
+                <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
+                  执检业务
+                  <el-badge :value="num4" :hidden="num4==0?true:false" :max="99" class="badgeClass"> 
+                  </el-badge>
+                </span>
+                <el-table
+                  :data="caseList"
+                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                  :row-style="rowStyle"
+                  class="tableClass"
+                  >
+                  <el-table-column
+                    type="index"
+                    align="center"
+                    width="50">
+                  </el-table-column>
+                  <el-table-column
+                    label="案件编号"
+                    align="center"
+                    prop="case_bh">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="案件名称"
+                    align="center"
+                    prop="case_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件类型"
+                    align="center"
+                    prop="case_type_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件描述"
+                    align="center"
+                    show-overflow-tooltip
+                    prop="case_desc"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="总案卷数"
+                    align="center"
+                    prop="total_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="在库案卷数"
+                    align="center"
+                    prop="in_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="待入库案卷数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                     <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-tab-pane>
+              <el-tab-pane name="tabName5" class="tabClass">
+                <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
+                  控申业务
+                  <el-badge :value="num5" :hidden="num5==0?true:false" :max="99" class="badgeClass"> 
+                  </el-badge>
+                </span>
+                <el-table
+                  :data="caseList"
+                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                  :row-style="rowStyle"
+                  class="tableClass"
+                  >
+                  <el-table-column
+                    type="index"
+                    align="center"
+                    width="50">
+                  </el-table-column>
+                  <el-table-column
+                    label="案件编号"
+                    align="center"
+                    prop="case_bh">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="案件名称"
+                    align="center"
+                    prop="case_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件类型"
+                    align="center"
+                    prop="case_type_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件描述"
+                    align="center"
+                    show-overflow-tooltip
+                    prop="case_desc"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="总案卷数"
+                    align="center"
+                    prop="total_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="在库案卷数"
+                    align="center"
+                    prop="in_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="待入库案卷数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                     <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-tab-pane>
+              <el-tab-pane name="tabName6" class="tabClass">
+                <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
+                  未检业务
+                  <el-badge :value="num6" :hidden="num6==0?true:false" :max="99" class="badgeClass"> 
+                  </el-badge>
+                </span>
+                <el-table
+                  :data="caseList"
+                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                  :row-style="rowStyle"
+                  class="tableClass"
+                  >
+                  <el-table-column
+                    type="index"
+                    align="center"
+                    width="50">
+                  </el-table-column>
+                  <el-table-column
+                    label="案件编号"
+                    align="center"
+                    prop="case_bh">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="案件名称"
+                    align="center"
+                    prop="case_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件类型"
+                    align="center"
+                    prop="case_type_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件描述"
+                    align="center"
+                    show-overflow-tooltip
+                    prop="case_desc"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="总案卷数"
+                    align="center"
+                    prop="total_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="在库案卷数"
+                    align="center"
+                    prop="in_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="待入库案卷数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{num1}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                     <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-tab-pane>
+            </el-tabs>
+           
                 
           </div>
           <el-pagination
@@ -212,6 +634,13 @@
   export default {
       data: function(){
           return {
+              num1:0,
+              num2:0,
+              num3:0,
+              num4:0,
+              num5:0,
+              num6:0,
+              activeName:'tabName1',
               case_detail_dialog:false,
               case_number:'',
               options4: [],
@@ -242,8 +671,14 @@
           this.uploadUrl = uploadUrl;
           var token = {"kf-token":myHeaders};
           this.myHeaders = token;
+          this.getNumBage();
       },
       methods: {
+          tabClick(res){
+            console.log(res)
+            this.activeName = res.name;
+            this.getDataList();
+          },
           uploadSuccess(){
             this.$message({
               type: 'success',
@@ -410,10 +845,42 @@
                     }
                  });
           },
+          getNumBage(){
+                const self = this;
+               
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('tongyi_status','');
+                params.append('stock_status','none');
+
+                self.$axios({
+                    method: 'post',
+                    url: '/cases/cases/getCountForType',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                      
+                       self.num1 = data.data.data._30;
+                       self.num2 = data.data.data._31;
+                       self.num3 = data.data.data._32;
+                       self.num4 = data.data.data._33;
+                       self.num5 = data.data.data._34;
+                       self.num6 = data.data.data._35;
+                       // console.log(self.num1)
+                       // console.log(self.$children)
+                       self.$children[5].$children[0].$forceUpdate();
+                       // self.$forceUpdate()
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
           //获取默认列表数据
           getDataList(){
                 const self = this;
-               
+                self.getNumBage();
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
 
@@ -422,6 +889,29 @@
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
                 params.append('stock_status','none');
+                params.append('tongyi_status','');
+                switch(self.activeName){
+                case 'tabName1':
+                  params.append('case_type_id','30');
+                  break;
+                case 'tabName2':
+                  params.append('case_type_id','31');
+                  break;
+                case 'tabName3':
+                  params.append('case_type_id','32');
+                  break;
+                case 'tabName4':
+                  params.append('case_type_id','33');
+                  break;
+                case 'tabName5':
+                  params.append('case_type_id','34');
+                  break;
+                case 'tabName6':
+                  params.append('case_type_id','35');
+                  break;
+                default:
+                  
+                }
 
                 self.$axios({
                     method: 'post',
@@ -468,6 +958,7 @@
 </script>
 
 <style scoped>
+    
     .tree{
       float: left;
       width: 20%;
@@ -486,7 +977,7 @@
     }
     .tableList{
       width: 99%;
-      height: 540px!important;
+      height: 460px!important;
       overflow-y: scroll;
       border:1px solid #231a75;
      /* border-radius: 20px;*/
