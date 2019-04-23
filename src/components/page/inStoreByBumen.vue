@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">部门归档梳理</div>
+            <div class="titleBg">部门整体归档梳理</div>
             <div class="block">
                 
                 <el-date-picker
@@ -22,7 +22,7 @@
                 </el-date-picker>
                 <!-- 关键词联想组建 -->
                 <el-select
-                  v-model="case_name"
+                  v-model="user_true_name"
                   style="width: 250px;margin-left: 30px;"
                   filterable
                   remote
@@ -178,6 +178,7 @@
           
           <div class="tableList">
             <el-table
+              v-loading="tableLoading"
               @cell-click="cellClick"
               :data="bumenList"
               :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
@@ -190,44 +191,39 @@
                 width="50">
               </el-table-column>
               <el-table-column
-                label="部门名称"
+                label="部门"
                 align="center"
-                prop="case_bh">
+                prop="dept_name">
                 <!-- <template slot-scope="props">
                   <span>签到考勤</span>
                 </template> -->
               </el-table-column>
+              
               <el-table-column
                 label="应归档数量"
                 align="center"
-                prop="case_name"
+                prop="init_quantity"
                 
                 >
               </el-table-column>
               <el-table-column
                 label="待归档数量"
                 align="center"
-                prop="case_type_name"
+                prop="none_quantity"
                 >
               </el-table-column>
               <el-table-column
-                label="未归档数量"
+                label="逾期未归档数量"
                 align="center"
                 style="color:red;"
-                prop="case_desc"
+                prop="out_time_none_quantity"
                 >
               </el-table-column>
               <el-table-column
-                label="未及时归档数量"
+                label="逾期已归档"
                 align="center"
                 style="color:red;"
-                prop="case_take_user_name"
-                >
-              </el-table-column>
-              <el-table-column
-                label="总案卷数"
-                align="center"
-                prop="total_quantity"
+                prop="out_time_in_quantity"
                 >
               </el-table-column>
               <!-- <el-table-column
@@ -265,12 +261,13 @@
   export default {
       data: function(){
           return {
+              tableLoading:false,
               case_detail_dialog:false,
               years:'2019',
               months:'2019-04',
               case_number:'',
               options4: [],
-              case_name: [],
+              user_true_name: [],
               list: [],
               loading: false,
               states: [],
@@ -299,8 +296,8 @@
               
       },
       mounted() {
-          // this.getDataList();
-          this.getNameList();
+          this.getDataList();
+          this.getNameList('');
           var myHeaders = localStorage.getItem('auth');
           var uploadUrl = this.$axios.defaults.baseURL+'/cases/cases/addByExcel';
           this.uploadUrl = uploadUrl;
@@ -309,9 +306,9 @@
       },
       methods: {
           cellClick(row, column, cell, event){
-            this.addHisDialog = true;
-            console.log(row)
-            console.log(column.property)
+            // this.addHisDialog = true;
+            // console.log(row)
+            // console.log(column.property)
           },
           uploadSuccess(){
             this.$message({
@@ -460,22 +457,25 @@
           //关键字模糊查询提示
           getNameList(query){
                 const self = this;
-                self.case_name = query;
+                self.user_true_name = query;
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-                params.append('ad_user_true_name',self.name);
+                params.append('pageNum',1);
+                params.append('pageSize',10);
+                params.append('dept_name',query);
                 self.$axios({
                     method: 'post',
-                    url: '/stop/getAdUserNames',
+                    url: '/dept/getByPage',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
                     
                     if(data.data.code==0){
-                        self.states = data.data.data;
+                        self.states = data.data.data.list;
                         self.list = self.states.map(item => {
-                          return { value: item.value, label: item.value};
+                          return { value: item.dept_id, label: item.dept_name};
                         });
+                        self.options4 =  self.list
                     }else{
                       self.$response(data,self);
                     }
@@ -484,25 +484,25 @@
           //获取默认列表数据
           getDataList(){
                 const self = this;
-               
+                self.tableLoading = true;
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
 
                 params.append('pageNum',self.pageNum);
                 params.append('pageSize',self.pageSize);
-                params.append('case_name',self.case_name);
-                params.append('case_bh',self.case_number);
-                params.append('stock_status','none');
+                params.append('year_time',self.years);
+                params.append('month_time',self.months);
+                params.append('dept_id',self.user_true_name);
 
                 self.$axios({
                     method: 'post',
-                    url: '/cases/cases/getByPage',
+                    url: '/chart/getInitCaseCountByDept',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
-                    
+                    self.tableLoading = false;
                     if(data.data.code==0){
-                        self.caseList = data.data.data.list;
+                        self.bumenList = data.data.data.list;
                         self.total = data.data.data.total;
                     }else{
                       self.$response(data,self);

@@ -50,7 +50,7 @@
                 </el-date-picker> -->
                 
                 <el-button type="warning" style="margin-left: 50px;" @click="searchClick">查询</el-button>
-                <el-button type="warning" style="margin-left: 30px;" @click="addHistoryClick">年终总结</el-button>
+                <el-button type="warning" style="margin-left: 30px;" @click="addHistoryClick">借阅总结</el-button>
             </div>
 
           
@@ -58,18 +58,19 @@
         <!-- <div class="tree">
           <el-tree :data="data"    @node-click="handleNodeClick"></el-tree>
         </div> -->
-        <el-dialog title="年终总结" :visible.sync="addHisDialog">
+        <el-dialog title="借阅总结" :visible.sync="addHisDialog">
             <el-upload
               style="text-align:center;"
               class="upload-demo"
               drag
+              name="file"
               :on-success="uploadSuccess"
               :action="uploadUrl"
               :headers="myHeaders"
               multiple>
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-              <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+              <div class="el-upload__tip" slot="tip">只能上传word/pdf/excle文件，且不超过500kb</div>
             </el-upload>
         </el-dialog>
         <el-dialog title="案卷详情" :visible.sync="case_detail_dialog">
@@ -146,7 +147,7 @@
               <el-table-column
                 label="文章标题"
                 align="center"
-                prop="case_bh">
+                prop="file_name">
                 <!-- <template slot-scope="props">
                   <span>签到考勤</span>
                 </template> -->
@@ -154,14 +155,14 @@
               <el-table-column
                 label="上传时间"
                 align="center"
-                prop="case_name"
+                prop="upload_time"
                 
                 >
               </el-table-column>
               <el-table-column
                 label="上传人"
                 align="center"
-                prop="case_type_name"
+                prop="upload_user_name"
                 >
               </el-table-column>
               
@@ -209,9 +210,7 @@
               list: [],
               loading: false,
               states: [],
-              bumenList:[{
-                case_name:1
-              }],
+              bumenList:[],
               caseList: [
                 {
                   case_name:2
@@ -234,10 +233,10 @@
               
       },
       mounted() {
-          // this.getDataList();
-          this.getNameList();
+          this.getDataList();
+          // this.getNameList();
           var myHeaders = localStorage.getItem('auth');
-          var uploadUrl = this.$axios.defaults.baseURL+'/cases/cases/addByExcel';
+          var uploadUrl = this.$axios.defaults.baseURL+'/file/addYear';
           this.uploadUrl = uploadUrl;
           var token = {"kf-token":myHeaders};
           this.myHeaders = token;
@@ -248,13 +247,21 @@
           //   console.log(row)
           //   console.log(column.property)
           // },
-          uploadSuccess(){
-            this.$message({
-              type: 'success',
-              message: '上传成功'
-            });
-            this.addHisDialog = false;
-            this.getDataList();
+          uploadSuccess(response){
+            if(response.code==0){
+              this.$message({
+                type: 'success',
+                message: '上传成功'
+              });
+              this.addHisDialog = false;
+              this.getDataList();
+            }else{
+              this.$message({
+                type: 'error',
+                message: '上传失败'
+              });
+            }
+            
           },
           addHistoryClick(){
             this.addHisDialog = true;
@@ -425,19 +432,18 @@
 
                 params.append('pageNum',self.pageNum);
                 params.append('pageSize',self.pageSize);
-                params.append('case_name',self.case_name);
-                params.append('case_bh',self.case_number);
-                params.append('stock_status','none');
+                params.append('file_type','year');
+                
 
                 self.$axios({
                     method: 'post',
-                    url: '/cases/cases/getByPage',
+                    url: '/file/getByPage',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
                     
                     if(data.data.code==0){
-                        self.caseList = data.data.data.list;
+                        self.bumenList = data.data.data.list;
                         self.total = data.data.data.total;
                     }else{
                       self.$response(data,self);

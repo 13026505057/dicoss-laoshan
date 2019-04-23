@@ -57,11 +57,11 @@
                   <li v-for="v in json.list" style="position: relative;" @click="playClick()">
                     <img src="../../../static/img/zhanshitu.jpg"  alt="">
                     <img style="position: absolute;top:20px;left:170px;width:200px;height:200px;margin-left:-100px;" src="../../../static/img/iconPlay.png"  alt="">
-                    <h5 class="hstyle">案件名称</h5>
-                    <h5 class="hstyle">案卷号</h5>
-                    <h5 class="hstyle">操作员</h5>
-                    <h5 class="hstyle">承办人</h5>
-                    <h5 class="hstyle">操作位置</h5>
+                    <h5 class="hstyle">案件名:{{v.case_name}}</h5>
+                    <h5 class="hstyle">案件编号:{{v.case_id}}</h5>
+                    <h5 class="hstyle">操作员:宋</h5>
+                    <h5 class="hstyle">承办人:张江涛</h5>
+                    <h5 class="hstyle">{{v.location}}</h5>
                     <div>
                       <el-row>
                         <!-- <el-col :span="12"><div class="grid-content">
@@ -120,46 +120,60 @@
               json:{
               list:[
                 {
-                  src:'../../static/img/banner.jpg',
-                  des:'这是第三个描述',
-                  price:423,
-                  good_banner_img:[]
+                  case_name:'杨乐亮涉嫌故意伤害案',
+                  case_id:'1211',
+                  user_true_name:'朱元皓',
+                  user_true_name1:'辛麦',
+                  location:'04号架B-02-03'
                 },
                 {
-                  src:'../../static/img/banner.jpg',
-                  des:'这是第三个描述',
-                  price:423,
-                  good_banner_img:[]
+                  case_name:'史振会涉嫌故意伤害案',
+                  case_id:'1211',
+                  user_true_name:'朱元皓',
+                  user_true_name1:'辛麦',
+                  location:'23号架B-01-01'
                 },
                 {
-                  src:'../../static/img/banner.jpg',
-                  des:'这是第三个描述',
-                  price:423,
-                  good_banner_img:[]
+                  case_name:'史振会涉嫌故意伤害案',
+                  case_id:'1211',
+                  user_true_name:'朱元皓',
+                  user_true_name1:'辛麦',
+                  location:'12号架A-04-01'
                 },
                 {
-                  src:'../../static/img/banner.jpg',
-                  des:'这是第三个描述',
-                  price:423,
-                  good_banner_img:[]
+                  case_name:'杨乐亮涉嫌故意伤害案',
+                  case_id:'1211',
+                  user_true_name:'朱元皓',
+                  user_true_name1:'辛麦',
+                  location:'07号架A-06-06'
                 },
                 {
-                  src:'../../static/img/banner.jpg',
-                  des:'这是第三个描述',
-                  price:423,
-                  good_banner_img:[]
+                  case_name:'杨乐亮涉嫌故意伤害案',
+                  case_id:'1211',
+                  user_true_name:'朱元皓',
+                  user_true_name1:'辛麦',
+                  location:'04号架B-02-03'
                 },
                 {
-                  src:'../../static/img/banner.jpg',
-                  des:'这是第三个描述',
-                  price:423,
-                  good_banner_img:[]
+                  case_name:'史振会涉嫌故意伤害案',
+                  case_id:'1211',
+                  user_true_name:'朱元皓',
+                  user_true_name1:'辛麦',
+                  location:'23号架B-01-01'
                 },
                 {
-                  src:'../../static/img/banner.jpg',
-                  des:'这是第三个描述',
-                  price:423,
-                  good_banner_img:[]
+                  case_name:'史振会涉嫌故意伤害案',
+                  case_id:'1211',
+                  user_true_name:'朱元皓',
+                  user_true_name1:'辛麦',
+                  location:'12号架A-04-01'
+                },
+                {
+                  case_name:'杨乐亮涉嫌故意伤害案',
+                  case_id:'1211',
+                  user_true_name:'朱元皓',
+                  user_true_name1:'辛麦',
+                  location:'07号架A-06-06'
                 }
               ]
             },

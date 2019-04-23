@@ -6,6 +6,7 @@
             <div class="block">
                 <!-- 关键词联想组建 -->
                 <el-select
+                  clearable
                   v-model="user_true_name"
                   style="width: 250px;margin-left: 30px;"
                   filterable
@@ -162,8 +163,9 @@
           
           <div class="tableList">
             <el-table
+              v-loading="tableLoading"
               @cell-click="cellClick"
-              :data="bumenList"
+              :data="caseList"
               :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
               :row-style="rowStyle"
               class="tableClass"
@@ -176,7 +178,15 @@
               <el-table-column
                 label="承办人"
                 align="center"
-                prop="stock_transfer_user_name">
+                prop="user_true_name">
+                <!-- <template slot-scope="props">
+                  <span>签到考勤</span>
+                </template> -->
+              </el-table-column>
+              <el-table-column
+                label="时间"
+                align="center"
+                prop="month">
                 <!-- <template slot-scope="props">
                   <span>签到考勤</span>
                 </template> -->
@@ -184,36 +194,31 @@
               <el-table-column
                 label="应归档数量"
                 align="center"
-                prop="case_name"
+                prop="init_quantity"
                 
                 >
               </el-table-column>
               <el-table-column
                 label="待归档数量"
                 align="center"
-                prop="case_type_name"
+                prop="none_quantity"
                 >
               </el-table-column>
               <el-table-column
-                label="未归档数量"
+                label="逾期未归档数量"
                 align="center"
                 style="color:red;"
-                prop="case_desc"
+                prop="out_time_none_quantity"
                 >
               </el-table-column>
               <el-table-column
-                label="未及时归档数量"
+                label="逾期已归档"
                 align="center"
                 style="color:red;"
-                prop="case_take_user_name"
+                prop="out_time_in_quantity"
                 >
               </el-table-column>
-              <el-table-column
-                label="总案卷数"
-                align="center"
-                prop="total_quantity"
-                >
-              </el-table-column>
+              
               <!-- <el-table-column
                 label="操作"
                 width="300px"
@@ -249,6 +254,7 @@
   export default {
       data: function(){
           return {
+              tableLoading:false,
               case_detail_dialog:false,
               years:'2019',
               months:'2019-04',
@@ -293,9 +299,9 @@
       },
       methods: {
           cellClick(row, column, cell, event){
-            this.addHisDialog = true;
-            console.log(row)
-            console.log(column.property)
+            // this.addHisDialog = true;
+            // console.log(row)
+            // console.log(column.property)
           },
           uploadSuccess(){
             this.$message({
@@ -463,6 +469,7 @@
                         self.list = self.states.map(item => {
                           return { value: item.user_id, label: item.user_true_name};
                         });
+                        self.options4 = self.list;
                     }else{
                       self.$response(data,self);
                     }
@@ -471,17 +478,17 @@
           //获取默认列表数据
           getDataList(){
                 const self = this;
-               
+                self.tableLoading = true;
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-
                 params.append('pageNum',self.pageNum);
                 params.append('pageSize',self.pageSize);
-                params.append('user','none');
-                params.append('month','');
+                params.append('user_id',self.user_true_name);
+                
+                
                 self.$axios({
                     method: 'post',
-                    url: '/stock/stock-log/getByPage',
+                    url: '/chart/getInitCaseUserPerMonth',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
@@ -489,6 +496,7 @@
                     if(data.data.code==0){
                         self.caseList = data.data.data.list;
                         self.total = data.data.data.total;
+                        self.tableLoading = false;
                     }else{
                       self.$response(data,self);
                     }
