@@ -50,103 +50,138 @@ import md5 from 'js-md5';
                     },
                     {
                         icon: 'el-icon-setting',
-                        index: '0',
-                        title: '案件档案梳理',
+                        index: '10',
+                        title: '案管部门',
                         subs:[
                             {   
-                                index: 'returnBacking',
+                                index: 'waitForInStore1',
+                                title: '> 应入库案件确认'
+                            },
+                            {   
+                                index: 'returnBacking1',
                                 title: '> 待回执案件档案梳理'
                             },
                             {   
-                                index: 'returnBacked',
+                                index: 'returnBacked1',
                                 title: '> 已回执案件档案梳理'
                             },
                             {   
-                                index: 'instore',
+                                index: 'instore1',
                                 title: '> 在库案件档案梳理表'
                             },
                             {   
-                                index: 'anjianchaxun',
+                                index: 'anjianchaxun1',
                                 title: '> 整体案件档案梳理表'
                             },
                         ]
                     },
                     {
                         icon: 'el-icon-setting',
-                        index: '1',
-                        title: '应入库档案管理',
+                        index: '9',
+                        title: '档案部门',
                         subs:[
-                            {   
-                                index: 'waitForInStore',
-                                title: '> 应入库案件档案'
+                            {
+                                icon: 'el-icon-setting',
+                                index: '0',
+                                title: '案件档案梳理',
+                                subs:[
+                                    {   
+                                        index: 'returnBacking',
+                                        title: '> 待回执案件档案梳理'
+                                    },
+                                    {   
+                                        index: 'returnBacked',
+                                        title: '> 已回执案件档案梳理'
+                                    },
+                                    {   
+                                        index: 'instore',
+                                        title: '> 在库案件档案梳理表'
+                                    },
+                                    {   
+                                        index: 'anjianchaxun',
+                                        title: '> 整体案件档案梳理表'
+                                    },
+                                ]
                             },
-                            {   
-                                index: 'inStored',
-                                title: '> 已入库案件档案'
+                            {
+                                icon: 'el-icon-setting',
+                                index: '1',
+                                title: '应入库档案管理',
+                                subs:[
+                                    {   
+                                        index: 'waitForInStore',
+                                        title: '> 应入库案件档案'
+                                    },
+                                    {   
+                                        index: 'inStored',
+                                        title: '> 已入库案件档案'
+                                    },
+                                    {   
+                                        index: 'inStoreHistory',
+                                        title: '> 案件档案归档操作记录'
+                                    },
+                                ]
                             },
-                            {   
-                                index: 'inStoreHistory',
-                                title: '> 案件档案归档操作记录'
+                            {
+                                icon: 'el-icon-setting',
+                                index: '2',
+                                title: '待出库档案管理',
+                                subs:[
+                                    {   
+                                        index: 'waitForOutStore',
+                                        title: '> 待出库案件档案'
+                                    },
+                                    {   
+                                        index: 'outStored',
+                                        title: '> 已出库案件档案'
+                                    },
+                                    {   
+                                        index: 'outStoreHistory',
+                                        title: '> 案件档案出库操作记录'
+                                    },
+                                ]
+                            },
+                            {
+                                icon: 'el-icon-setting',
+                                index: '3',
+                                title: '待归还档案管理',
+                                subs:[
+                                    {   
+                                        index: 'returnStore',
+                                        title: '> 待归还案件档案'
+                                    },
+                                    {   
+                                        index: 'returnStored',
+                                        title: '> 已归还案件档案'
+                                    },
+                                    {   
+                                        index: 'returnHistory',
+                                        title: '> 案件档案归还历史'
+                                    },
+                                ]
+                            },
+                            {
+                                icon: 'el-icon-setting',
+                                index: '7',
+                                title: '档案盘点管理',
+                                subs:[
+                                    {   
+                                        index: 'checkByMounth',
+                                        title: '> 月盘点管理'
+                                    },
+                                    {   
+                                        index: 'checkByYear',
+                                        title: '> 年盘点管理'
+                                    },
+                                    {   
+                                        index: 'waitForCheck',
+                                        title: '> 自定义盘点'
+                                    },
+                                ]
                             },
                         ]
                     },
-                    {
-                        icon: 'el-icon-setting',
-                        index: '2',
-                        title: '待出库档案管理',
-                        subs:[
-                            {   
-                                index: 'waitForOutStore',
-                                title: '> 待出库案件档案'
-                            },
-                            {   
-                                index: 'outStored',
-                                title: '> 已出库案件档案'
-                            },
-                            {   
-                                index: 'outStoreHistory',
-                                title: '> 案件档案出库操作记录'
-                            },
-                        ]
-                    },
-                    {
-                        icon: 'el-icon-setting',
-                        index: '3',
-                        title: '待归还档案管理',
-                        subs:[
-                            {   
-                                index: 'returnStore',
-                                title: '> 待归还案件档案'
-                            },
-                            {   
-                                index: 'returnStored',
-                                title: '> 已归还案件档案'
-                            },
-                            {   
-                                index: 'returnHistory',
-                                title: '> 案件档案归还历史'
-                            },
-                        ]
-                    },
-                    {
-                        icon: 'el-icon-setting',
-                        index: '7',
-                        title: '档案盘点管理',
-                        subs:[
-                            {   
-                                index: 'checkByMounth',
-                                title: '> 月盘点管理'
-                            },
-                            {   
-                                index: 'checkByYear',
-                                title: '> 年盘点管理'
-                            },
-                            {   
-                                index: 'waitForCheck',
-                                title: '> 自定义盘点'
-                            },
-                        ]
-                    },
+                    
                     {
                         icon: 'el-icon-setting',
                         index: '8',

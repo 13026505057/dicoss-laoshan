@@ -2,8 +2,13 @@
     <div>
         
         <div >
-            <div class="titleBg">档案月盘点管理</div>
-            
+            <div class="titleBg">自定义盘点管理</div>
+            <div class="block">
+                
+               
+                <el-button type="warning" style="margin-left: 130px;" @click="dialogFormVisible=true">新建盘点任务</el-button>
+                
+            </div>
 
           
         </div>

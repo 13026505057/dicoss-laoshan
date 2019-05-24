@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">档案月盘点管理</div>
+            <div class="titleBg">档案年盘点管理</div>
             
 
           

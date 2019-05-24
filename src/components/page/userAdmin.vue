@@ -193,7 +193,7 @@
                 >
               </el-table-column>
               <el-table-column
-                label="工号"
+                label="账号"
                 align="center"
                 prop="username">
               </el-table-column>
@@ -205,19 +205,10 @@
               <el-table-column
                 label="部门"
                 align="center"
+                prop="dept_name"
                 >
-                <template slot-scope="props">
-                  <span v-for="item in props.row.userDepts">{{item.dept_name}}、</span>
-                </template>
               </el-table-column>
-              <el-table-column
-                label="职位"
-                align="center"
-                >
-                <template slot-scope="props">
-                  <span v-for="item in props.row.userPositions">{{item.position_name}}、</span>
-                </template>
-              </el-table-column>
+              
               <el-table-column
                 label="创建时间"
                 align="center"

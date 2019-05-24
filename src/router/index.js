@@ -138,9 +138,19 @@ export default new Router({
                     component: resolve => require(['../components/page/anjianchaxun.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
+                    name: '整体案件查询',
+                    path: '/anjianchaxun1',
+                    component: resolve => require(['../components/page/anjianchaxun1.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
                     name: '已回执案件梳理',
                     path: '/returnBacked',
                     component: resolve => require(['../components/page/returnBacked.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '已回执案件查询',
+                    path: '/returnBacked1',
+                    component: resolve => require(['../components/page/returnBacked1.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
                     name: '待回执案件梳理',
@@ -148,9 +158,19 @@ export default new Router({
                     component: resolve => require(['../components/page/returnBacking.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
+                    name: '待回执案件查询',
+                    path: '/returnBacking1',
+                    component: resolve => require(['../components/page/returnBacking1.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
                     name: '在库案件档案梳理表',
                     path: '/instore',
                     component: resolve => require(['../components/page/instore.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '在库案件档案查询',
+                    path: '/instore1',
+                    component: resolve => require(['../components/page/instore1.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
                     name: '部门归档梳理',
@@ -196,6 +216,11 @@ export default new Router({
                     name: '部门月借阅统计',
                     path: '/bumenByMonthOut',
                     component: resolve => require(['../components/page/bumenByMonthOut.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '应入库案件确认',
+                    path: '/waitForInstore1',
+                    component: resolve => require(['../components/page/waitForInstore1.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
 

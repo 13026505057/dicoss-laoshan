@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">待出库案件档案梳理</div>
+            <div class="titleBg">待归还案件档案梳理</div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
@@ -86,7 +86,7 @@
               <el-table-column
                 label="存放位置"
                 align="center"
-                prop="case_type"
+                prop="cell_name"
                 >
               </el-table-column>
               <el-table-column
@@ -118,7 +118,7 @@
               <el-tab-pane name="tabName1" class="tabClass">
                 <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
                   侦监业务
-                  <el-badge :value="num1" :hidden="num1==0?true:false" :max="99" class="badgeClass"> 
+                  <el-badge :value="num1" :hidden="num1==0?true:false" :max="9999" class="badgeClass"> 
                   </el-badge>
                 </span>
                  <el-table
@@ -200,7 +200,7 @@
               <el-tab-pane name="tabName2" class="tabClass">
                 <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
                   公诉业务
-                  <el-badge :value="num2" :hidden="num2==0?true:false" :max="99" class="badgeClass"> 
+                  <el-badge :value="num2" :hidden="num2==0?true:false" :max="9999" class="badgeClass"> 
                   </el-badge>
                 </span>
                 <el-table
@@ -282,7 +282,7 @@
               <el-tab-pane name="tabName3" class="tabClass">
                 <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
                   民行业务
-                  <el-badge :value="num3" :hidden="num3==0?true:false" :max="99" class="badgeClass"> 
+                  <el-badge :value="num3" :hidden="num3==0?true:false" :max="9999" class="badgeClass"> 
                   </el-badge>
                 </span>
                 <el-table
@@ -364,7 +364,7 @@
               <el-tab-pane name="tabName4" class="tabClass">
                 <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
                   执检业务
-                  <el-badge :value="num4" :hidden="num4==0?true:false" :max="99" class="badgeClass"> 
+                  <el-badge :value="num4" :hidden="num4==0?true:false" :max="9999" class="badgeClass"> 
                   </el-badge>
                 </span>
                 <el-table
@@ -446,7 +446,7 @@
               <el-tab-pane name="tabName5" class="tabClass">
                 <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
                   控申业务
-                  <el-badge :value="num5" :hidden="num5==0?true:false" :max="99" class="badgeClass"> 
+                  <el-badge :value="num5" :hidden="num5==0?true:false" :max="9999" class="badgeClass"> 
                   </el-badge>
                 </span>
                 <el-table
@@ -528,7 +528,171 @@
               <el-tab-pane name="tabName6" class="tabClass">
                 <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
                   未检业务
-                  <el-badge :value="num6" :hidden="num6==0?true:false" :max="99" class="badgeClass"> 
+                  <el-badge :value="num6" :hidden="num6==0?true:false" :max="9999" class="badgeClass"> 
+                  </el-badge>
+                </span>
+                <el-table
+                  :data="caseList"
+                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                  :row-style="rowStyle"
+                  class="tableClass"
+                  >
+                  <el-table-column
+                    type="index"
+                    align="center"
+                    width="50">
+                  </el-table-column>
+                  <el-table-column
+                    label="案件编号"
+                    align="center"
+                    prop="case_bh">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="案件名称"
+                    align="center"
+                    prop="case_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件类型"
+                    align="center"
+                    prop="case_type_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件描述"
+                    align="center"
+                    show-overflow-tooltip
+                    prop="case_desc"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="总案卷数"
+                    align="center"
+                    prop="total_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="在库案卷数"
+                    align="center"
+                    prop="in_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="待入库案卷数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{num1}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                     <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-tab-pane>
+              <el-tab-pane name="tabName7" class="tabClass">
+                <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
+                  技术
+                  <el-badge :value="num7" :hidden="num7==0?true:false" :max="9999" class="badgeClass"> 
+                  </el-badge>
+                </span>
+                <el-table
+                  :data="caseList"
+                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                  :row-style="rowStyle"
+                  class="tableClass"
+                  >
+                  <el-table-column
+                    type="index"
+                    align="center"
+                    width="50">
+                  </el-table-column>
+                  <el-table-column
+                    label="案件编号"
+                    align="center"
+                    prop="case_bh">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="案件名称"
+                    align="center"
+                    prop="case_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件类型"
+                    align="center"
+                    prop="case_type_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件描述"
+                    align="center"
+                    show-overflow-tooltip
+                    prop="case_desc"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="总案卷数"
+                    align="center"
+                    prop="total_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="在库案卷数"
+                    align="center"
+                    prop="in_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="待入库案卷数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{num1}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                     <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-tab-pane>
+              <el-tab-pane name="tabName8" class="tabClass">
+                <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
+                  检察院
+                  <el-badge :value="num8" :hidden="num8==0?true:false" :max="9999" class="badgeClass"> 
                   </el-badge>
                 </span>
                 <el-table
@@ -639,6 +803,8 @@
               num4:0,
               num5:0,
               num6:0,
+              num7:0,
+              num8:0,
               activeName:'tabName1',
               case_detail_dialog:false,
               case_number:'',
@@ -867,6 +1033,8 @@
                        self.num4 = data.data.data._33;
                        self.num5 = data.data.data._34;
                        self.num6 = data.data.data._35;
+                       self.num7 = data.data.data._44;
+                       self.num8 = data.data.data._45;
                        // console.log(self.num1)
                        // console.log(self.$children)
                        self.$children[5].$children[0].$forceUpdate();
@@ -907,6 +1075,12 @@
                   break;
                 case 'tabName6':
                   params.append('case_type_id','35');
+                  break;
+                case 'tabName7':
+                  params.append('case_type_id','45');
+                  break;
+                case 'tabName8':
+                  params.append('case_type_id','45');
                   break;
                 default:
                   

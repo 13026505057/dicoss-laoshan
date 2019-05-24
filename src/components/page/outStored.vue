@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">待出库案件档案梳理</div>
+            <div class="titleBg">已出库案件档案梳理</div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
@@ -86,7 +86,7 @@
               <el-table-column
                 label="存放位置"
                 align="center"
-                prop="case_type"
+                prop="cell_name"
                 >
               </el-table-column>
               <el-table-column

@@ -19,8 +19,8 @@ Vue.prototype.socketApi = socketApi
 
 Vue.use(ElementUI);
 
-// axios.defaults.baseURL = "http://192.168.150.106:8080/dossier";
-axios.defaults.baseURL = "http://h5fez2.natappfree.cc/dossier";
+axios.defaults.baseURL = "http://192.168.100.87:8080/dossier";
+// axios.defaults.baseURL = "http://192.168.150.102:8080/dossier";
 Vue.prototype.$axios = axios;
 Vue.prototype.$moment = Moment;
 Vue.prototype.$echarts = echarts;

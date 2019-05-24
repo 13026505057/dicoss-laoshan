@@ -104,7 +104,7 @@
               <el-table-column
                 label="存放位置"
                 align="center"
-                prop="case_type"
+                prop="cell_name"
                 >
               </el-table-column>
               <el-table-column
@@ -280,6 +280,7 @@
           // },
           //案卷详情点击事件
           downLoad(res){
+            window.open(res.file_url)
             // this.$socketApi.sendSock('text',this.getConfigResult);
             // this.exhibits = res.exhibits;
             // this.case_detail_dialog = true;
@@ -342,13 +343,13 @@
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
 
-                params.append('case_id',res.case_id);
-                params.append('exhibit_name',res.case_name);
+                params.append('file_id',res.file_id);
+                // params.append('exhibit_name',res.case_name);
                 
 
                 self.$axios({
                     method: 'post',
-                    url: '/exhibit/exhibit/add',
+                    url: '/file/del',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){

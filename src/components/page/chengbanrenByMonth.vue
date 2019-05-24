@@ -45,7 +45,7 @@
         </div> -->
         <el-dialog title="案件详情" :visible.sync="addHisDialog">
             <el-table
-              :data="caseList"
+              :data="caseList1"
               :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
               :row-style="rowStyle"
               class="tableClass"
@@ -134,7 +134,7 @@
               <el-table-column
                 label="存放位置"
                 align="center"
-                prop="case_type"
+                prop="cell_name"
                 >
               </el-table-column>
               <el-table-column
@@ -272,7 +272,7 @@
                   case_name:2
                 }
               ],
-              
+              caseList1:[],
               exhibits:[{
 
               }],
@@ -284,7 +284,11 @@
               pageSize2:10,
               addHisDialog:false,
               uploadUrl:'',
-              myHeaders:''
+              myHeaders:'',
+              countMonth:'',
+              countProperty:'',
+              countUserId:'',
+              countDeptId:'',
             }
               
       },
@@ -299,9 +303,66 @@
       },
       methods: {
           cellClick(row, column, cell, event){
-            // this.addHisDialog = true;
-            // console.log(row)
-            // console.log(column.property)
+            
+                const self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('pageNum',self.pageNum2);
+                params.append('pageSize',self.pageSize2);
+                self.countMonth = row.month;
+                self.countProperty = column.property;
+                params.append('month_time',self.countMonth);
+                params.append('query_type',self.countProperty);
+                if(row.user_id!=null){
+                  self.countUserId = row.user_id;
+                  params.append('user_id',self.countUserId);
+                }else if(row.dept_id!=null){
+                  self.countDeptId = row.dept_id;
+                  params.append('dept_id',self.countDeptId);
+                }
+                self.$axios({
+                    method: 'post',
+                    url: '/cases/cases/getByPage',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                      self.caseList1 = data.data.data.list;
+                      self.total2 = data.data.data.total;
+                      self.addHisDialog = true;
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
+          cellClick2(){
+            
+                const self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('pageNum',self.pageNum2);
+                params.append('pageSize',self.pageSize2);
+                
+                params.append('month_time',self.countMonth);
+                params.append('query_type',self.countProperty);
+                params.append('user_id',self.countUserId);
+                
+                self.$axios({
+                    method: 'post',
+                    url: '/cases/cases/getByPage',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                      self.caseList1 = data.data.data.list;
+                      self.total2 = data.data.data.total;
+                      self.addHisDialog = true;
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
           },
           uploadSuccess(){
             this.$message({
@@ -429,7 +490,7 @@
           },
           //分页器点击事件
           pageChange2(){
-
+            this.cellClick2();
           },
           //关键字模糊查询提示
           remoteMethod(query) {

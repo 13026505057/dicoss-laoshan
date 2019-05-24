@@ -35,7 +35,7 @@
                    </div>
                </div>
            </div>
-           <div class="rightCenter">
+           <!-- <div class="rightCenter">
                <div class="table" style="overflow-y:scroll;">
                     <div class="tableTop">
                         系统公告
@@ -101,34 +101,34 @@
                         {{numInfo.woutWarnCount}}
                     </div>
                </div>
-           </div>
+           </div> -->
             <div class="rightCenter">
-               <div class="table" style="width: 24%;">
+               <div class="table" style="width: 100%;height:400px;">
                     <div class="tableTop">
                         入库案件按部门统计
                     </div>
-                    <div id="myEchars1" style="width:100%;height:85%; float:left;"></div>
+                    <div id="myEchars1" style="width:100%;height:90%; float:left;"></div>
                     
                </div>
-               <div class="table" style="width: 24%;">
+               <div class="table" style="width: 100%;height:400px;">
                     <div class="tableTop">
                         出库案件按部门统计
                     </div>
-                    <div id="myEchars2" style="width:100%;height:85%; float:left;"></div>
+                    <div id="myEchars2" style="width:100%;height:90%; float:left;"></div>
                     
                </div>
-               <div class="table" style="width: 24%;">
+               <div class="table" style="width: 100%;height:400px;">
                     <div class="tableTop">
                         入库案件按时间统计
                     </div>
-                    <div id="myEchars3" style="width:100%;height:85%; float:left;"></div>
+                    <div id="myEchars3" style="width:100%;height:90%; float:left;"></div>
                     
                </div>
-               <div class="table" style="width: 24%;">
+               <div class="table" style="width: 100%;height:400px;">
                     <div class="tableTop">
                         出库案件按时间统计
                     </div>
-                    <div id="myEchars4" style="width:100%;height:85%; float:left;"></div>
+                    <div id="myEchars4" style="width:100%;height:90%; float:left;"></div>
                </div>
            </div>
        </div>
@@ -199,6 +199,7 @@
           series: [{
               name: '数量',
               type: 'bar',
+              barWidth : 35,
               label: {
                   normal: {
                       show: true,
@@ -257,6 +258,7 @@
           series: [{
               name: '数量',
               type: 'bar',
+              barWidth : 35,
               label: {
                   normal: {
                       show: true,
@@ -315,6 +317,7 @@
           series: [{
               name: '数量',
               type: 'bar',
+              barWidth : 35,
               label: {
                   normal: {
                       show: true,
@@ -373,6 +376,7 @@
           series: [{
               name: '数量',
               type: 'bar',
+              barWidth : 35,
               label: {
                   normal: {
                       show: true,
@@ -805,8 +809,22 @@
     .box{
         width:100%;
         height:100%;
-
+        overflow: scroll;
         
+    }
+    .box::-webkit-scrollbar {/*滚动条整体样式*/
+            width: 4px;     /*高宽分别对应横竖滚动条的尺寸*/
+            height: 4px;
+    }
+    .box::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+            border-radius: 5px;
+            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            background: rgba(0,0,0,0.2);
+    }
+    .box::-webkit-scrollbar-track {/*滚动条里面轨道*/
+            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            border-radius: 0;
+            background: rgba(0,0,0,0.1);
     }
     .left{
         width:25%;

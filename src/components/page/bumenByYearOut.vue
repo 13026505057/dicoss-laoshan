@@ -45,7 +45,7 @@
         </div> -->
         <el-dialog title="案件详情" :visible.sync="addHisDialog">
             <el-table
-              :data="caseList"
+              :data="caseList1"
               :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
               :row-style="rowStyle"
               class="tableClass"
@@ -134,7 +134,7 @@
               <el-table-column
                 label="存放位置"
                 align="center"
-                prop="case_type"
+                prop="cell_name"
                 >
               </el-table-column>
               <el-table-column
@@ -192,32 +192,26 @@
                 </template> -->
               </el-table-column>
               <el-table-column
-                label="应归档数量"
+                label="借阅数量"
                 align="center"
-                prop="init_quantity"
+                prop="out_cases_quantity"
                 
                 >
               </el-table-column>
               <el-table-column
-                label="待归档数量"
+                label="待归还数量"
                 align="center"
-                prop="none_quantity"
+                prop="out_cases_quantity"
                 >
               </el-table-column>
               <el-table-column
-                label="逾期未归档数量"
+                label="已归还数量"
                 align="center"
                 style="color:red;"
-                prop="out_time_none_quantity"
+                prop="back_cases_quantity"
                 >
               </el-table-column>
-              <el-table-column
-                label="逾期已归档"
-                align="center"
-                style="color:red;"
-                prop="out_time_in_quantity"
-                >
-              </el-table-column>
+              
               
               <!-- <el-table-column
                 label="操作"
@@ -272,7 +266,7 @@
                   case_name:2
                 }
               ],
-              
+              caseList1:[],
               exhibits:[{
 
               }],
@@ -282,9 +276,17 @@
               total2:0,
               pageNum2:1,
               pageSize2:10,
+              countYear:'',
+              countPproperty:'',
+              counyUserId:'',
+              countDeptId:'',
               addHisDialog:false,
               uploadUrl:'',
-              myHeaders:''
+              myHeaders:'',
+              countYear:'',
+              countPproperty:'',
+              counyUserId:'',
+              countDeptId:'',
             }
               
       },
@@ -299,9 +301,65 @@
       },
       methods: {
           cellClick(row, column, cell, event){
-            // this.addHisDialog = true;
-            // console.log(row)
-            // console.log(column.property)
+            const self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('pageNum',self.pageNum2);
+                params.append('pageSize',self.pageSize2);
+                self.countYear = row.year;
+                self.countPproperty = column.property;
+                params.append('year_time',self.countYear);
+                params.append('query_type',self.countPproperty);
+
+                if(row.user_id!=null){
+                  self.counyUserId = row.user_id;
+                  params.append('user_id',self.counyUserId);
+                }else if(row.dept_id!=null){
+                  self.countDeptId = row.dept_id;
+                  params.append('dept_id',self.countDeptId);
+                }
+                self.$axios({
+                    method: 'post',
+                    url: '/stock/stock-log/getByPage',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                      self.caseList1 = data.data.data.list;
+                      self.total2 = data.data.data.total;
+                      self.addHisDialog = true;
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
+          cellClick2(){
+            const self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('pageNum',self.pageNum2);
+                params.append('pageSize',self.pageSize2);
+                
+                params.append('year_time',self.countYear);
+                params.append('query_type',self.countPproperty);
+                params.append('dept_id',self.countDeptId);
+                
+                self.$axios({
+                    method: 'post',
+                    url: '/stock/stock-log/getByPage',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                      self.caseList1 = data.data.data.list;
+                      self.total2 = data.data.data.total;
+                      self.addHisDialog = true;
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
           },
           uploadSuccess(){
             this.$message({
@@ -429,7 +487,7 @@
           },
           //分页器点击事件
           pageChange2(){
-
+            this.cellClick2();
           },
           //关键字模糊查询提示
           remoteMethod(query) {
@@ -488,7 +546,7 @@
                 
                 self.$axios({
                     method: 'post',
-                    url: '/chart/getInitCaseDeptPerYear',
+                    url: '/chart/getOutCaseDeptPerYear',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){

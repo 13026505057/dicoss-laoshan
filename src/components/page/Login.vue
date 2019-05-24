@@ -1,6 +1,7 @@
 <template>
     <div class="login-wrap">
-        <!-- <div class="ms-title">阔帆科技管控管理系统</div> -->
+        <div class="ms-title">青岛市崂山区人民检察院</div>
+        <div class="ms-title2">智慧档案管理系统</div>
         <div class="ms-login">
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
                 <el-form-item prop="username">
@@ -87,7 +88,7 @@
         position: relative;
         width:100%;
         height:100%;
-        background-image: url(../../../static/img/loginBanner.png);
+        background-image: url(../../../static/img/loginBanner.jpg);
         background-size: 100% 100%;
     }
     .ms-title{
@@ -96,14 +97,24 @@
         width:100%;
         margin-top: -230px;
         text-align: center;
-        font-size:30px;
+        font-size:35px;
+        color: #fff;
+
+    }
+    .ms-title2{
+        position: absolute;
+        top:60%;
+        width:100%;
+        margin-top: -230px;
+        text-align: center;
+        font-size:45px;
         color: #fff;
 
     }
     .ms-login{
         position: absolute;
         left:50%;
-        top:50%;
+        top:65%;
         width:300px;
         height:160px;
         margin:-100px 0 0 -190px;
