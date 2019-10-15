@@ -48,6 +48,7 @@ import md5 from 'js-md5';
                         index: 'readme',
                         title: '首页'
                     },
+                    
                     {
                         icon: 'el-icon-setting',
                         index: '10',
@@ -55,24 +56,24 @@ import md5 from 'js-md5';
                         subs:[
                             {   
                                 index: 'waitForInStore1',
-                                title: '> 应入库案件确认'
+                                title: '> 待质量审查案件'
                             },
                             {   
                                 index: 'returnBacking1',
-                                title: '> 待回执案件档案梳理'
+                                title: '> 应归档案件'
                             },
                             {   
                                 index: 'returnBacked1',
-                                title: '> 已回执案件档案梳理'
+                                title: '> 已归档案件'
                             },
-                            {   
-                                index: 'instore1',
-                                title: '> 在库案件档案梳理表'
-                            },
-                            {   
-                                index: 'anjianchaxun1',
-                                title: '> 整体案件档案梳理表'
-                            },
+                            // {   
+                            //     index: 'instore1',
+                            //     title: '> 在库案件档案梳理表'
+                            // },
+                            // {   
+                            //     index: 'anjianchaxun1',
+                            //     title: '> 整体案件档案梳理表'
+                            // },
                         ]
                     },
                     {
@@ -81,107 +82,141 @@ import md5 from 'js-md5';
                         title: '档案部门',
                         subs:[
                             {
-                                icon: 'el-icon-setting',
-                                index: '0',
-                                title: '案件档案梳理',
-                                subs:[
-                                    {   
-                                        index: 'returnBacking',
-                                        title: '> 待回执案件档案梳理'
-                                    },
-                                    {   
-                                        index: 'returnBacked',
-                                        title: '> 已回执案件档案梳理'
-                                    },
-                                    {   
-                                        index: 'instore',
-                                        title: '> 在库案件档案梳理表'
-                                    },
-                                    {   
-                                        index: 'anjianchaxun',
-                                        title: '> 整体案件档案梳理表'
-                                    },
-                                ]
+                                index: 'returnBacking',
+                                title: '> 应入库案卷'
+                                
+                                // subs:[
+                                //     {   
+                                //         index: 'returnBacking',
+                                //         title: '> 待回执案件档案梳理'
+                                //     },
+                                //     {   
+                                //         index: 'returnBacked',
+                                //         title: '> 已回执案件档案梳理'
+                                //     },
+                                //     {   
+                                //         index: 'instore',
+                                //         title: '> 在库案件档案梳理表'
+                                //     },
+                                //     {   
+                                //         index: 'anjianchaxun',
+                                //         title: '> 整体案件档案梳理表'
+                                //     },
+                                // ]
                             },
                             {
-                                icon: 'el-icon-setting',
-                                index: '1',
-                                title: '应入库档案管理',
-                                subs:[
-                                    {   
-                                        index: 'waitForInStore',
-                                        title: '> 应入库案件档案'
-                                    },
-                                    {   
-                                        index: 'inStored',
-                                        title: '> 已入库案件档案'
-                                    },
-                                    {   
-                                        index: 'inStoreHistory',
-                                        title: '> 案件档案归档操作记录'
-                                    },
-                                ]
+                                index: 'waitForInStore',
+                                title: '> 待档案室审查入库'
+                                // icon: 'el-icon-setting',
+                                // index: '1',
+                                // title: '应入库档案管理',
+                                // subs:[
+                                //     {   
+                                //         index: 'waitForInStore',
+                                //         title: '> 应入库案件档案'
+                                //     },
+                                //     {   
+                                //         index: 'inStored',
+                                //         title: '> 已入库案件档案'
+                                //     },
+                                //     {   
+                                //         index: 'inStoreHistory',
+                                //         title: '> 案件档案归档操作记录'
+                                //     },
+                                // ]
                             },
                             {
-                                icon: 'el-icon-setting',
-                                index: '2',
-                                title: '待出库档案管理',
-                                subs:[
-                                    {   
-                                        index: 'waitForOutStore',
-                                        title: '> 待出库案件档案'
-                                    },
-                                    {   
-                                        index: 'outStored',
-                                        title: '> 已出库案件档案'
-                                    },
-                                    {   
-                                        index: 'outStoreHistory',
-                                        title: '> 案件档案出库操作记录'
-                                    },
-                                ]
+                                index: 'waitForOutStore',
+                                title: '> 未入库(档案室审查通过)'
+                                // icon: 'el-icon-setting',
+                                // index: '2',
+                                // title: '待出库档案管理',
+                                // subs:[
+                                //     {   
+                                //         index: 'waitForOutStore',
+                                //         title: '> 待出库案件档案'
+                                //     },
+                                //     {   
+                                //         index: 'outStored',
+                                //         title: '> 已出库案件档案'
+                                //     },
+                                //     {   
+                                //         index: 'outStoreHistory',
+                                //         title: '> 案件档案出库操作记录'
+                                //     },
+                                // ]
                             },
                             {
-                                icon: 'el-icon-setting',
-                                index: '3',
-                                title: '待归还档案管理',
-                                subs:[
-                                    {   
-                                        index: 'returnStore',
-                                        title: '> 待归还案件档案'
-                                    },
-                                    {   
-                                        index: 'returnStored',
-                                        title: '> 已归还案件档案'
-                                    },
-                                    {   
-                                        index: 'returnHistory',
-                                        title: '> 案件档案归还历史'
-                                    },
-                                ]
+                                index: 'returnStore',
+                                title: '> 已入库案卷'
+                                // icon: 'el-icon-setting',
+                                // index: '3',
+                                // title: '待归还档案管理',
+                                // subs:[
+                                //     {   
+                                //         index: 'returnStore',
+                                //         title: '> 待归还案件档案'
+                                //     },
+                                //     {   
+                                //         index: 'returnStored',
+                                //         title: '> 已归还案件档案'
+                                //     },
+                                //     {   
+                                //         index: 'returnHistory',
+                                //         title: '> 案件档案归还历史'
+                                //     },
+                                // ]
                             },
-                            {
-                                icon: 'el-icon-setting',
-                                index: '7',
-                                title: '档案盘点管理',
-                                subs:[
-                                    {   
-                                        index: 'checkByMounth',
-                                        title: '> 月盘点管理'
-                                    },
-                                    {   
-                                        index: 'checkByYear',
-                                        title: '> 年盘点管理'
-                                    },
-                                    {   
-                                        index: 'waitForCheck',
-                                        title: '> 自定义盘点'
-                                    },
-                                ]
+                            // {
+                            //     icon: 'el-icon-setting',
+                            //     index: '7',
+                            //     title: '档案盘点管理',
+                            //     subs:[
+                            //         {   
+                            //             index: 'checkByMounth',
+                            //             title: '> 月盘点管理'
+                            //         },
+                            //         {   
+                            //             index: 'checkByYear',
+                            //             title: '> 年盘点管理'
+                            //         },
+                            //         {   
+                            //             index: 'waitForCheck',
+                            //             title: '> 自定义盘点'
+                            //         },
+                            //     ]
+                            // },
+                        ]
+                    },
+                    {
+                        icon: 'el-icon-setting',
+                        index: '6',
+                        title: '档案分析',
+                        subs:[
+                            {   
+                                index: 'jieyuezongjie',
+                                title: '> 借阅总结'
+                            },
+                            {   
+                                index: 'nianzhongzongjie',
+                                title: '> 年度总结'
+                            },
+                            {   
+                                index: 'lishiyange',
+                                title: '> 历史沿革'
                             },
                         ]
                     },
-                    
+                    {
+                        icon: 'el-icon-setting',
+                        index: 'addHistory',
+                        title: '历史案卷'
+                    },
+                    {
+                        icon: 'el-icon-setting',
+                        index: 'addHistory1',
+                        title: ' 回写业务绩效'
+                    },
                     {
                         icon: 'el-icon-setting',
                         index: '8',
@@ -226,31 +261,39 @@ import md5 from 'js-md5';
                             }
                         ]
                     },
-                    {
-                        icon: 'el-icon-setting',
-                        index: '6',
-                        title: '档案分析',
-                        subs:[
-                            {   
-                                index: 'jieyuezongjie',
-                                title: '> 借阅总结'
-                            },
-                            {   
-                                index: 'nianzhongzongjie',
-                                title: '> 年度总结'
-                            },
-                            {   
-                                index: 'lishiyange',
-                                title: '> 历史沿革'
-                            },
-                        ]
-                    },
+                    
                     {
                         icon: 'el-icon-setting',
                         index: 'videoHistory',
                         title: '现场还原'
                     },
-                    
+                    {
+                        icon: 'el-icon-setting',
+                        index: '5',
+                        title: '通用设置',
+                        subs:[
+                            {   
+                                index: 'bumenAdmin',
+                                title: '> 部门设置'
+                            },
+                            {   
+                                index: 'zhiweiAdmin',
+                                title: '> 职位设置'
+                            },
+                            {   
+                                index: 'userAdmin',
+                                title: '> 人员设置'
+                            },
+                            {   
+                                index: 'camera',
+                                title: '> 摄像头设置'
+                            },
+                            {   
+                                index: 'storeLocation',
+                                title: '> 存储位置设置'
+                            }
+                        ]
+                    }
                     // {
                     //     icon: 'el-icon-setting',
                     //     index: 'history',
@@ -319,40 +362,41 @@ import md5 from 'js-md5';
                 return this.$route.path.replace('/','');
             }
         },
-        mounted(){
+        created(){
             var level = localStorage.getItem('user_type');
-            if(level=='1'){
-                var obj = {
-                                icon: 'el-icon-setting',
-                                index: '5',
-                                title: '通用设置',
-                                subs:[
-                                    {   
-                                        index: 'bumenAdmin',
-                                        title: '> 部门设置'
-                                    },
-                                    {   
-                                        index: 'zhiweiAdmin',
-                                        title: '> 职位设置'
-                                    },
-                                    {   
-                                        index: 'userAdmin',
-                                        title: '> 人员设置'
-                                    },
-                                    {   
-                                        index: 'camera',
-                                        title: '> 摄像头设置'
-                                    },
-                                    {   
-                                        index: 'storeLocation',
-                                        title: '> 存储位置设置'
-                                    }
-                                ]
-                            }
-                this.items.push(obj)
-            }else{
-
-            }
+            switch(level) {
+                case '1,2,3':
+                    
+                   break;
+                case '1,2':
+                   this.items.splice(8,1)
+                   break;
+                case '1,3':
+                    this.items.splice(1,1)
+                    this.items.splice(4,1)
+                    // this.items.splice(2,1)
+                   break;
+                case '2,3':
+                    this.items.splice(2,1)
+                    this.items.splice(2,1)
+                    this.items.splice(2,1)
+                   break;
+                case '1':
+                    this.items.splice(8,1)
+                    this.items.splice(1,1)
+                    this.items.splice(4,1)
+                   break;
+                case '2':
+                    this.items.splice(8,1)
+                    this.items.splice(2,1)
+                    this.items.splice(2,1)
+                    this.items.splice(2,1)
+                   break;
+                default:
+                this.items = [];
+                    
+            } 
+            
         },
         methods:{
            

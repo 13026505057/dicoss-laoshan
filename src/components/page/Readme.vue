@@ -1,7 +1,7 @@
 <template>
    <div class="box">
        <div class="right">
-           <div class="rightTop">
+           <!-- <div class="rightTop">
                <div class="littleBox" @click="newsClick()">
                    <div class="leftIcon" style="background-color: #fe5c45;">
                        <i class="el-icon-bell"></i> <span style="margin-left: 10px; font-size: 20px;">{{numInfo.warnMsgCount}}</span>
@@ -34,7 +34,7 @@
                        通知消息
                    </div>
                </div>
-           </div>
+           </div> -->
            <!-- <div class="rightCenter">
                <div class="table" style="overflow-y:scroll;">
                     <div class="tableTop">
@@ -404,10 +404,10 @@
     
     this.getWeek();
     this.getDate();
-    // this.getInByDept();
-    // this.getOutByDept();
-    // this.getInByTime();
-    // this.getOutByTime();
+    this.getInByDept();
+    this.getOutByDept();
+    this.getInByTime();
+    this.getOutByTime();
     this.getUserName();
     this.loading();
     this.getNum();

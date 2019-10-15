@@ -24,7 +24,7 @@
                 :remote-method="remoteMethod" 
                 :loading="loading" 
                 filterable 
-                placeholder="物品名称">
+                placeholder="请输入姓名">
                   <el-option
                     style="height:40px;"
                     v-for="item,index in userNameList"
@@ -34,13 +34,13 @@
                   </el-option>
                 </el-select>
                 
-                <el-input
+                <!-- <el-input
                     clearable
                     placeholder="工号查询"
                     style="width: 200px;margin-left: 60px;"
                     v-model="number"
                     clearable>
-                </el-input>
+                </el-input> -->
                 <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
                 <!-- <el-button type="primary" style="margin-left: 80px;" @click="importUsers = true">批量导入</el-button> -->
                 <!-- <el-button type="primary" style="margin-left: 60px;" @click="downLoadFile">导入模板下载</el-button> -->
@@ -205,8 +205,12 @@
               <el-table-column
                 label="部门"
                 align="center"
-                prop="dept_name"
                 >
+                <template slot-scope="props">
+                  <span v-for='item in props.row.userDepts'>
+                    {{item.dept_name}}
+                  </span>
+                </template>
               </el-table-column>
               
               <el-table-column
@@ -373,6 +377,9 @@
             this.changeform.username = data.username;
             this.changeform.user_true_name = data.user_true_name;
             this.changeform.password = '';
+            this.changeform.dept_id = [];
+            this.changeform.group_id = [];
+            this.changeform.position_id = [];
             for(var i = 0; i < data.userDepts.length;i++){
               this.changeform.dept_id.push(data.userDepts[i].dept_id)
             }
@@ -529,7 +536,9 @@
                 params.append('pageNum',self.currentPage); 
                 params.append('pageSize',self.pageSize); 
                 params.append('user_true_name',self.user_true_name); 
-                params.append('user_gonghao',self.number);
+                // params.append('user_gonghao',self.number);
+                params.append('dept_id',self.dept_id);
+                
                 self.$axios({
                     method: 'post',
                     url: '/user/getByPage',

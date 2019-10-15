@@ -2,7 +2,10 @@
     <div>
         
         <div >
-            <div class="titleBg">在库案件档案梳理表</div>
+            <div class="titleBg">
+              在库案件档案梳理表
+              
+            </div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
@@ -191,7 +194,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
@@ -273,7 +276,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
@@ -355,7 +358,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
@@ -437,7 +440,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
@@ -519,7 +522,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
@@ -601,7 +604,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
@@ -683,7 +686,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
@@ -765,7 +768,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>

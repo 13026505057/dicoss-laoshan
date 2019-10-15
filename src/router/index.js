@@ -13,7 +13,7 @@ export default new Router({
             path: '/readme',
             component: resolve => require(['../components/common/Home.vue'], resolve),
             children: [{
-                    name: '管控人分布',
+                    name: '',
                     path: '/',
                     component: resolve => require(['../components/page/Readme.vue'], resolve)
                 },
@@ -237,6 +237,16 @@ export default new Router({
                     name: '承办人整体归档梳理',
                     path: '/chengbanren',
                     component: resolve => require(['../components/page/chengbanren.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '案卷历史',
+                    path: '/addHistory',
+                    component: resolve => require(['../components/page/addHistory.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '案卷历史',
+                    path: '/addHistory1',
+                    component: resolve => require(['../components/page/addHistory1.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
                     name: '打印测试',

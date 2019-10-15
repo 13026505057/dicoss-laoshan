@@ -2,9 +2,9 @@
     <div class="wrapper">
         <v-head></v-head>
         <v-sidebar></v-sidebar>
-        <div class="crumbs">
+        <!-- <div class="crumbs">
             <v-breadcrumb></v-breadcrumb>
-        </div>
+        </div> -->
         <div class="content">
             <transition name="move" mode="out-in"><router-view></router-view></transition>
         </div>

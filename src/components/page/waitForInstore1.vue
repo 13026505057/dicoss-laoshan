@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">应入库案件档案</div>
+            <div class="titleBg">待案件质量审查<div style="font-size: 20px;line-height: 20px;margin-top: -25px;"></div></div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
@@ -23,7 +23,15 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
-
+                <el-date-picker
+                  style="width: 250px;margin-left: 30px;"
+                  v-model="timeYear"
+                  align="right"
+                  type="year"
+                  format="yyyy年"
+                  value-format="yyyy"
+                  placeholder="选择年份">
+                </el-date-picker>
                 <!-- <el-date-picker
                   style="margin-left: 20px;width:420px;"
                   v-model="date"
@@ -36,13 +44,16 @@
                 </el-date-picker> -->
                 
                 <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
-                <el-button type="warning" style="margin-left: 130px;" @click="addHisDialog=true">历史案卷导入</el-button>
+                <!-- <el-button type="warning" style="margin-left: 50px;" @click="addHisDialog=true">2017诉讼案卷</el-button>
+                <el-button type="warning" style="margin-left: 50px;" @click="addHisDialog2=true">2017技术案卷</el-button>
+                <el-button type="warning" style="margin-left: 50px;" @click="addHisDialog3=true">2018文书案卷</el-button>
+                <el-button type="warning" style="margin-left: 50px;" @click="addHisDialog1=true">2018诉讼案卷</el-button> -->
                 
             </div>
 
           
         </div>
-        <el-dialog title="历史案件导入" :visible.sync="addHisDialog">
+        <el-dialog title="2017诉讼案卷" :visible.sync="addHisDialog">
             <el-upload
               style="text-align:center;"
               class="upload-demo"
@@ -53,7 +64,49 @@
               multiple>
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-              <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+              <!-- <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
+            </el-upload>
+        </el-dialog>
+        <el-dialog title="2018诉讼案卷" :visible.sync="addHisDialog1">
+            <el-upload
+              style="text-align:center;"
+              class="upload-demo"
+              drag
+              :on-success="uploadSuccess"
+              :action="uploadUrl1"
+              :headers="myHeaders"
+              multiple>
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+              <!-- <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
+            </el-upload>
+        </el-dialog>
+        <el-dialog title="2017技术案卷" :visible.sync="addHisDialog2">
+            <el-upload
+              style="text-align:center;"
+              class="upload-demo"
+              drag
+              :on-success="uploadSuccess"
+              :action="uploadUrl2"
+              :headers="myHeaders"
+              multiple>
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+              <!-- <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
+            </el-upload>
+        </el-dialog>
+        <el-dialog title="2018文书案卷" :visible.sync="addHisDialog3">
+            <el-upload
+              style="text-align:center;"
+              class="upload-demo"
+              drag
+              :on-success="uploadSuccess"
+              :action="uploadUrl3"
+              :headers="myHeaders"
+              multiple>
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+              <!-- <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
             </el-upload>
         </el-dialog>
         <el-dialog title="案卷详情" :visible.sync="case_detail_dialog">
@@ -206,7 +259,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                       <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
                     </template>
                   </el-table-column> -->
@@ -302,7 +355,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                       <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
                     </template>
                   </el-table-column> -->
@@ -398,7 +451,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                       <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
                     </template>
                   </el-table-column> -->
@@ -494,7 +547,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                       <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
                     </template>
                   </el-table-column> -->
@@ -590,7 +643,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                       <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
                     </template>
                   </el-table-column> -->
@@ -686,7 +739,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                       <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
                     </template>
                   </el-table-column> -->
@@ -782,7 +835,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                       <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
                     </template>
                   </el-table-column> -->
@@ -878,7 +931,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                       <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
                     </template>
                   </el-table-column> -->
@@ -891,7 +944,7 @@
           <div style="margin-top: 20px">
               <el-button @click="toggleSelection(caseList)">全选</el-button>
               <el-button @click="toggleSelection()">取消全选</el-button>
-              <el-button @click="updateForIns()">确认待入库</el-button>
+              <!-- <el-button @click="updateForIns()">确认待入库</el-button> -->
               <el-button @click="updateForChecks()">确认已审查</el-button>
           </div> 
           <el-pagination
@@ -924,6 +977,9 @@
               num6:0,
               num7:0,
               num8:0,
+              addHisDialog1:false,
+              addHisDialog2:false,
+              addHisDialog3:false,
               activeName:'tabName1',
               case_detail_dialog:false,
               case_number:'',
@@ -945,15 +1001,25 @@
               pageSize2:10,
               addHisDialog:false,
               uploadUrl:'',
-              myHeaders:''
+              uploadUrl1:'',
+              uploadUrl2:'',
+              uploadUrl3:'',
+              myHeaders:'',
+              timeYear:''
             }
               
       },
       mounted() {
           this.getDataList();
           var myHeaders = localStorage.getItem('auth');
-          var uploadUrl = this.$axios.defaults.baseURL+'/cases/cases/addByExcel';
+          var uploadUrl = this.$axios.defaults.baseURL+'/exhibit/exhibit/addByExcel2017';
+          var uploadUrl1 = this.$axios.defaults.baseURL+'/exhibit/exhibit/addByExcel2018';
+          var uploadUrl2 = this.$axios.defaults.baseURL+'/exhibit/exhibit/addByExcel2017Js';
+          var uploadUrl3 = this.$axios.defaults.baseURL+'/exhibit/exhibit/addByExcel2018Ws';
           this.uploadUrl = uploadUrl;
+          this.uploadUrl1 = uploadUrl1;
+          this.uploadUrl2 = uploadUrl2;
+          this.uploadUrl3 = uploadUrl3;
           var token = {"kf-token":myHeaders};
           this.myHeaders = token;
           this.getNumBage();
@@ -964,11 +1030,20 @@
             this.activeName = res.name;
             this.getDataList();
           },
-          uploadSuccess(){
-            this.$message({
-              type: 'success',
-              message: '上传成功'
-            });
+          uploadSuccess(res){
+            console.log(res)
+            if(res.code==0){
+              this.$message({
+                type: 'success',
+                message: '上传成功'
+              });
+            }else{
+              this.$message({
+                type: 'erroe',
+                message: res.msg
+              });
+            }
+            
             this.addHisDialog = false;
             this.getDataList();
           },
@@ -1188,9 +1263,12 @@
                
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-                params.append('tongyi_status','');
-                params.append('stock_status','none');
+                // params.append('tongyi_status','');
+                // params.append('stock_status','none');
                 params.append('case_none_confirm','0');
+                params.append('timeYear',self.timeYear);
+                params.append('case_name',self.case_name);
+                params.append('case_bh',self.case_number);
                 self.$axios({
                     method: 'post',
                     url: '/cases/cases/getCountForType',
@@ -1259,6 +1337,8 @@
                 params.append('stock_status','none');
                 params.append('tongyi_status','');
                 params.append('case_none_confirm','0');
+                params.append('timeYear',self.timeYear);
+                
                 switch(self.activeName){
                 case 'tabName1':
                   params.append('case_type_id','30');
@@ -1290,7 +1370,7 @@
 
                 self.$axios({
                     method: 'post',
-                    url: '/cases/cases/getByPage',
+                    url: '/cases/cases/getNotConfirmByPage',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){

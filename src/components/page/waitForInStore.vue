@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">应入库案件档案</div>
+            <div class="titleBg">待审查入库<div style="font-size: 20px;line-height: 20px;margin-top: -25px;"></div></div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
@@ -23,7 +23,15 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
-
+                <el-date-picker
+                  style="width: 250px;margin-left: 30px;"
+                  v-model="timeYear"
+                  align="right"
+                  type="year"
+                  format="yyyy年"
+                  value-format="yyyy"
+                  placeholder="选择年份">
+                </el-date-picker>
                 <!-- <el-date-picker
                   style="margin-left: 20px;width:420px;"
                   v-model="date"
@@ -36,7 +44,7 @@
                 </el-date-picker> -->
                 
                 <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
-                <el-button type="warning" style="margin-left: 130px;" @click="addHisDialog=true">历史案卷导入</el-button>
+                <!-- <el-button type="warning" style="margin-left: 130px;" @click="addHisDialog=true">历史案卷导入</el-button> -->
                 
             </div>
 
@@ -69,12 +77,30 @@
                 width="50">
               </el-table-column>
               <el-table-column
-                label="案卷编号"
+                label="条形码号"
                 align="center"
-                prop="exhibit_id">
+                prop="out_exhibit_id">
                 <!-- <template slot-scope="props">
                   <span>签到考勤</span>
                 </template> -->
+              </el-table-column>
+              <el-table-column
+                label="档号"
+                align="center"
+                prop="dh"
+                >
+              </el-table-column>
+              <el-table-column
+                label="卷号"
+                align="center"
+                prop="jh"
+                >
+              </el-table-column>
+              <el-table-column
+                label="卷宗名称"
+                align="center"
+                prop="case_name"
+                >
               </el-table-column>
               <el-table-column
                 label="案卷状态"
@@ -200,8 +226,9 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
-                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="resultClick(props.row)">审查结果</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
                 </el-table> 
@@ -290,8 +317,9 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
-                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="resultClick(props.row)">审查结果</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
                 </el-table>
@@ -380,8 +408,9 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
-                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="resultClick(props.row)">审查结果</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
                 </el-table>
@@ -470,8 +499,9 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
-                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="resultClick(props.row)">审查结果</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
                 </el-table>
@@ -560,8 +590,9 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
-                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="resultClick(props.row)">审查结果</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
                 </el-table>
@@ -650,8 +681,9 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
-                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="resultClick(props.row)">审查结果</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
                 </el-table>
@@ -732,7 +764,8 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="resultClick(props.row)">审查结果</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
@@ -814,7 +847,8 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="resultClick(props.row)">审查结果</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
@@ -874,7 +908,8 @@
               pageSize2:10,
               addHisDialog:false,
               uploadUrl:'',
-              myHeaders:''
+              myHeaders:'',
+              timeYear:''
             }
               
       },
@@ -888,6 +923,56 @@
           this.getNumBage();
       },
       methods: {
+          resultClick(res){
+            var self = this;
+           
+            var token = localStorage.getItem('auth');
+            self.$confirm('请填写审查结果', '审查结果', {
+              confirmButtonText: '通过',
+              cancelButtonText: '不通过',
+              type: 'warning'
+            }).then(() => {
+              var params = new URLSearchParams();
+              params.append('case_ids',res.case_id);
+                
+              self.$axios({
+                  method: 'post',
+                  url: '/cases/cases/confirmNone',
+                  data: params,
+                  headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+              }).then(function(data){
+                  
+                  if(data.data.code==0){
+                    self.$message({
+                      type: 'success',
+                      message: '操作成功'
+                    });
+                  }else{
+                    self.$response(data,self);
+                  }
+              });
+            }).catch(() => {
+                var params = new URLSearchParams();
+                params.append('case_ids',res.case_id);
+                
+                self.$axios({
+                    method: 'post',
+                    url: '/cases/cases/refuseConfirmNone',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                }).then(function(data){
+                    
+                    if(data.data.code==0){
+                      self.$message({
+                        type: 'success',
+                        message: '操作成功'
+                      });
+                    }else{
+                      self.$response(data,self);
+                    }
+                });      
+            });
+          },
           tabClick(res){
             console.log(res)
             this.activeName = res.name;
@@ -1064,9 +1149,15 @@
                
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-                params.append('tongyi_status','');
-                params.append('stock_status','none');
+                // params.append('tongyi_status','');
+                // params.append('stock_status','none');
                 params.append('case_none_confirm','1');
+                params.append('case_status_str','none');
+                params.append('case_none_status','1');
+                params.append('timeYear',self.timeYear);
+                params.append('case_name',self.case_name);
+                params.append('case_bh',self.case_number);
+                 
                 self.$axios({
                     method: 'post',
                     url: '/cases/cases/getCountForType',
@@ -1107,6 +1198,8 @@
                 params.append('stock_status','none');
                 params.append('tongyi_status','');
                 params.append('case_none_confirm','1');
+                params.append('timeYear',self.timeYear);
+                
                 switch(self.activeName){
                 case 'tabName1':
                   params.append('case_type_id','30');
@@ -1138,7 +1231,7 @@
 
                 self.$axios({
                     method: 'post',
-                    url: '/cases/cases/getByPage',
+                    url: '/cases/cases/getDangAnNotConfirmByPage',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){

@@ -58,7 +58,12 @@
                        
                         localStorage.setItem('auth',data.data.data.token);
                         localStorage.setItem('ad_user_true_name',data.data.data.user.user_true_name);
-                        localStorage.setItem('user_type',data.data.data.user.userGroups[0].group_id);
+                        var arr = []
+                        for(var i = 0; i < data.data.data.user.userGroups.length;i++){
+                            arr.push(data.data.data.user.userGroups[i].group_id)
+                        }
+                        var arrStr = arr.join(',')
+                        localStorage.setItem('user_type',arrStr);
                         self.$router.push('/readme');
                     }else{
                         self.$response(data,self);

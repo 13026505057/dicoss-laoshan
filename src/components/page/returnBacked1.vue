@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">已回执案件档案梳理</div>
+            <div class="titleBg">已归档</div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
@@ -23,7 +23,15 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
-
+                <el-date-picker
+                  style="width: 250px;margin-left: 30px;"
+                  v-model="timeYear"
+                  align="right"
+                  type="year"
+                  format="yyyy年"
+                  value-format="yyyy"
+                  placeholder="选择年份">
+                </el-date-picker>
                 <!-- <el-date-picker
                   style="margin-left: 20px;width:420px;"
                   v-model="date"
@@ -68,12 +76,30 @@
                 width="50">
               </el-table-column>
               <el-table-column
-                label="案卷编号"
+                label="条形码号"
                 align="center"
-                prop="exhibit_id">
+                prop="out_exhibit_id">
                 <!-- <template slot-scope="props">
                   <span>签到考勤</span>
                 </template> -->
+              </el-table-column>
+              <el-table-column
+                label="档号"
+                align="center"
+                prop="dh"
+                >
+              </el-table-column>
+              <el-table-column
+                label="卷号"
+                align="center"
+                prop="jh"
+                >
+              </el-table-column>
+              <el-table-column
+                label="卷宗名称"
+                align="center"
+                prop="case_name"
+                >
               </el-table-column>
               <el-table-column
                 label="案卷状态"
@@ -191,7 +217,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
@@ -273,7 +299,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
@@ -355,7 +381,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
@@ -437,7 +463,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
@@ -519,7 +545,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
@@ -601,7 +627,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
@@ -683,7 +709,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
@@ -765,7 +791,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">案卷信息</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                      <!--  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
                   </el-table-column>
@@ -825,7 +851,8 @@
               pageSize2:10,
               addHisDialog:false,
               uploadUrl:'',
-              myHeaders:''
+              myHeaders:'',
+              timeYear:''
             }
               
       },
@@ -1015,8 +1042,13 @@
                
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-                params.append('tongyi_status','1');
-                params.append('stock_status','unnone');
+                // params.append('tongyi_status','1');
+                // params.append('stock_status','unnone');
+                params.append('stock_status_str','in,out,wout,win');
+                params.append('timeYear',self.timeYear);
+                params.append('case_name',self.case_name);
+                params.append('case_bh',self.case_number);
+                
 
                 self.$axios({
                     method: 'post',
@@ -1055,8 +1087,10 @@
                 params.append('pageSize',self.pageSize);
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
-                params.append('stock_status','unnone');
-                params.append('tongyi_status','1');
+                params.append('timeYear',self.timeYear);
+                
+                // params.append('stock_status','unnone');
+                // params.append('tongyi_status','1');
                 switch(self.activeName){
                 case 'tabName1':
                   params.append('case_type_id','30');
@@ -1088,7 +1122,7 @@
 
                 self.$axios({
                     method: 'post',
-                    url: '/cases/cases/getByPage',
+                    url: '/cases/cases/getInByPage',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
