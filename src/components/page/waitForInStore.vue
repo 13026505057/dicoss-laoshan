@@ -111,6 +111,14 @@
                 </template>
               </el-table-column>
               <el-table-column
+                label="是否有效"
+                align="center"
+                >
+                <template slot-scope="props">
+                  <span v-bind:class="[props.row.exhibit_status=='0'?'colorRed':'']">{{props.row.exhibit_status=='0'?'失效':'有效'}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
                 label="存放位置"
                 align="center"
                 prop="cell_name"
@@ -118,11 +126,12 @@
               </el-table-column>
               <el-table-column
                 label="操作"
-                width="200px"
+                width="300px"
                 align="center"
                 >
                 <template slot-scope="props">
                   <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printAgain(props.row)">补打条码</el-button>
+                  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="zuofeiClick(props.row)">作废</el-button>
                 </template>
               </el-table-column>
             </el-table> 
@@ -897,7 +906,7 @@
               loading: false,
               states: [],
               caseList: [
-                
+                {}
               ],
               exhibits:[],
               total:0,
@@ -929,8 +938,9 @@
             var token = localStorage.getItem('auth');
             self.$confirm('请填写审查结果', '审查结果', {
               confirmButtonText: '通过',
-              cancelButtonText: '不通过',
-              type: 'warning'
+              cancelButtonText: '不通过并打印退回回执单',
+              type: 'warning',
+              distinguishCancelAndClose:true
             }).then(() => {
               var params = new URLSearchParams();
               params.append('case_ids',res.case_id);
@@ -951,7 +961,8 @@
                     self.$response(data,self);
                   }
               });
-            }).catch(() => {
+            }).catch(action => {
+              if(action=='cancel'){
                 var params = new URLSearchParams();
                 params.append('case_ids',res.case_id);
                 
@@ -971,7 +982,41 @@
                       self.$response(data,self);
                     }
                 });      
+              }
+              
             });
+            
+          },
+          zuofeiClick(res){
+            var self = this;
+            var params = new URLSearchParams();
+            var token = localStorage.getItem('auth');
+
+            params.append('exhibit_id',res.exhibit_id);
+            params.append('exhibit_status','0');
+            
+
+            self.$axios({
+                method: 'post',
+                url: '/exhibit/exhibit/update',
+                data: params,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+             }).then(function(data){
+                
+                if(data.data.code==0){
+                  
+                  self.$message({
+                    type: 'success',
+                    message: '操作成功'
+                  });
+                  self.case_detail_dialog = false;
+                  self.getDataList();
+                }else{
+
+                  self.$response(data,self);
+                  
+                }
+             });
           },
           tabClick(res){
             console.log(res)

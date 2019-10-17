@@ -144,6 +144,14 @@
                 </template>
               </el-table-column>
               <el-table-column
+                label="是否有效"
+                align="center"
+                >
+                <template slot-scope="props">
+                  <span v-bind:class="[props.row.exhibit_status=='0'?'colorRed':'']">{{props.row.exhibit_status=='0'?'失效':'有效'}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
                 label="存放位置"
                 align="center"
                 prop="case_type"
@@ -151,12 +159,13 @@
               </el-table-column>
               <el-table-column
                 label="操作"
-                width="200px"
+                width="400px"
                 align="center"
                 >
                 <template slot-scope="props">
                   <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printAgain(props.row)">补打条码</el-button>
                   <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printAgain2(props.row)">打印回执单</el-button>
+                  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="zuofeiClick(props.row)">作废</el-button>
                 </template>
               </el-table-column>
             </el-table> 
@@ -227,6 +236,14 @@
                     >
                   </el-table-column>
                   <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.stock_status=="none"?'未归档':'已归档'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="总案卷数"
                     align="center"
                     prop="total_quantity"
@@ -254,6 +271,7 @@
                     <template slot-scope="props">
                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                       <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
+                      
                     </template>
                   </el-table-column>
                 </el-table> 
@@ -309,6 +327,14 @@
                     >
                   </el-table-column>
                   <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.stock_status=="none"?'未归档':'已归档'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="总案卷数"
                     align="center"
                     prop="total_quantity"
@@ -336,6 +362,7 @@
                     <template slot-scope="props">
                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                       <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
+                      
                     </template>
                   </el-table-column>
                 </el-table>
@@ -391,6 +418,14 @@
                     >
                   </el-table-column>
                   <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.stock_status=="none"?'未归档':'已归档'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="总案卷数"
                     align="center"
                     prop="total_quantity"
@@ -418,6 +453,7 @@
                     <template slot-scope="props">
                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                       <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
+                      
                     </template>
                   </el-table-column>
                 </el-table>
@@ -473,6 +509,14 @@
                     >
                   </el-table-column>
                   <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.stock_status=="none"?'未归档':'已归档'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="总案卷数"
                     align="center"
                     prop="total_quantity"
@@ -500,6 +544,7 @@
                     <template slot-scope="props">
                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                       <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
+                      
                     </template>
                   </el-table-column>
                 </el-table>
@@ -555,6 +600,14 @@
                     >
                   </el-table-column>
                   <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.stock_status=="none"?'未归档':'已归档'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="总案卷数"
                     align="center"
                     prop="total_quantity"
@@ -582,6 +635,7 @@
                     <template slot-scope="props">
                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                       <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
+                      
                     </template>
                   </el-table-column>
                 </el-table>
@@ -637,6 +691,14 @@
                     >
                   </el-table-column>
                   <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.stock_status=="none"?'未归档':'已归档'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="总案卷数"
                     align="center"
                     prop="total_quantity"
@@ -664,6 +726,7 @@
                     <template slot-scope="props">
                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                       <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
+                      
                     </template>
                   </el-table-column>
                 </el-table>
@@ -719,6 +782,14 @@
                     >
                   </el-table-column>
                   <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.stock_status=="none"?'未归档':'已归档'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="总案卷数"
                     align="center"
                     prop="total_quantity"
@@ -746,6 +817,7 @@
                     <template slot-scope="props">
                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                       <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
+                      
                     </template>
                   </el-table-column>
                 </el-table>
@@ -801,6 +873,14 @@
                     >
                   </el-table-column>
                   <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.stock_status=="none"?'未归档':'已归档'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="总案卷数"
                     align="center"
                     prop="total_quantity"
@@ -828,6 +908,7 @@
                     <template slot-scope="props">
                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
                       <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
+                      
                     </template>
                   </el-table-column>
                 </el-table>
@@ -1101,6 +1182,37 @@
             this.print_accept = false;
             this.print_code = false;
           },
+          zuofeiClick(res){
+            var self = this;
+            var params = new URLSearchParams();
+            var token = localStorage.getItem('auth');
+
+            params.append('exhibit_id',res.exhibit_id);
+            params.append('exhibit_status','0');
+            
+
+            self.$axios({
+                method: 'post',
+                url: '/exhibit/exhibit/update',
+                data: params,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+             }).then(function(data){
+                
+                if(data.data.code==0){
+                  
+                  self.$message({
+                    type: 'success',
+                    message: '操作成功'
+                  });
+                  self.case_detail_dialog = false;
+                  self.getDataList();
+                }else{
+
+                  self.$response(data,self);
+                  
+                }
+             });
+          },
           //条码打印事件
           printClickOld(res){
             var self = this;
@@ -1232,7 +1344,7 @@
                        self.num8 = data.data.data._45;
                        // console.log(self.num1)
                        console.log(self.$children)
-                       self.$children[5].$children[0].$forceUpdate();
+                       self.$children[7].$children[0].$forceUpdate();
                        // self.$forceUpdate()
                     }else{
                       self.$response(data,self);

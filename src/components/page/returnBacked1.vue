@@ -110,6 +110,14 @@
                 </template>
               </el-table-column>
               <el-table-column
+                label="是否有效"
+                align="center"
+                >
+                <template slot-scope="props">
+                  <span v-bind:class="[props.row.exhibit_status=='0'?'colorRed':'']">{{props.row.exhibit_status=='0'?'失效':'有效'}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
                 label="存放位置"
                 align="center"
                 prop="cell_name"
@@ -122,6 +130,7 @@
                 >
                 <template slot-scope="props">
                   <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printAgain(props.row)">补打条码</el-button>
+                  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="zuofeiClick(props.row)">作废</el-button>
                 </template>
               </el-table-column>
             </el-table> 
@@ -1068,13 +1077,44 @@
                        self.num7 = data.data.data._44;
                        self.num8 = data.data.data._45;
                        // console.log(self.num1)
-                       // console.log(self.$children)
-                       self.$children[5].$children[0].$forceUpdate();
+                       console.log(self.$children)
+                       self.$children[6].$children[0].$forceUpdate();
                        // self.$forceUpdate()
                     }else{
                       self.$response(data,self);
                     }
                  });
+          },
+          zuofeiClick(res){
+            var self = this;
+            var params = new URLSearchParams();
+            var token = localStorage.getItem('auth');
+
+            params.append('exhibit_id',res.exhibit_id);
+            params.append('exhibit_status','0');
+            
+
+            self.$axios({
+                method: 'post',
+                url: '/exhibit/exhibit/update',
+                data: params,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+             }).then(function(data){
+                
+                if(data.data.code==0){
+                  
+                  self.$message({
+                    type: 'success',
+                    message: '操作成功'
+                  });
+                  self.case_detail_dialog = false;
+                  self.getDataList();
+                }else{
+
+                  self.$response(data,self);
+                  
+                }
+             });
           },
           //获取默认列表数据
           getDataList(){
