@@ -10,6 +10,7 @@
                   style="width: 250px;margin-left: 30px;"
                   filterable
                   remote
+                  clearable
                   reserve-keyword
                   placeholder="请输入关键词"
                   :remote-method="remoteMethod"

@@ -2,16 +2,17 @@
     <div>
         
         <div >
-            <div class="titleBg">待案件质量审查<div style="font-size: 20px;line-height: 20px;margin-top: -25px;"></div></div>
+            <div class="titleBg">已审结案件<div style="font-size: 20px;line-height: 20px;margin-top: -25px;"></div></div>
             <div class="block">
                 
-                <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
+                <el-input style="width:200px;" v-model="case_number" placeholder="案卷号查询"></el-input>
                 <!-- 关键词联想组建 -->
                 <el-select
                   v-model="case_name"
-                  style="width: 250px;margin-left: 30px;"
+                  style="width: 200px;margin-left: 30px;"
                   filterable
                   remote
+                  clearable
                   reserve-keyword
                   placeholder="请输入案件名"
                   :remote-method="remoteMethod"
@@ -24,7 +25,7 @@
                   </el-option>
                 </el-select>
                 <el-date-picker
-                  style="width: 250px;margin-left: 30px;"
+                  style="width: 200px;margin-left: 30px;"
                   v-model="timeYear"
                   align="right"
                   type="year"
@@ -44,10 +45,10 @@
                 </el-date-picker> -->
                 
                 <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
-                <!-- <el-button type="warning" style="margin-left: 50px;" @click="addHisDialog=true">2017诉讼案卷</el-button>
-                <el-button type="warning" style="margin-left: 50px;" @click="addHisDialog2=true">2017技术案卷</el-button>
-                <el-button type="warning" style="margin-left: 50px;" @click="addHisDialog3=true">2018文书案卷</el-button>
-                <el-button type="warning" style="margin-left: 50px;" @click="addHisDialog1=true">2018诉讼案卷</el-button> -->
+               <!--  <el-button type="warning" style="margin-left: 20px;" @click="addHisDialog=true">2017诉讼案卷</el-button>
+                <el-button type="warning" style="margin-left: 20px;" @click="addHisDialog2=true">2017技术案卷</el-button>
+                <el-button type="warning" style="margin-left: 20px;" @click="addHisDialog3=true">2018文书案卷</el-button>
+                <el-button type="warning" style="margin-left: 20px;" @click="addHisDialog1=true">2018诉讼案卷</el-button> -->
                 
             </div>
 
@@ -173,6 +174,36 @@
                 :total="total2">
           </el-pagination>
         </el-dialog>
+        <el-dialog
+          title="案件进度"
+          :visible.sync="jinduDialogVisible"
+          width="40%"
+          >
+          <div class="steps">
+            <el-steps :active="0" align-center direction="vertical" space="80px">
+              <el-step :status="bjrq==null?'wait':'finish'" title="" description="">
+                <template slot="title">是否办结：{{bjrq==null?"未办结":"已办结"}}</template>
+                <template v-if="bjrq==null?false:true" slot="description">时间：{{bjrq}}</template>
+              </el-step>
+              <el-step :status="anguan_confirm_time==null?'wait':'finish'" title="" description="">
+                <template slot="title">案件审查：{{anguan_confirm_time==null?"未审查":"已审查"}}</template>
+                <template v-if="anguan_confirm_time==null?false:true"  slot="description">时间：{{anguan_confirm_time}}</template>
+              </el-step>
+              <el-step :status="dangan_accept_time==null?'wait':'finish'" title="" description="">
+                <template slot="title">档案接收：{{dangan_accept_time==null?"未接收":"已接收"}}</template>
+                <template v-if="dangan_accept_time==null?false:true"  slot="description">时间：{{dangan_accept_time}}</template>
+              </el-step>
+              <el-step :status="stock_status=='none'?'wait':'finish'" title="" description="">
+                <template slot="title">是否上架：{{stock_status=="none"?"未上架":"已上架"}}</template>
+                <template v-if="stock_status=='none'?false:true"  slot="description">时间：{{gdrq}}</template>
+              </el-step>
+            </el-steps>
+          </div>
+          <span slot="footer" class="dialog-footer">
+            <!-- <el-button @click="jinduDialogVisible = false">取 消</el-button> -->
+            <el-button type="primary" @click="jinduDialogVisible = false">关 闭</el-button>
+          </span>
+        </el-dialog>
         <div id="container" style="width: 100%;height: 110%;  float: right;">
           
           
@@ -236,6 +267,22 @@
                     prop="case_desc"
                     >
                   </el-table-column>
+                  
+                  <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.time_status=='in'?'已归档':''}}</span>
+                        <span>{{props.row.time_status=='in_jj_out'?'已归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_rk_out'?'已归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_all_out'?'已归档（双超期）':''}}</span>
+                        <span>{{props.row.time_status=='none'?'未归档':''}}</span>
+                        <span>{{props.row.time_status=='none_jj_out'?'未归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_rk_out'?'未归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
+                    </template>
+                  </el-table-column>
                   <el-table-column
                     label="承办人"
                     align="center"
@@ -262,6 +309,14 @@
                         <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
                     </template>
                   </el-table-column>
+                  <!-- <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center">
+                      <template slot-scope="props">
+                        <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
+                      </template>
+                  </el-table-column> -->
                   <!-- <el-table-column
                     label="操作"
                     width="300px"
@@ -333,6 +388,21 @@
                     >
                   </el-table-column>
                   <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.time_status=='in'?'已归档':''}}</span>
+                        <span>{{props.row.time_status=='in_jj_out'?'已归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_rk_out'?'已归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_all_out'?'已归档（双超期）':''}}</span>
+                        <span>{{props.row.time_status=='none'?'未归档':''}}</span>
+                        <span>{{props.row.time_status=='none_jj_out'?'未归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_rk_out'?'未归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="承办人"
                     align="center"
                     prop="case_take_user_name"
@@ -358,6 +428,14 @@
                         <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
                     </template>
                   </el-table-column>
+                  <!-- <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center">
+                      <template slot-scope="props">
+                        <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
+                      </template>
+                  </el-table-column> -->
                   <!-- <el-table-column
                     label="操作"
                     width="300px"
@@ -429,6 +507,21 @@
                     >
                   </el-table-column>
                   <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.time_status=='in'?'已归档':''}}</span>
+                        <span>{{props.row.time_status=='in_jj_out'?'已归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_rk_out'?'已归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_all_out'?'已归档（双超期）':''}}</span>
+                        <span>{{props.row.time_status=='none'?'未归档':''}}</span>
+                        <span>{{props.row.time_status=='none_jj_out'?'未归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_rk_out'?'未归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="承办人"
                     align="center"
                     prop="case_take_user_name"
@@ -454,6 +547,133 @@
                         <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
                     </template>
                   </el-table-column>
+                  <!-- <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center">
+                      <template slot-scope="props">
+                        <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
+                      </template>
+                  </el-table-column> -->
+                  <!-- <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
+                    </template>
+                  </el-table-column> -->
+                </el-table>
+              </el-tab-pane>
+              <el-tab-pane name="tabName9" class="tabClass">
+                <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
+                  公益诉讼
+                  <el-badge :value="num9" :hidden="num9==0?true:false" :max="9999" class="badgeClass"> 
+                  </el-badge>
+                </span>
+                <el-table
+                  ref="multipleTable9"
+                  :data="caseList"
+                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                  :row-style="rowStyle"
+                  class="tableClass"
+                  @selection-change="handleSelectionChange"
+                  >
+                  <el-table-column
+                    type="index"
+                    align="center"
+                    width="50">
+                  </el-table-column>
+                  <el-table-column
+                    type="selection"
+                    width="65">
+                  </el-table-column>
+                  <el-table-column
+                    label="案件编号"
+                    align="center"
+                    prop="case_bh">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="案件名称"
+                    align="center"
+                    prop="case_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件类型"
+                    align="center"
+                    prop="case_type_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件状态"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.case_none_status==1?'评查中':'待入库'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="案件描述"
+                    align="center"
+                    show-overflow-tooltip
+                    prop="case_desc"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.time_status=='in'?'已归档':''}}</span>
+                        <span>{{props.row.time_status=='in_jj_out'?'已归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_rk_out'?'已归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_all_out'?'已归档（双超期）':''}}</span>
+                        <span>{{props.row.time_status=='none'?'未归档':''}}</span>
+                        <span>{{props.row.time_status=='none_jj_out'?'未归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_rk_out'?'未归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="总案卷数"
+                    align="center"
+                    prop="total_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="在库案卷数"
+                    align="center"
+                    prop="in_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="待入库案卷数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
+                    </template>
+                  </el-table-column>
+                  <!-- <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center">
+                      <template slot-scope="props">
+                        <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
+                      </template>
+                  </el-table-column> -->
                   <!-- <el-table-column
                     label="操作"
                     width="300px"
@@ -525,6 +745,21 @@
                     >
                   </el-table-column>
                   <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.time_status=='in'?'已归档':''}}</span>
+                        <span>{{props.row.time_status=='in_jj_out'?'已归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_rk_out'?'已归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_all_out'?'已归档（双超期）':''}}</span>
+                        <span>{{props.row.time_status=='none'?'未归档':''}}</span>
+                        <span>{{props.row.time_status=='none_jj_out'?'未归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_rk_out'?'未归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="承办人"
                     align="center"
                     prop="case_take_user_name"
@@ -550,6 +785,14 @@
                         <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
                     </template>
                   </el-table-column>
+                  <!-- <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center">
+                      <template slot-scope="props">
+                        <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
+                      </template>
+                  </el-table-column> -->
                   <!-- <el-table-column
                     label="操作"
                     width="300px"
@@ -621,6 +864,21 @@
                     >
                   </el-table-column>
                   <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.time_status=='in'?'已归档':''}}</span>
+                        <span>{{props.row.time_status=='in_jj_out'?'已归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_rk_out'?'已归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_all_out'?'已归档（双超期）':''}}</span>
+                        <span>{{props.row.time_status=='none'?'未归档':''}}</span>
+                        <span>{{props.row.time_status=='none_jj_out'?'未归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_rk_out'?'未归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="承办人"
                     align="center"
                     prop="case_take_user_name"
@@ -646,6 +904,14 @@
                         <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
                     </template>
                   </el-table-column>
+                  <!-- <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center">
+                      <template slot-scope="props">
+                        <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
+                      </template>
+                  </el-table-column> -->
                   <!-- <el-table-column
                     label="操作"
                     width="300px"
@@ -717,6 +983,21 @@
                     >
                   </el-table-column>
                   <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.time_status=='in'?'已归档':''}}</span>
+                        <span>{{props.row.time_status=='in_jj_out'?'已归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_rk_out'?'已归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_all_out'?'已归档（双超期）':''}}</span>
+                        <span>{{props.row.time_status=='none'?'未归档':''}}</span>
+                        <span>{{props.row.time_status=='none_jj_out'?'未归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_rk_out'?'未归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="承办人"
                     align="center"
                     prop="case_take_user_name"
@@ -739,9 +1020,17 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>{{num1}}</span>
+                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
                     </template>
                   </el-table-column>
+                  <!-- <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center">
+                      <template slot-scope="props">
+                        <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
+                      </template>
+                  </el-table-column> -->
                   <!-- <el-table-column
                     label="操作"
                     width="300px"
@@ -756,7 +1045,7 @@
               </el-tab-pane>
               <el-tab-pane name="tabName7" class="tabClass">
                 <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
-                  技术
+                  检察技术
                   <el-badge :value="num7" :hidden="num7==0?true:false" :max="9999" class="badgeClass"> 
                   </el-badge>
                 </span>
@@ -813,6 +1102,21 @@
                     >
                   </el-table-column>
                   <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.time_status=='in'?'已归档':''}}</span>
+                        <span>{{props.row.time_status=='in_jj_out'?'已归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_rk_out'?'已归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_all_out'?'已归档（双超期）':''}}</span>
+                        <span>{{props.row.time_status=='none'?'未归档':''}}</span>
+                        <span>{{props.row.time_status=='none_jj_out'?'未归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_rk_out'?'未归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="承办人"
                     align="center"
                     prop="case_take_user_name"
@@ -835,9 +1139,17 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>{{num1}}</span>
+                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
                     </template>
                   </el-table-column>
+                  <!-- <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center">
+                      <template slot-scope="props">
+                        <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
+                      </template>
+                  </el-table-column> -->
                   <!-- <el-table-column
                     label="操作"
                     width="300px"
@@ -909,6 +1221,21 @@
                     >
                   </el-table-column>
                   <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.time_status=='in'?'已归档':''}}</span>
+                        <span>{{props.row.time_status=='in_jj_out'?'已归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_rk_out'?'已归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_all_out'?'已归档（双超期）':''}}</span>
+                        <span>{{props.row.time_status=='none'?'未归档':''}}</span>
+                        <span>{{props.row.time_status=='none_jj_out'?'未归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_rk_out'?'未归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="承办人"
                     align="center"
                     prop="case_take_user_name"
@@ -931,9 +1258,17 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>{{num1}}</span>
+                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
                     </template>
                   </el-table-column>
+                  <!-- <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center">
+                      <template slot-scope="props">
+                        <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
+                      </template>
+                  </el-table-column> -->
                   <!-- <el-table-column
                     label="操作"
                     width="300px"
@@ -986,6 +1321,7 @@
               num6:0,
               num7:0,
               num8:0,
+              num9:0,
               addHisDialog1:false,
               addHisDialog2:false,
               addHisDialog3:false,
@@ -1014,7 +1350,15 @@
               uploadUrl2:'',
               uploadUrl3:'',
               myHeaders:'',
-              timeYear:''
+              timeYear:'',
+              jinduDialogVisible:false,
+              bjrq:'',
+              anguan_confirm_time:'',
+              dangan_accept_time:'',
+              stock_status:'',
+              gdrq:'',
+              
+             
             }
               
       },
@@ -1076,6 +1420,16 @@
             // this.$socketApi.sendSock('text',this.getConfigResult);
             this.exhibits = res.exhibits;
             this.case_detail_dialog = true;
+          },
+          // 查看案件步骤
+          liuchengClick(res){
+            this.jinduDialogVisible = true;
+            this.bjrq = res.bjrq;
+            this.anguan_confirm_time = res.anguan_confirm_time;
+            this.dangan_accept_time = res.dangan_accept_time;
+            this.stock_status = res.stock_status;
+            this.gdrq = res.gdrq;
+            
           },
           //查询事件
           searchClick(){
@@ -1173,7 +1527,8 @@
           pageChange2(){
 
           },
-          //关键字模糊查询提示
+          
+          //关键字模糊查询提示2020
           remoteMethod(query) {
             if (query !== '') {
               this.loading = true;
@@ -1184,7 +1539,7 @@
                   return item.label.toLowerCase()
                     .indexOf(query.toLowerCase()) > -1;
                 });
-              }, 200);
+              }, 2000);
             } else {
               this.options4 = [];
             }
@@ -1249,10 +1604,10 @@
                 self.case_name = query;
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-                params.append('ad_user_true_name',self.name);
+                params.append('ad_user_true_name',self.case_name);
                 self.$axios({
                     method: 'post',
-                    url: '/stop/getAdUserNames',
+                    url: '/cases/cases/getCasesName',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
@@ -1260,7 +1615,7 @@
                     if(data.data.code==0){
                         self.states = data.data.data;
                         self.list = self.states.map(item => {
-                          return { value: item.value, label: item.value};
+                          return { value: item.case_name, label: item.case_name};
                         });
                     }else{
                       self.$response(data,self);
@@ -1278,6 +1633,7 @@
                 params.append('timeYear',self.timeYear);
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
+                params.append('bjrq','NOTNULL');
                 self.$axios({
                     method: 'post',
                     url: '/cases/cases/getCountForType',
@@ -1295,6 +1651,7 @@
                        self.num6 = data.data.data._35;
                        self.num7 = data.data.data._44;
                        self.num8 = data.data.data._45;
+                       self.num9 = data.data.data._46;
                        // console.log(self.num1)
                        console.log(self.$children)
                        self.$children[9].$children[0].$forceUpdate();
@@ -1378,6 +1735,7 @@
                 params.append('tongyi_status','');
                 params.append('case_none_confirm','0');
                 params.append('timeYear',self.timeYear);
+                params.append('bjrq','NOTNULL');
                 
                 switch(self.activeName){
                 case 'tabName1':
@@ -1403,6 +1761,9 @@
                   break;
                 case 'tabName8':
                   params.append('case_type_id','45');
+                  break;
+                case 'tabName9':
+                  params.append('case_type_id','46');
                   break;
                 default:
                   
@@ -1576,5 +1937,8 @@
     }
     .colorRed{
       color: red;
+    }
+    .steps{
+      margin-left: 50px;
     }
 </style>

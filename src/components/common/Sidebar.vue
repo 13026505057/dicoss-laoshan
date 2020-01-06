@@ -54,17 +54,26 @@ import md5 from 'js-md5';
                         index: '10',
                         title: '案管部门',
                         subs:[
+                            {
+                                
+                                index: 'waitForInstore1jindu1',
+                                title: '> 案件进度查询'
+                            },
                             {   
                                 index: 'waitForInStore1',
-                                title: '> 待质量审查案件'
+                                title: '> 已审结案件'
                             },
                             {   
                                 index: 'returnBacking1',
-                                title: '> 应归档案件'
+                                title: '> 符合归档条件案卷'
                             },
                             {   
                                 index: 'returnBacked1',
-                                title: '> 已归档案件'
+                                title: '> >已归档案件'
+                            },
+                            {   
+                                index: 'weiguidanganguan',
+                                title: '> >未归档案件'
                             },
                             // {   
                             //     index: 'instore1',
@@ -82,8 +91,13 @@ import md5 from 'js-md5';
                         title: '档案部门',
                         subs:[
                             {
+                                
+                                index: 'waitForInstore1jindu2',
+                                title: '> 案件进度查询'
+                            },
+                            {
                                 index: 'returnBacking',
-                                title: '> 应入库案卷'
+                                title: '> 符合归档条件的案卷'
                                 
                                 // subs:[
                                 //     {   
@@ -106,7 +120,7 @@ import md5 from 'js-md5';
                             },
                             {
                                 index: 'waitForInStore',
-                                title: '> 待档案室审查入库'
+                                title: '> 档案接收'
                                 // icon: 'el-icon-setting',
                                 // index: '1',
                                 // title: '应入库档案管理',
@@ -127,7 +141,7 @@ import md5 from 'js-md5';
                             },
                             {
                                 index: 'waitForOutStore',
-                                title: '> 未入库(档案室审查通过)'
+                                title: '> >档案检查（已通过）'
                                 // icon: 'el-icon-setting',
                                 // index: '2',
                                 // title: '待出库档案管理',
@@ -148,7 +162,7 @@ import md5 from 'js-md5';
                             },
                             {
                                 index: 'returnStore',
-                                title: '> 已入库案卷'
+                                title: '> >入库上架'
                                 // icon: 'el-icon-setting',
                                 // index: '3',
                                 // title: '待归还档案管理',
@@ -191,20 +205,20 @@ import md5 from 'js-md5';
                     {
                         icon: 'el-icon-setting',
                         index: '6',
-                        title: '档案分析',
+                        title: '档案利用',
                         subs:[
                             {   
                                 index: 'jieyuezongjie',
-                                title: '> 借阅总结'
+                                title: '> 档案借阅'
                             },
                             {   
                                 index: 'nianzhongzongjie',
-                                title: '> 年度总结'
+                                title: '> 利用分析'
                             },
-                            {   
-                                index: 'lishiyange',
-                                title: '> 历史沿革'
-                            },
+                            // {   
+                            //     index: 'lishiyange',
+                            //     title: '> 历史沿革'
+                            // },
                         ]
                     },
                     {
@@ -215,58 +229,118 @@ import md5 from 'js-md5';
                     {
                         icon: 'el-icon-setting',
                         index: 'addHistory1',
-                        title: ' 回写业务绩效'
+                        title: ' 档案绩效评价'
+                    },
+                    {
+                        icon: 'el-icon-setting',
+                        index: '20',
+                        title: '个人相关',
+                        subs:[
+                            // {   
+                            //     index: 'waitForInStore1',
+                            //     title: '> 待质量审查案件'
+                            // },
+                            {   
+                                index: 'biguidang',
+                                title: '> 应归档案件'
+                            },
+                            {   
+                                index: 'returnBacking2',
+                                title: '> > 必归档案件'
+                            },
+                            {   
+                                index: 'weiguidanganguan2',
+                                title: '> > 未归档案件'
+                            },
+                            {   
+                                index: 'returnBacked2',
+                                title: '> > 已归档案件'
+                            },
+                            // {   
+                            //     index: 'instore1',
+                            //     title: '> 在库案件档案梳理表'
+                            // },
+                            // {   
+                            //     index: 'anjianchaxun1',
+                            //     title: '> 整体案件档案梳理表'
+                            // },
+                        ]
                     },
                     {
                         icon: 'el-icon-setting',
                         index: '8',
-                        title: '统计分析',
+                        title: '分析评估',
                         subs:[
+                            // {   
+                            //     index: 'chengbanrenBymonth',
+                            //     title: '> 承办人月归档梳理'
+                            // },
+                            // {   
+                            //     index: 'chengbanrenByYear',
+                            //     title: '> 承办人年归档梳理'
+                            // },
+                            // {   
+                            //     index: 'chengbanren',
+                            //     title: '> 承办人整体归档梳理'
+                            // },
+                            // {   
+                            //     index: 'bumenBymonth',
+                            //     title: '> 部门月归档梳理'
+                            // },
+                            // {   
+                            //     index: 'bumenByYear',
+                            //     title: '> 部门年归档梳理'
+                            // },
+                            // {   
+                            //     index: 'inStoreByBumen',
+                            //     title: '> 部门整体归档梳理'
+                            // },
+                           
+                            // {   
+                            //     index: 'bumenBymonthOut',
+                            //     title: '> 部门月借阅梳理'
+                            // },
+                            // {   
+                            //     index: 'bumenByYearOut',
+                            //     title: '> 部门年借阅梳理'
+                            // },
+                            // {   
+                            //     index: 'historyByBumen',
+                            //     title: '> 部门整体借阅梳理'
+                            // }
                             {   
-                                index: 'chengbanrenBymonth',
-                                title: '> 承办人月归档梳理'
+                                index: 'geyewuying',
+                                title: '> 各业务类型应归档案件'
                             },
                             {   
-                                index: 'chengbanrenByYear',
-                                title: '> 承办人年归档梳理'
+                                index: 'geyewuyi',
+                                title: '> 各业务类型已归档案件'
                             },
                             {   
-                                index: 'chengbanren',
-                                title: '> 承办人整体归档梳理'
-                            },
-                            {   
-                                index: 'bumenBymonth',
-                                title: '> 部门月归档梳理'
-                            },
-                            {   
-                                index: 'bumenByYear',
-                                title: '> 部门年归档梳理'
-                            },
-                            {   
-                                index: 'inStoreByBumen',
-                                title: '> 部门整体归档梳理'
+                                index: 'geyewuwei',
+                                title: '> 各业务类型未归档案件'
                             },
                            
                             {   
-                                index: 'bumenBymonthOut',
-                                title: '> 部门月借阅梳理'
+                                index: 'bananrenying',
+                                title: '> 办案人应归档案件'
                             },
                             {   
-                                index: 'bumenByYearOut',
-                                title: '> 部门年借阅梳理'
+                                index: 'bananrenyi',
+                                title: '> 办案人已归档案件'
                             },
                             {   
-                                index: 'historyByBumen',
-                                title: '> 部门整体借阅梳理'
+                                index: 'bananrenwei',
+                                title: '> 办案人未归档案件'
                             }
                         ]
                     },
                     
-                    {
-                        icon: 'el-icon-setting',
-                        index: 'videoHistory',
-                        title: '现场还原'
-                    },
+                    // {
+                    //     icon: 'el-icon-setting',
+                    //     index: 'videoHistory',
+                    //     title: '现场还原'
+                    // },
                     {
                         icon: 'el-icon-setting',
                         index: '5',
@@ -365,29 +439,93 @@ import md5 from 'js-md5';
         created(){
             var level = localStorage.getItem('user_type');
             switch(level) {
-                case '1,2,3':
+                case '1,2,3,4':
                     
                    break;
                 case '1,2':
                    this.items.splice(8,1)
+                   this.items.splice(6,1)
+                   break;
+                case '5,6':
+                   this.items.splice(8,1)
+                   this.items.splice(6,1)
+                   break;
+                case '1,2,4':
+                   this.items.splice(8,1)
+                   break;
+                case '1,3,4':
+                   this.items.splice(1,1)
+                   this.items.splice(4,1)
+                   break;
+                case '2,3,4':
+                   // this.items.splice(8,1)
+                   this.items.splice(2,1)
+                   this.items.splice(2,1)
+                   this.items.splice(2,1)
+                   break;
+                case '1,2,3':
+                   this.items.splice(6,1)
+                   break;
+                case '1,4':
+                   this.items.splice(8,1)
+                   this.items.splice(1,1)
+                   this.items.splice(4,1)
+                   break;
+                case '2,4':
+                   this.items.splice(8,1)
+                   this.items.splice(2,1)
+                   this.items.splice(2,1)
+                   this.items.splice(2,1)
+                   break;
+                case '3,4':
+                   this.items.splice(1,1)
+                   this.items.splice(1,1)
+                   this.items.splice(1,1)
+                   this.items.splice(1,1)
+                   this.items.splice(1,1)
+                   break;
+                case '4':
+                   this.items.splice(8,1)
+                   this.items.splice(1,1)
+                   this.items.splice(1,1)
+                   this.items.splice(1,1)
+                   this.items.splice(1,1)
+                   this.items.splice(1,1)
                    break;
                 case '1,3':
+                    this.items.splice(6,1)
                     this.items.splice(1,1)
                     this.items.splice(4,1)
                     // this.items.splice(2,1)
                    break;
                 case '2,3':
+                    this.items.splice(6,1)
                     this.items.splice(2,1)
                     this.items.splice(2,1)
                     this.items.splice(2,1)
                    break;
                 case '1':
                     this.items.splice(8,1)
+                    this.items.splice(6,1)
+                    this.items.splice(1,1)
+                    this.items.splice(4,1)
+                   break;
+                case '5':
+                    this.items.splice(8,1)
+                    this.items.splice(6,1)
                     this.items.splice(1,1)
                     this.items.splice(4,1)
                    break;
                 case '2':
                     this.items.splice(8,1)
+                    this.items.splice(6,1)
+                    this.items.splice(2,1)
+                    this.items.splice(2,1)
+                    this.items.splice(2,1)
+                   break;
+                case '6':
+                    this.items.splice(8,1)
+                    this.items.splice(6,1)
                     this.items.splice(2,1)
                     this.items.splice(2,1)
                     this.items.splice(2,1)

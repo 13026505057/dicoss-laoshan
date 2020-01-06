@@ -385,11 +385,12 @@
                   return item.label.toLowerCase()
                     .indexOf(query.toLowerCase()) > -1;
                 });
-              }, 200);
+              }, 2000);
             } else {
               this.options4 = [];
             }
           },
+          
           
           //关键字模糊查询提示
           getNameList(query){
@@ -397,10 +398,10 @@
                 self.case_name = query;
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-                params.append('ad_user_true_name',self.name);
+                params.append('ad_user_true_name',self.case_name);
                 self.$axios({
                     method: 'post',
-                    url: '/stop/getAdUserNames',
+                    url: '/cases/cases/getCasesName',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
@@ -408,7 +409,7 @@
                     if(data.data.code==0){
                         self.states = data.data.data;
                         self.list = self.states.map(item => {
-                          return { value: item.value, label: item.value};
+                          return { value: item.case_name, label: item.case_name};
                         });
                     }else{
                       self.$response(data,self);

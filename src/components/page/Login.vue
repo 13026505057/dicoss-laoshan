@@ -57,6 +57,7 @@
                     if(data.data.code==0){
                        
                         localStorage.setItem('auth',data.data.data.token);
+                        localStorage.setItem('userId',data.data.data.user.user_id);
                         localStorage.setItem('ad_user_true_name',data.data.data.user.user_true_name);
                         var arr = []
                         for(var i = 0; i < data.data.data.user.userGroups.length;i++){

@@ -23,6 +23,21 @@ export default new Router({
                     component: resolve => require(['../components/page/waitForInStore.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
+                    name: '应归档',
+                    path: '/biguidang',
+                    component: resolve => require(['../components/page/biguidang.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '待入库',
+                    path: '/beput',
+                    component: resolve => require(['../components/page/beput.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '待入库',
+                    path: '/beput1',
+                    component: resolve => require(['../components/page/beput1.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
                     name: '入库历史',
                     path: '/inStoreHistory',
                     component: resolve => require(['../components/page/inStoreHistory.vue'], resolve) // Vue-Quill-Editor组件
@@ -222,6 +237,17 @@ export default new Router({
                     path: '/waitForInstore1',
                     component: resolve => require(['../components/page/waitForInstore1.vue'], resolve) // Vue-Quill-Editor组件
                 },
+                
+                {
+                    name: '案件进度查询',
+                    path: '/waitForInstore1jindu1',
+                    component: resolve => require(['../components/page/waitForInstore1jindu1.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '案件进度查询',
+                    path: '/waitForInstore1jindu2',
+                    component: resolve => require(['../components/page/waitForInstore1jindu2.vue'], resolve) // Vue-Quill-Editor组件
+                },
                 {
 
                     name: '承办人月归档梳理',
@@ -249,9 +275,74 @@ export default new Router({
                     component: resolve => require(['../components/page/addHistory1.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
+                    name: '未归档（案管）',
+                    path: '/weiguidanganguan',
+                    component: resolve => require(['../components/page/weiguidanganguan.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '打印测试',
+                    path: '/returnBacking2',
+                    component: resolve => require(['../components/page/returnBacking2.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '打印测试',
+                    path: '/weiguidanganguan2',
+                    component: resolve => require(['../components/page/weiguidanganguan2.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '打印测试',
+                    path: '/returnBacked2',
+                    component: resolve => require(['../components/page/returnBacked2.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
                     name: '打印测试',
                     path: '/printTest',
                     component: resolve => require(['../components/page/printTest.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '未绑查询',
+                    path: '/weibang',
+                    component: resolve => require(['../components/page/weibang.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '各业务应归档案件',
+                    path: '/geyewuying',
+                    component: resolve => require(['../components/page/geyewuying.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '各业务已归档案件',
+                    path: '/geyewuyi',
+                    component: resolve => require(['../components/page/geyewuyi.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '各业务未归档案件',
+                    path: '/geyewuwei',
+                    component: resolve => require(['../components/page/geyewuwei.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '办案人应归档案件',
+                    path: '/bananrenying',
+                    component: resolve => require(['../components/page/bananrenying.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '办案人已归档案件',
+                    path: '/bananrenyi',
+                    component: resolve => require(['../components/page/bananrenyi.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '人工匹配',
+                    path: '/pipei',
+                    component: resolve => require(['../components/page/pipei.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '人工匹配历史',
+                    path: '/pipeilishi',
+                    component: resolve => require(['../components/page/pipeilishi.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '办案人未归档案件',
+                    path: '/bananrenwei',
+                    component: resolve => require(['../components/page/bananrenwei.vue'], resolve) // Vue-Quill-Editor组件
                 }
             ]
         },

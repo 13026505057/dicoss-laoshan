@@ -2,20 +2,19 @@
     <div>
         
         <div >
-            <div class="titleBg">历史案卷</div>
+            <div class="titleBg">匹配操作历史</div>
             <div class="block">
                 
-                <el-input style="width:150px;" v-model="case_number" placeholder="请输入统一涉案号"></el-input>
-                <el-input @change="scanChange" style="width:180px;margin-left: 20px;" v-model="scan_number" placeholder="请扫描案卷条码"></el-input>
+                <el-input style="width:250px;" v-model="case_number" placeholder="请输入统一涉案号"></el-input>
                 <!-- 关键词联想组建 -->
                 <el-select
                   v-model="case_name"
-                  style="width: 150px;margin-left: 20px;"
+                  style="width: 250px;margin-left: 30px;"
                   filterable
                   remote
                   clearable
                   reserve-keyword
-                  placeholder="请输入案件名"
+                  placeholder="请输入案卷名"
                   :remote-method="remoteMethod"
                   :loading="loading">
                   <el-option
@@ -26,7 +25,7 @@
                   </el-option>
                 </el-select>
                 <el-date-picker
-                  style="width: 120px;margin-left: 20px;"
+                  style="width: 250px;margin-left: 30px;"
                   v-model="timeYear"
                   align="right"
                   type="year"
@@ -34,7 +33,7 @@
                   value-format="yyyy"
                   placeholder="选择年份">
                 </el-date-picker>
-                <el-select style="width: 120px;margin-left: 20px;" v-model="stateFlag" placeholder="请选择状态">
+                <el-select style="width: 250px;margin-left: 30px;" v-model="stateFlag" placeholder="请选择状态">
                   <el-option
                     v-for="item in stateList"
                     :key="item.value"
@@ -54,77 +53,13 @@
                 </el-date-picker> -->
                 
                 <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
-                <el-button type="warning" style="margin-left: 30px;" @click="outClick">导出</el-button>
-                <el-button type="warning" style="margin-left: 30px;" @click="addNewClick">新增</el-button>
-                <el-button type="warning" style="margin-left: 30px;" @click="pipeiClick">人工匹配</el-button>
-                <el-button type="warning" style="margin-left: 30px;" @click="weibangClick">未绑查询</el-button>
-                <el-button type="warning" style="margin-left: 30px;" @click="lishiClick">匹配历史</el-button>
+                <!-- <el-button type="warning" style="margin-left: 30px;" @click="pipeiClick">人工匹配</el-button>
+                <el-button type="warning" style="margin-left: 30px;" @click="searchClick">匹配历史</el-button> -->
                 
             </div>
 
           
         </div>
-        <el-dialog
-          title="新增历史案卷"
-          :visible.sync="addNewClickDialog" 
-          >
-            <el-form ref="form" :model="form" label-width="120px" label-position="left" style="margin-left:20px;">
-              <el-form-item label="卷宗名称" style="display: inline-block;">
-                <el-input v-model="form.exhibit_name" style="width: 200px;float: left;"></el-input>
-              </el-form-item>
-              <el-form-item label="年度" style="display: inline-block;margin-left:80px;">
-                <el-input v-model="form.nd" style="width: 200px;float: left;"></el-input>
-              </el-form-item>
-              <el-form-item label="统一受案号" style="display: inline-block;">
-                <el-input v-model="form.tysah" style="width: 200px;float: left;"></el-input>
-              </el-form-item>
-              <el-form-item label="档号" style="display: inline-block;margin-left:80px;">
-                <el-input v-model="form.dh" style="width: 200px;float: left;"></el-input>
-              </el-form-item>
-              <el-form-item label="卷号" style="display: inline-block;">
-                <el-input v-model="form.jh" style="width: 200px;float: left;"></el-input>
-              </el-form-item>
-              <el-form-item label="案由" style="display: inline-block;margin-left:80px;">
-                <el-input v-model="form.ay" style="width: 200px;float: left;"></el-input>
-              </el-form-item>
-              <el-form-item label="承办人" style="display: inline-block;">
-                <el-input v-model="form.cbr" style="width: 200px;float: left;"></el-input>
-              </el-form-item>
-              <el-form-item label="犯罪嫌疑人" style="display: inline-block;margin-left:80px;">
-                <el-input v-model="form.bgr" style="width: 200px;float: left;"></el-input>
-              </el-form-item>
-              
-              
-              <el-form-item label="期限" style="display: block;">
-                <el-select  v-model="form.bgqx" placeholder="请选择" style="width:208px;">
-                  <el-option
-                    v-for="item in bgqxList"
-                    :key="item.value"
-                    :label="item.name"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="类型" style="display: block;">
-                <el-select   v-model="form.exhibit_type" placeholder="请选择" style="width:208px;">
-                  <el-option
-                    v-for="item in typeList"
-                    :key="item.value"
-                    :label="item.name"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="是否打印条码" style="display: block;">
-                <el-radio v-model="form.print_code" label="1">打印</el-radio>
-                <el-radio v-model="form.print_code" label="0">不打印</el-radio>
-              </el-form-item>
-            </el-form>            
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="addNewClickDialog = false">取 消</el-button>
-              <el-button type="primary" @click="sureAdd">确 定</el-button>
-            </span>
-        </el-dialog>
         <el-dialog title="历史案件导入" :visible.sync="addHisDialog">
             <el-upload
               style="text-align:center;"
@@ -228,9 +163,32 @@
                     width="50">
                   </el-table-column>
                   <el-table-column
-                    label="统一涉案号"
+                    label="案卷名称"
                     align="center"
-                    prop="tysah">
+                    show-overflow-tooltip
+                    prop="exhibit_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="新统一受案号"
+                    align="center"
+                    prop="exhibit_new_tysah">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="旧统一受案号"
+                    align="center"
+                    prop="exhibit_old_tysah">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="档号"
+                    align="center"
+                    prop="dh">
                     <!-- <template slot-scope="props">
                       <span>签到考勤</span>
                     </template> -->
@@ -244,25 +202,19 @@
                     </template> -->
                   </el-table-column>
                   <el-table-column
-                    label="档号"
+                    label="操作时间"
                     align="center"
-                    prop="dh"
+                    prop="operate_time"
                     >
                   </el-table-column>
                   <el-table-column
-                    label="卷号"
+                    label="操作人"
                     align="center"
-                    prop="jh"
+                    prop="operate_user_name"
                     >
                   </el-table-column>
-                  <el-table-column
-                    label="案卷名称"
-                    align="center"
-                    show-overflow-tooltip
-                    prop="exhibit_name"
-                    >
-                  </el-table-column>
-                  <el-table-column
+                  
+                  <!-- <el-table-column
                     label="案卷类型"
                     align="center"
                     
@@ -274,31 +226,19 @@
                     </template>
                   </el-table-column>
                   <el-table-column
-                    label="存放位置"
-                    align="center"
-                    prop="cell_name"
-                    >
-                  </el-table-column>
-                  <el-table-column
                     label="年度"
                     align="center"
                     prop="nd"
                     >
-                  </el-table-column>
-                  <el-table-column
+                  </el-table-column> -->
+                  <!-- <el-table-column
                     label="入库状态"
                     align="center"
                     >
                     <template slot-scope="props">
                         <span>{{props.row.stock_status=='none'?'未入库':'已入库'}}</span> 
                     </template>
-                  </el-table-column>
-                  <el-table-column
-                    label="隶属案件类型"
-                    align="center"
-                    prop="case_type_name"
-                    >
-                  </el-table-column>
+                  </el-table-column> -->
                   <!-- <el-table-column
                     label="在库案卷数"
                     align="center"
@@ -357,10 +297,6 @@
               num6:0,
               num7:0,
               num8:0,
-              form:{
-                print_code:'1'
-              },
-              addNewClickDialog:false,
               activeName:'tabName1',
               case_detail_dialog:false,
               case_number:'',
@@ -372,37 +308,7 @@
               caseList: [
                 
               ],
-              bgqxList:[
-                {
-                  name:'永久',
-                  value:'1'
-                },
-                {
-                  name:'长期',
-                  value:'2'
-                },
-                {
-                  name:'短期',
-                  value:'3'
-                }
-              ],
-              typeList:[
-                {
-                  name:'诉讼',
-                  value:'SS',
-                },
-                {
-                  name:'技术',
-                  value:'JS',
-                },
-                {
-                  name:'文书',
-                  value:'WS',
-                }
-              ],
               exhibits:[],
-              scan_number15:'',
-              scan_number:'',
               total:0,
               pageNum:1,
               pageSize:10,
@@ -438,79 +344,11 @@
           this.uploadUrl = uploadUrl;
           var token = {"kf-token":myHeaders};
           this.myHeaders = token;
-          this.getNumBage();
+          // this.getNumBage();
       },
       methods: {
-          outClick(){
-                const self = this;
-                // self.getNumBage();
-                window.open(self.$axios.defaults.baseURL+'/exhibit/exhibit/exoprtExhibits?exhibit_name='+self.case_name+'&tysah='+self.case_number+'&nd='+self.timeYear+'&stock_status='+self.stateFlag+'&out_exhibit_id='+self.scan_number)
-                
-          },
-          scanChange(val){
-            const self = this;
-            if(val.length==15){
-              self.scan_number15 = val
-            }
-            if(val.length>15){
-              self.scan_number = self.scan_number15
-            }
-
-          },
-          lishiClick(){
-            this.$router.push('/pipeilishi');
-          },
-          sureAdd(){
-                var self = this;
-                var params = new URLSearchParams();
-                var token = localStorage.getItem('auth');
-                params.append('nd',self.form.nd);
-                params.append('exhibit_type',self.form.exhibit_type);
-                params.append('bgqx',self.form.bgqx);
-                params.append('exhibit_name',self.form.exhibit_name);
-                params.append('tysah',self.form.tysah);
-                params.append('ay',self.form.ay);
-                params.append('cbr',self.form.cbr);
-                params.append('bgr',self.form.bgr);
-                params.append('dh',self.form.dh);
-                params.append('jh',self.form.jh);
-                params.append('print_code',self.form.print_code);
-                // const loading = self.$loading({
-                //   lock: true,
-                //   text: '打印中',
-                //   spinner: 'el-icon-loading',
-                //   background: 'rgba(0, 0, 0, 0.6)'
-                // });
-                self.$axios({
-                    method: 'post',
-                    url: '/exhibit/exhibit/addOldExhibit',
-                    data: params,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
-                 }).then(function(data){
-                    
-                    if(data.data.code==0){
-                      // loading.close();
-                      self.$message({
-                        type: 'success',
-                        message: '添加成功'
-                      });
-                      self.form = {
-                        print_code:'1'
-                      }
-                      self.addNewClickDialog = false;
-                    }else{
-                      self.$response(data,self);
-                    }
-                 });
-          },
-          addNewClick(){
-            this.addNewClickDialog = true;
-          },
           pipeiClick(){
             this.$router.push('/pipei');
-          },
-          weibangClick(){
-            this.$router.push('/weibang');
           },
           tabClick(res){
             console.log(res)
@@ -724,20 +562,19 @@
           //获取默认列表数据
           getDataList(){
                 const self = this;
-                self.getNumBage();
+                // self.getNumBage();
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
 
                 params.append('pageNum',self.pageNum);
                 params.append('pageSize',self.pageSize);
                 params.append('exhibit_name',self.case_name);
-                params.append('tysah',self.case_number);
+                params.append('dh',self.case_number);
                 params.append('nd',self.timeYear);
-                params.append('stock_status',self.stateFlag);
-                params.append('out_exhibit_id',self.scan_number);
+                params.append('exhibit_type',self.stateFlag);
                 
                 // params.append('stock_status','out');
-                params.append('tongyi_status','');
+                // params.append('tongyi_status','');
                 // switch(self.activeName){
                 // case 'tabName1':
                 //   params.append('case_type_id','30');
@@ -769,7 +606,7 @@
 
                 self.$axios({
                     method: 'post',
-                    url: '/exhibit/exhibit/getOldByPage',
+                    url: '/exhibit/exhibit//getExhibitLogsByPage',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
