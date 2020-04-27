@@ -82,6 +82,7 @@
               style="">
               <el-table-column
                 type="index"
+                
                 align="center"
                 >
               </el-table-column>
@@ -195,6 +196,10 @@
           this.restaurants = this.loadAll();
       },
       methods: {
+          indexMethod(index){
+            return this.pageSize*(this.pageNum-1)+index+1;
+          },
+          
           showAddNew(){
             this.dialogFormVisible = true;
           },

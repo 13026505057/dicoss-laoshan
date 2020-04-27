@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">必归档</div>
+            <div class="titleBg">必归档 <span>已通过案件质量评查，请于通过之日起一月内向档案室交卷</span></div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
@@ -73,6 +73,7 @@
               >
               <el-table-column
                 type="index"
+                :index="indexMethod1"
                 align="center"
                 width="50">
               </el-table-column>
@@ -165,6 +166,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -263,6 +265,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -361,6 +364,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod1"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -459,6 +463,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -557,6 +562,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -655,6 +661,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -753,6 +760,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -851,6 +859,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -949,6 +958,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -1103,6 +1113,12 @@
           this.getNumBage();
       },
       methods: {
+          indexMethod(index){
+            return this.pageSize*(this.pageNum-1)+index+1;
+          },
+          indexMethod1(index){
+            return this.pageSize2*(this.pageNum2-1)+index+1
+          },
           tabClick(res){
             console.log(res)
             this.activeName = res.name;
@@ -1283,11 +1299,11 @@
                 var userId = localStorage.getItem('userId');
                 // params.append('tongyi_status','0');
                 // params.append('stock_status','unnone');
-                params.append('case_none_confirm','1');
-                params.append('timeYear',self.timeYear);
-                params.append('case_name',self.case_name);
-                params.append('case_bh',self.case_number);
-                params.append('user_id',userId);
+                params.append('cout_for','bigui');
+                // params.append('case_type_id',self.timeYear);
+                // params.append('case_name',self.case_name);
+                // params.append('case_bh',self.case_number);
+                // params.append('user_id',userId);
                 self.$axios({
                     method: 'post',
                     url: '/cases/cases/getCountForType',
@@ -1307,7 +1323,7 @@
                        self.num8 = data.data.data._45;
                        self.num9 = data.data.data._46;
                        // console.log(self.num1)
-                       console.log(self.$children)
+                       // console.log(self.$children)
                        self.$children[6].$children[0].$forceUpdate();
                        // self.$forceUpdate()
                     }else{
@@ -1395,7 +1411,7 @@
 
                 self.$axios({
                     method: 'post',
-                    url: '/cases/cases/getConfirmedNotInByPage',
+                    url: '/cases/cases/getBiGuiByPage',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
@@ -1561,5 +1577,13 @@
     }
     .colorRed{
       color: red;
+    }
+    .titleBg{
+      line-height: 50px;
+    }
+    .titleBg span{
+      display: block;
+      font-size: 20px;
+
     }
 </style>

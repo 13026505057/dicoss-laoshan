@@ -83,6 +83,7 @@
               <el-table-column
                 type="index"
                 align="center"
+                :index="indexMethod1"
                 width="50">
               </el-table-column>
               <el-table-column
@@ -141,6 +142,7 @@
               >
               <el-table-column
                 type="index"
+                :index="indexMethod"
                 align="center"
                 width="50">
               </el-table-column>
@@ -247,6 +249,12 @@
           //   console.log(row)
           //   console.log(column.property)
           // },
+          indexMethod(index){
+            return this.pageSize*(this.pageNum-1)+index+1;
+          },
+          indexMethod1(index){
+            return this.pageSize2*(this.pageNum2-1)+index+1
+          },
           uploadSuccess(response){
             if(response.code==0){
               this.$message({

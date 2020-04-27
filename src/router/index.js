@@ -238,6 +238,7 @@ export default new Router({
                     component: resolve => require(['../components/page/waitForInstore1.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 
+                
                 {
                     name: '案件进度查询',
                     path: '/waitForInstore1jindu1',
@@ -346,6 +347,11 @@ export default new Router({
                 }
             ]
         },
+        {
+                    name: '下载',
+                    path: '/downLoadweigui',
+                    component: resolve => require(['../components/page/downLoadweigui.vue'], resolve) // Vue-Quill-Editor组件
+                },
         {
             path: '/login',
             component: resolve => require(['../components/page/Login.vue'], resolve)

@@ -57,7 +57,7 @@
             </el-upload>
         </el-dialog>
         <el-dialog title="案卷详情" :visible.sync="case_detail_dialog">
-          <el-table
+            <el-table
               :data="exhibits"
               :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
               :row-style="rowStyle"

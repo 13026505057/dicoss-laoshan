@@ -189,6 +189,7 @@
               style="">
               <el-table-column
                 type="index"
+                
                 align="center"
                 >
               </el-table-column>
@@ -321,6 +322,9 @@
           this.getNameSearchList('')
       },
       methods: {
+          indexMethod(index){
+            return this.pageSize*(this.pageNum-1)+index+1;
+          },
           //人员删除
           handleEdit(res){
                 const self = this;

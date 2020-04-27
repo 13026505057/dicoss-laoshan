@@ -68,7 +68,7 @@
         </el-dialog>
         <el-dialog title="新增案卷" :visible.sync="addNewAnJuan">
           <el-form ref="form" :model="addNewForm" label-width="120px" label-position="left" style="margin-left:20px;">  
-            <el-form-item label="档号(必填)" style="display: block;">
+            <el-form-item label="档号" style="display: block;">
               <el-input v-model="addNewForm.dh" placeholder="请输入档号" style="width: 200px;"></el-input>
             </el-form-item>
             <el-form-item label="卷号(必填)" style="display: block;">
@@ -119,6 +119,7 @@
               >
               <el-table-column
                 type="index"
+                :index="indexMethod1"
                 align="center"
                 width="50">
               </el-table-column>
@@ -213,6 +214,7 @@
               >
               <el-table-column
                 type="index"
+                :index="indexMethod"
                 align="center"
                 width="50">
               </el-table-column>
@@ -308,6 +310,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -413,6 +416,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -518,6 +522,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -623,6 +628,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -728,6 +734,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -833,6 +840,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -938,6 +946,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -1043,6 +1052,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -1148,6 +1158,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -1291,12 +1302,15 @@
               loading: false,
               states: [],
               caseList: [
-                
+
               ],
               addNewForm:{
                 juanzongType:'',
                 timeType:'',
-                niandu:''
+                niandu:'',
+                dh:'',
+                jh:'',
+                bgr:''
               },
               exhibits:[],
               total:0,
@@ -1353,6 +1367,7 @@
               
       },
       mounted() {
+        var self = this;
           this.getDataList();
           var myHeaders = localStorage.getItem('auth');
           var uploadUrl = this.$axios.defaults.baseURL+'/cases/cases/addByExcel';
@@ -1360,8 +1375,23 @@
           var token = {"kf-token":myHeaders};
           this.myHeaders = token;
           this.getNumBage();
+          // setTimeout(function(){
+          //   self.caseList = [
+          //       {
+
+          //       },{
+                  
+          //       }
+          //     ]
+          // },10000)
       },
       methods: {
+          indexMethod(index){
+            return this.pageSize*(this.pageNum-1)+index+1;
+          },
+          indexMethod1(index){
+            return this.pageSize2*(this.pageNum2-1)+index+1
+          },
           printClickForreturn(){
             
             const self = this;
@@ -1454,7 +1484,7 @@
                 //   spinner: 'el-icon-loading',
                 //   background: 'rgba(0, 0, 0, 0.6)'
                 // });
-                if(self.addNewForm.timeType==''||self.addNewForm.juanzongType==""||self.addNewForm.niandu==""||self.addNewForm.dh==""||self.addNewForm.jh==""||self.addNewForm.bgr==""){
+                if(self.addNewForm.timeType==''||self.addNewForm.juanzongType==""||self.addNewForm.niandu==""||self.addNewForm.jh==""||self.addNewForm.bgr==""){
                       self.$message({
                         type: 'error',
                         message: '存在未填写项目'
@@ -1824,6 +1854,8 @@
                     if(data.data.code==0){
                         self.caseList = data.data.data.list;
                         self.total = data.data.data.total;
+                        self.indexMethod();
+                        self.indexMethod1();
                     }else{
                       self.$response(data,self);
                     }

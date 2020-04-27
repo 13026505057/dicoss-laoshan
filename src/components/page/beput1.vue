@@ -75,13 +75,8 @@
           changeValue2(val){
               const self = this;
 
-              if (val!="") {
-                if(val.length==15){
-                  self.getScanCode(val)
-                }
-                
-              }else{
-
+              if(val.length==15){
+                self.getScanCode(val)
               }
                 
           },

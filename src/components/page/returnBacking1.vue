@@ -73,6 +73,7 @@
               >
               <el-table-column
                 type="index"
+                :index="indexMethod1"
                 align="center"
                 width="50">
               </el-table-column>
@@ -165,6 +166,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -263,6 +265,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -361,6 +364,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -459,6 +463,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -557,6 +562,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -655,6 +661,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -753,6 +760,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -851,6 +859,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -949,6 +958,7 @@
                   >
                   <el-table-column
                     type="index"
+                    :index="indexMethod"
                     align="center"
                     width="50">
                   </el-table-column>
@@ -1103,6 +1113,12 @@
           this.getNumBage();
       },
       methods: {
+          indexMethod(index){
+            return this.pageSize*(this.pageNum-1)+index+1;
+          },
+          indexMethod1(index){
+            return this.pageSize2*(this.pageNum2-1)+index+1
+          },
           tabClick(res){
             console.log(res)
             this.activeName = res.name;

@@ -533,6 +533,7 @@
          this.getDataList();
       },
       methods: {
+          
           sureToPrint(res){
                 const self = this;
                 if(this.radio==1){
