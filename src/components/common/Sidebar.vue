@@ -215,10 +215,10 @@ import md5 from 'js-md5';
                                 index: 'nianzhongzongjie',
                                 title: '> 利用分析'
                             },
-                            // {   
-                            //     index: 'lishiyange',
-                            //     title: '> 历史沿革'
-                            // },
+                            {   
+                                index: 'chukutongji',
+                                title: '> 出库统计'
+                            },
                         ]
                     },
                     {

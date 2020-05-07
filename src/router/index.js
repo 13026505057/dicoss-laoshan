@@ -23,6 +23,11 @@ export default new Router({
                     component: resolve => require(['../components/page/waitForInStore.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
+                    name: '出库统计',
+                    path: '/chukutongji',
+                    component: resolve => require(['../components/page/chukutongji.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
                     name: '应归档',
                     path: '/biguidang',
                     component: resolve => require(['../components/page/biguidang.vue'], resolve) // Vue-Quill-Editor组件
