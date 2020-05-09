@@ -1350,11 +1350,16 @@
                 var token = localStorage.getItem('auth');
                 // params.append('tongyi_status','1');
                 // params.append('stock_status','unnone');
-                params.append('stock_status_str','none');
+                // params.append('stock_status_str','none');
+                // params.append('timeYear',self.timeYear);
+                // params.append('case_name',self.case_name);
+                // params.append('case_bh',self.case_number);
+                // params.append('case_none_confirm','1');
                 params.append('timeYear',self.timeYear);
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
-                params.append('case_none_confirm','1');
+                // params.append('case_none_confirm','1');
+                params.append('cout_for','weigui');
                 
 
                 self.$axios({
@@ -1377,7 +1382,11 @@
                        self.num9 = data.data.data._46;
                        // console.log(self.num1)
                        console.log(self.$children)
-                       self.$children[6].$children[0].$forceUpdate();
+                       // self.$children[6].$children[0].$forceUpdate();
+                       self.$children[7].$children[0].$forceUpdate();
+                       // self.$children[8].$children[0].$forceUpdate();
+                       // self.$children[9].$children[0].$forceUpdate();
+                       // self.$children[10].$children[0].$forceUpdate();
                        // self.$forceUpdate()
                     }else{
                       self.$response(data,self);

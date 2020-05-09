@@ -24,6 +24,23 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
+                <el-select
+                  v-model="case_name"
+                  style="width: 250px;margin-left: 30px;"
+                  filterable
+                  remote
+                  clearable
+                  reserve-keyword
+                  placeholder="请输入罪名"
+                  :remote-method="remoteMethod"
+                  :loading="loading">
+                  <el-option
+                    v-for="item in options4"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
                 <el-date-picker
                   style="width: 250px;margin-left: 30px;"
                   v-model="timeYear"
@@ -33,6 +50,23 @@
                   value-format="yyyy"
                   placeholder="选择年份">
                 </el-date-picker>
+                <el-select
+                  v-model="user_true_name"
+                  style="width: 250px;margin-left: 30px;"
+                  filterable
+                  remote
+                  clearable
+                  reserve-keyword
+                  placeholder="请输入承办人"
+                  :remote-method="remoteMethod2"
+                  :loading="loading2">
+                  <el-option
+                    v-for="item in options42"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
                 <!-- <el-date-picker
                   style="margin-left: 20px;width:420px;"
                   v-model="date"
@@ -1099,7 +1133,10 @@
               addHisDialog:false,
               uploadUrl:'',
               myHeaders:'',
-              timeYear:''
+              timeYear:'',
+              loading2:false,
+              options42:[],
+              user_true_name:'',
             }
               
       },
@@ -1113,6 +1150,46 @@
           this.getNumBage();
       },
       methods: {
+          remoteMethod2(query) {
+            if (query !== '') {
+              this.loading2 = true;
+              this.getNameList2(query);
+              setTimeout(() => {
+                this.loading2 = false;
+                this.options42 = this.list2.filter(item => {
+                  return item.label.toLowerCase()
+                    .indexOf(query.toLowerCase()) > -1;
+                });
+              }, 2000);
+            } else {
+              this.options42 = [];
+            }
+          },
+          getNameList2(query){
+                const self = this;
+                self.user_true_name = query;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('user_true_name',self.user_true_name);
+                params.append('pageNum',1);
+                params.append('pageSize',1000);
+                self.$axios({
+                    method: 'post',
+                    url: '/user/getByPage',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                        self.states2 = data.data.data.list;
+                        self.list2 = self.states2.map(item => {
+                          return { value: item.user_true_name, label: item.user_true_name};
+                        });
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
           indexMethod(index){
             return this.pageSize*(this.pageNum-1)+index+1;
           },
@@ -1302,7 +1379,7 @@
                 params.append('timeYear',self.timeYear);
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
-
+                params.append('case_take_user_name',self.user_true_name);
                 self.$axios({
                     method: 'post',
                     url: '/cases/cases/getCountForType',
@@ -1323,7 +1400,7 @@
                        self.num9 = data.data.data._46;
                        // console.log(self.num1)
                        console.log(self.$children)
-                       self.$children[6].$children[0].$forceUpdate();
+                       self.$children[8].$children[0].$forceUpdate();
                        // self.$forceUpdate()
                     }else{
                       self.$response(data,self);
@@ -1373,7 +1450,7 @@
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
                 params.append('timeYear',self.timeYear);
-                
+                params.append('case_take_user_name',self.user_true_name);
                 // params.append('stock_status','unnone');
                 // params.append('tongyi_status','0');
                 switch(self.activeName){

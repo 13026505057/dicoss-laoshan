@@ -1364,7 +1364,7 @@
                  }).then(function(data){
                     
                     if(data.data.code==0){
-                      
+                        
                        self.num1 = data.data.data._30;
                        self.num2 = data.data.data._31;
                        self.num3 = data.data.data._32;
@@ -1375,8 +1375,13 @@
                        self.num8 = data.data.data._45;
                        self.num9 = data.data.data._46;
                        // console.log(self.num1)
-                       console.log(self.$children)
-                       self.$children[6].$children[0].$forceUpdate();
+                       console.log(self.$children[7].$children[0].$children[0])
+                       // self.$children[6].$children[0].$forceUpdate();
+                       self.$children[7].$children[0].$forceUpdate();
+                       
+                       // self.$children[8].$children[0].$forceUpdate();
+                       // self.$children[9].$children[0].$forceUpdate();
+                       // self.$children[10].$children[0].$forceUpdate();
                        // self.$forceUpdate()
                     }else{
                       self.$response(data,self);
