@@ -67,6 +67,7 @@ import md5 from 'js-md5';
                                 index: 'returnBacking1',
                                 title: '> 符合归档条件案卷'
                             },
+                            
                             {   
                                 index: 'returnBacked1',
                                 title: '> >已归档案件'
@@ -118,6 +119,10 @@ import md5 from 'js-md5';
                                 //     },
                                 // ]
                             },
+                            {   
+                                index: 'notFiled',
+                                title: '> 未归档案件'
+                            },
                             {
                                 index: 'waitForInStore',
                                 title: '> 档案接收'
@@ -141,7 +146,7 @@ import md5 from 'js-md5';
                             },
                             {
                                 index: 'waitForOutStore',
-                                title: '> >档案检查（已通过）'
+                                title: '>档案检查（已通过）'
                                 // icon: 'el-icon-setting',
                                 // index: '2',
                                 // title: '待出库档案管理',
@@ -162,7 +167,7 @@ import md5 from 'js-md5';
                             },
                             {
                                 index: 'returnStore',
-                                title: '> >入库上架'
+                                title: '>入库上架'
                                 // icon: 'el-icon-setting',
                                 // index: '3',
                                 // title: '待归还档案管理',

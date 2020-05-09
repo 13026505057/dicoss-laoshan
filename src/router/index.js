@@ -349,7 +349,17 @@ export default new Router({
                     name: '办案人未归档案件',
                     path: '/bananrenwei',
                     component: resolve => require(['../components/page/bananrenwei.vue'], resolve) // Vue-Quill-Editor组件
-                }
+                },
+                {
+                    name: '未归档案件',
+                    path: '/notFiled',
+                    component: resolve => require(['../components/page/notFiled.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '历史案件',
+                    path: '/historicalCases',
+                    component: resolve => require(['../components/page/historicalCases.vue'], resolve) // Vue-Quill-Editor组件
+                },
             ]
         },
         {

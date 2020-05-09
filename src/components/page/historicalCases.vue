@@ -2,12 +2,11 @@
     <div>
         
         <div >
-            <div class="titleBg">历史案卷</div>
+            <div class="titleBg">历史案件</div>
             <div class="block">
                 
-                <el-input style="width:150px;" v-model="case_number" placeholder="请输入统一涉案号"></el-input>
+                <!-- <el-input style="width:150px;" v-model="case_number" placeholder="请输入统一涉案号"></el-input>
                 <el-input @change="scanChange" style="width:180px;margin-left: 20px;" v-model="scan_number" placeholder="请扫描案卷条码"></el-input>
-                <!-- 关键词联想组建 -->
                 <el-select
                   v-model="case_name"
                   style="width: 150px;margin-left: 20px;"
@@ -41,6 +40,68 @@
                     :label="item.label"
                     :value="item.value">
                   </el-option>
+                </el-select> -->
+                <el-input style="width:200px;" v-model="case_number" placeholder="案卷号查询"></el-input>
+                <!-- 关键词联想组建 -->
+                <el-select
+                  v-model="case_name"
+                  style="width: 200px;margin-left: 30px;"
+                  filterable
+                  remote
+                  clearable
+                  reserve-keyword
+                  placeholder="请输入案件名"
+                  :remote-method="remoteMethod"
+                  :loading="loading">
+                  <el-option
+                    v-for="item in options4"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <el-select
+                  v-model="case_name"
+                  style="width: 200px;margin-left: 30px;"
+                  filterable
+                  remote
+                  clearable
+                  reserve-keyword
+                  placeholder="请输入罪名"
+                  :remote-method="remoteMethod"
+                  :loading="loading">
+                  <el-option
+                    v-for="item in options4"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <el-date-picker
+                  style="width: 200px;margin-left: 30px;"
+                  v-model="timeYear"
+                  align="right"
+                  type="year"
+                  format="yyyy年"
+                  value-format="yyyy"
+                  placeholder="选择年份">
+                </el-date-picker>
+                <el-select
+                  v-model="user_true_name"
+                  style="width: 250px;margin-left: 30px;"
+                  filterable
+                  remote
+                  clearable
+                  reserve-keyword
+                  placeholder="请输入承办人"
+                  :remote-method="remoteMethod2"
+                  :loading="loading2">
+                  <el-option
+                    v-for="item in options42"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
                 </el-select>
                 <!-- <el-date-picker
                   style="margin-left: 20px;width:420px;"
@@ -54,16 +115,58 @@
                 </el-date-picker> -->
                 
                 <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
-                <el-button type="warning" style="margin-left: 30px;" @click="outClick">导出</el-button>
+                <!-- <el-button type="warning" style="margin-left: 30px;" @click="outClick">导出</el-button>
                 <el-button type="warning" style="margin-left: 30px;" @click="addNewClick">新增</el-button>
                 <el-button type="warning" style="margin-left: 30px;" @click="pipeiClick">人工匹配</el-button>
                 <el-button type="warning" style="margin-left: 30px;" @click="weibangClick">未绑查询</el-button>
                 <el-button type="warning" style="margin-left: 30px;" @click="lishiClick">匹配历史</el-button>
-                
+                 -->
             </div>
 
           
         </div>
+        <el-dialog title="新增案卷" :visible.sync="addNewAnJuan">
+          <el-form ref="form" :model="addNewForm" label-width="120px" label-position="left" style="margin-left:20px;">  
+            <el-form-item label="档号" style="display: block;">
+              <el-input v-model="addNewForm.dh" placeholder="请输入档号" style="width: 200px;"></el-input>
+            </el-form-item>
+            <el-form-item label="卷号(必填)" style="display: block;">
+              <el-input v-model="addNewForm.jh" placeholder="请输入卷号" style="width: 200px;"></el-input>
+            </el-form-item>
+            <el-form-item label="被告人/嫌疑人(必填)" style="display: block;">
+              <el-input v-model="addNewForm.bgr" placeholder="请输入被告人/嫌疑人" style="width: 200px;"></el-input>
+            </el-form-item>
+            <el-form-item label="卷宗类型(必填)" style="display: block;">
+              <el-select  v-model="addNewForm.juanzongType" placeholder="请选择" style="width:208px;">
+                <el-option
+                  v-for="item in juanzongList"
+                  :key="item.type_id"
+                  :label="item.type_name"
+                  :value="item.type_id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="选择年度(必填)" style="display: block;">
+              <el-input v-model="addNewForm.niandu" placeholder="请输入年度 如 2018" style="width: 200px;"></el-input>
+            </el-form-item>
+            <el-form-item label="选择期限(必填)" style="display: block;">
+              <el-select filterable  v-model="addNewForm.timeType" placeholder="请选择" style="width:208px;">
+                <el-option
+                  v-for="item in timeList"
+                  :key="item.time_id"
+                  :label="item.time_name"
+                  :value="item.time_id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-checkbox v-model="print_code"> 同时打印案件条形码</el-checkbox>
+            <el-checkbox v-model="print_accept">同时打印收卷回执单</el-checkbox>
+          </el-form>          
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="addNewAnJuan = false">取 消</el-button>
+            <el-button type="primary" @click="addNewJuanzong">确 定</el-button>
+          </div>
+        </el-dialog>
         <el-dialog
           title="新增历史案卷"
           :visible.sync="addNewClickDialog" 
@@ -230,76 +333,92 @@
                     width="50">
                   </el-table-column>
                   <el-table-column
-                    label="统一涉案号"
+                    label="案件编号"
                     align="center"
-                    prop="tysah">
+                    prop="case_bh">
                     <!-- <template slot-scope="props">
                       <span>签到考勤</span>
                     </template> -->
                   </el-table-column>
                   <el-table-column
-                    label="条形码号"
+                    label="案件名称"
                     align="center"
-                    prop="out_exhibit_id">
-                    <!-- <template slot-scope="props">
-                      <span>签到考勤</span>
-                    </template> -->
-                  </el-table-column>
-                  <el-table-column
-                    label="档号"
-                    align="center"
-                    prop="dh"
+                    prop="case_name"
                     >
                   </el-table-column>
                   <el-table-column
-                    label="卷号"
-                    align="center"
-                    prop="jh"
-                    >
-                  </el-table-column>
-                  <el-table-column
-                    label="案卷名称"
-                    align="center"
-                    show-overflow-tooltip
-                    prop="exhibit_name"
-                    >
-                  </el-table-column>
-                  <el-table-column
-                    label="案卷类型"
-                    align="center"
-                    
-                    >
-                    <template slot-scope="props">
-                        <span>{{props.row.exhibit_type=='SS'?'诉讼':''}}</span>
-                        <span>{{props.row.exhibit_type=='JS'?'技术':''}}</span>
-                        <span>{{props.row.exhibit_type=='WS'?'文书':''}}</span>
-                    </template>
-                  </el-table-column>
-                  <el-table-column
-                    label="存放位置"
-                    align="center"
-                    prop="cell_name"
-                    >
-                  </el-table-column>
-                  <el-table-column
-                    label="年度"
-                    align="center"
-                    prop="nd"
-                    >
-                  </el-table-column>
-                  <el-table-column
-                    label="入库状态"
-                    align="center"
-                    >
-                    <template slot-scope="props">
-                        <span>{{props.row.stock_status=='none'?'未入库':'已入库'}}</span> 
-                    </template>
-                  </el-table-column>
-                  <el-table-column
-                    label="隶属案件类型"
+                    label="案件类型"
                     align="center"
                     prop="case_type_name"
                     >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件状态"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.case_none_status==1?'评查中':'待入库'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="案件描述"
+                    align="center"
+                    show-overflow-tooltip
+                    prop="case_desc"
+                    >
+                  </el-table-column>
+                  
+                  <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.time_status=='in'?'已归档':''}}</span>
+                        <span>{{props.row.time_status=='in_jj_out'?'已归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_rk_out'?'已归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_all_out'?'已归档（双超期）':''}}</span>
+                        <span>{{props.row.time_status=='none'?'未归档':''}}</span>
+                        <span>{{props.row.time_status=='none_jj_out'?'未归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_rk_out'?'未归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="总案卷数"
+                    align="center"
+                    prop="total_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="在库案卷数"
+                    align="center"
+                    prop="in_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="待入库案卷数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
+                      
+                    </template>
                   </el-table-column>
                   <!-- <el-table-column
                     label="在库案卷数"
@@ -429,7 +548,54 @@
                   label:'已入库'
                 }
               ],
-              stateFlag:''
+              stateFlag:'',
+              addNewAnJuan:false,
+              addNewForm:{
+                juanzongType:'',
+                timeType:'',
+                niandu:'',
+                dh:'',
+                jh:'',
+                bgr:''
+              },
+              juanzongList:[
+                {
+                  type_id:'SS',
+                  type_name:'诉讼'
+                },
+                {
+                  type_id:'JS',
+                  type_name:'技术'
+                },
+                {
+                  type_id:'WS',
+                  type_name:'文书'
+                }
+              ],
+              timeList:[
+                {
+                  time_id:'1',
+                  time_name:'永久'
+                },
+                {
+                  time_id:'2',
+                  time_name:'长期'
+                },
+                {
+                  time_id:'3',
+                  time_name:'短期'
+                },
+                {
+                  time_id:'30',
+                  time_name:'30年'
+                },
+                {
+                  time_id:'60',
+                  time_name:'60年'
+                }
+              ],
+              print_code:false,
+              print_accept:false,
             }
               
       },
@@ -506,6 +672,57 @@
                         print_code:'1'
                       }
                       self.addNewClickDialog = false;
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
+          addNewJuanzong(){
+                var self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+
+                params.append('case_id',self.case_id_count);
+                params.append('nd',self.addNewForm.niandu);
+                params.append('exhibit_type',self.addNewForm.juanzongType);
+                params.append('bgqx',self.addNewForm.timeType);
+                params.append('dh',self.addNewForm.dh);
+                params.append('jh',self.addNewForm.jh);
+                params.append('bgr',self.addNewForm.bgr);
+                if(self.print_code){
+                    params.append('print_code','1');
+                }
+                if(self.print_accept){
+                    params.append('print_accept','1');
+                }
+                // const loading = self.$loading({
+                //   lock: true,
+                //   text: '打印中',
+                //   spinner: 'el-icon-loading',
+                //   background: 'rgba(0, 0, 0, 0.6)'
+                // });
+                if(self.addNewForm.timeType==''||self.addNewForm.juanzongType==""||self.addNewForm.niandu==""||self.addNewForm.jh==""||self.addNewForm.bgr==""){
+                      self.$message({
+                        type: 'error',
+                        message: '存在未填写项目'
+                      });
+                      return false;
+                }
+                self.$axios({
+                    method: 'post',
+                    url: '/exhibit/exhibit/add',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                      // loading.close();
+                      self.$message({
+                        type: 'success',
+                        message: '添加成功'
+                      });
+                      self.getDataList();
+                      self.addNewAnJuan = false;
                     }else{
                       self.$response(data,self);
                     }
@@ -612,54 +829,24 @@
           },
           //条码打印事件
           printClick(res){
-            var self = this;
-            var numCount = res.exhibits.length+1;
-            this.$confirm('即将打印该案件的第'+numCount+'份案卷条码, 是否继续?', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
+            this.case_id_count = res.case_id;
+            this.addNewAnJuan = true;
+            var day2 = new Date();
+            day2.setTime(day2.getTime());
+            var s2 = day2.getFullYear();
+            this.addNewForm = {
+                juanzongType:'SS',
+                timeType:'1',
+                niandu:s2,
+                dh:'',
+                jh:'',
+                bgr:''
+            }
+            
 
-                const loading = self.$loading({
-                  lock: true,
-                  text: '打印中',
-                  spinner: 'el-icon-loading',
-                  background: 'rgba(0, 0, 0, 0.6)'
-                });
-                var params = new URLSearchParams();
-                var token = localStorage.getItem('auth');
-
-                params.append('case_id',res.case_id);
-                params.append('exhibit_name',res.case_name);
-                
-
-                self.$axios({
-                    method: 'post',
-                    url: '/exhibit/exhibit/add',
-                    data: params,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
-                 }).then(function(data){
-                    
-                    if(data.data.code==0){
-                      loading.close();
-                      self.$message({
-                        type: 'success',
-                        message: '已发送打印请求'
-                      });
-                      self.getDataList();
-                    }else{
-
-                      self.$response(data,self);
-                      loading.close();
-                    }
-                 });
-              
-            }).catch(() => {
-              this.$message({
-                type: 'info',
-                message: '已取消打印'
-              });          
-            });
+          
+            this.print_accept = false;
+            this.print_code = false;
           },
           //分页器点击事件
           pageChange(){
@@ -755,16 +942,23 @@
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
 
+                // params.append('pageNum',self.pageNum);
+                // params.append('pageSize',self.pageSize);
+                // params.append('exhibit_name',self.case_name);
+                // params.append('tysah',self.case_number);
+                // params.append('nd',self.timeYear);
+                // params.append('stock_status',self.stateFlag);
+                // params.append('out_exhibit_id',self.scan_number);
+                
+                // // params.append('stock_status','out');
+                // params.append('tongyi_status','');
+
+                params.append('case_take_user_name',self.user_true_name);
                 params.append('pageNum',self.pageNum);
                 params.append('pageSize',self.pageSize);
-                params.append('exhibit_name',self.case_name);
-                params.append('tysah',self.case_number);
-                params.append('nd',self.timeYear);
-                params.append('stock_status',self.stateFlag);
-                params.append('out_exhibit_id',self.scan_number);
-                
-                // params.append('stock_status','out');
-                params.append('tongyi_status','');
+                params.append('case_name',self.case_name);
+                params.append('case_bh',self.case_number);
+                params.append('timeYear',self.timeYear);
                 // switch(self.activeName){
                 // case 'tabName1':
                 //   params.append('case_type_id','30');
@@ -796,7 +990,7 @@
 
                 self.$axios({
                     method: 'post',
-                    url: '/exhibit/exhibit/getOldByPage',
+                    url: '/cases/cases/getCaseJinDuByPage',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
