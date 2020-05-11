@@ -1109,6 +1109,9 @@
               myHeaders:'',
               timeYear:'',
               stateList:[{
+                  value:'',
+                  label:'全部',
+                },{
                   value:'none',
                   label:'未归档',
                 },{
@@ -1336,6 +1339,7 @@
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
                 params.append('user_id',userId);
+                params.append('time_status',self.time_status);
                 self.$axios({
                     method: 'post',
                     url: '/cases/cases/getCountForType',

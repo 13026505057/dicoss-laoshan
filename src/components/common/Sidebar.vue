@@ -61,7 +61,7 @@ import md5 from 'js-md5';
                             },
                             {   
                                 index: 'waitForInStore1',
-                                title: '> 已审结案件'
+                                title: '> 等待质量评查'
                             },
                             {   
                                 index: 'returnBacking1',
@@ -324,7 +324,7 @@ import md5 from 'js-md5';
                             // }
                             {   
                                 index: 'geyewuying',
-                                title: '> 各业务类型应归档案件'
+                                title: '> 各业务类型符合归档条件'
                             },
                             {   
                                 index: 'geyewuyi',
@@ -332,12 +332,12 @@ import md5 from 'js-md5';
                             },
                             {   
                                 index: 'geyewuwei',
-                                title: '> 各业务类型未归档案件'
+                                title: '> 各业务类型必归档案件'
                             },
                            
                             {   
                                 index: 'bananrenying',
-                                title: '> 办案人应归档案件'
+                                title: '> 办案人符合归档条件'
                             },
                             {   
                                 index: 'bananrenyi',
@@ -345,7 +345,7 @@ import md5 from 'js-md5';
                             },
                             {   
                                 index: 'bananrenwei',
-                                title: '> 办案人未归档案件'
+                                title: '> 办案人必归档案件'
                             }
                         ]
                     },

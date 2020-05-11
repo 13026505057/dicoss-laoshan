@@ -5,11 +5,11 @@
             <div class="titleBg">办案人应归档案件</div>
             <div class="block">
                 
-                <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
+                <el-input style="width:180px;" v-model="case_number" placeholder="案卷号查询"></el-input>
                 <!-- 关键词联想组建 -->
                 <el-select
                   v-model="case_name"
-                  style="width: 250px;margin-left: 30px;"
+                  style="width: 180px;margin-left: 30px;"
                   filterable
                   remote
                   clearable
@@ -25,7 +25,7 @@
                   </el-option>
                 </el-select>
                 <el-date-picker
-                  style="width: 250px;margin-left: 30px;"
+                  style="width: 180px;margin-left: 30px;"
                   v-model="timeYear"
                   align="right"
                   type="year"
@@ -35,7 +35,7 @@
                 </el-date-picker>
                 <el-select
                   v-model="user_true_name"
-                  style="width: 250px;margin-left: 30px;"
+                  style="width: 180px;margin-left: 30px;"
                   filterable
                   remote
                   clearable
@@ -50,6 +50,22 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
+                <el-select style="width: 180px;margin-left: 20px;" v-model="time_status" placeholder="请选择状态">
+                  <el-option
+                    v-for="item in stateList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <!-- <el-select style="width: 180px;margin-left: 20px;" v-model="case_none_confirm" placeholder="质量评查状态">
+                  <el-option
+                    v-for="item in stateList1"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select> -->
                 <!-- <el-date-picker
                   style="margin-left: 20px;width:420px;"
                   v-model="date"
@@ -1121,7 +1137,46 @@
               addHisDialog:false,
               uploadUrl:'',
               myHeaders:'',
-              timeYear:''
+              timeYear:'',
+              time_status:'',
+              case_none_confirm:'',
+              stateList:[{
+                  value:'',
+                  label:'全部',
+                },{
+                  value:'none',
+                  label:'未归档',
+                },{
+                  value:'in',
+                  label:'已归档',
+                },{
+                  value:'none_jj_out',
+                  label:'未归档（交卷超期）',
+                },{
+                  value:'in_jj_out',
+                  label:'已归档（交卷超期）',
+                },{
+                  value:'none_all_out',
+                  label:'未归档（双超期）',
+                },{
+                  value:'none_rk_out',
+                  label:'未归档（入库超期）',
+                },{
+                  value:'in_rk_out',
+                  label:'已归档（入库超期）',
+                },
+              ],
+              stateList1:[{
+                  value:'',
+                  label:'全部',
+                },{
+                  value:'1',
+                  label:'已通过',
+                },{
+                  value:'0',
+                  label:'未通过',
+                }
+              ],
             }
               
       },
@@ -1363,7 +1418,8 @@
                 params.append('case_name',self.case_name);
                 params.append('case_take_user_name',self.user_true_name);
                 params.append('case_bh',self.case_number);
-
+                params.append('time_status',self.time_status);
+                params.append('case_none_confirm',self.case_none_confirm);
                 self.$axios({
                     method: 'post',
                     url: '/cases/cases/getCountForType',
@@ -1435,6 +1491,8 @@
                 params.append('case_bh',self.case_number);
                 params.append('timeYear',self.timeYear);
                 params.append('case_take_user_name',self.user_true_name);
+                params.append('time_status',self.time_status);
+                params.append('case_none_confirm',self.case_none_confirm);
                 // params.append('stock_status','unnone');
                 // params.append('tongyi_status','0');
                 switch(self.activeName){

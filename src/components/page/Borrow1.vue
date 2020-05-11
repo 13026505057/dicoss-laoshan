@@ -225,120 +225,217 @@
           
           
             <div class="tableList">
-                <el-table
-                    :data="caseList"
-                    :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
-                    :row-style="rowStyle"
-                    class="tableClass"
-                    @selection-change="handleSelectionChange"
-                    > 
-                    <el-table-column
-                        type="selection"
-                        width="55">
-                    </el-table-column>
-                    <el-table-column
-                        type="index"
-                        :index="indexMethod"
-                        align="center"
-                        width="50">
-                    </el-table-column>
-                    <el-table-column
-                        label="统一涉案号"
-                        align="center"
-                        prop="tysah">
-                        <!-- <template slot-scope="props">
-                        <span>签到考勤</span>
-                        </template> -->
-                    </el-table-column>
-                    <el-table-column
-                        label="条形码号"
-                        align="center"
-                        prop="out_exhibit_id">
-                        <!-- <template slot-scope="props">
-                        <span>签到考勤</span>
-                        </template> -->
-                    </el-table-column>
-                    <el-table-column
-                        label="档号"
-                        align="center"
-                        prop="dh"
-                        >
-                    </el-table-column>
-                    <el-table-column
-                        label="卷号"
-                        align="center"
-                        prop="jh"
-                        >
-                    </el-table-column>
-                    <el-table-column
-                        label="案卷名称"
-                        align="center"
-                        show-overflow-tooltip
-                        prop="exhibit_name"
-                        >
-                    </el-table-column>
-                    <el-table-column
-                        label="案卷类型"
-                        align="center"
-                        
-                        >
-                        <template slot-scope="props">
-                            <span>{{props.row.exhibit_type=='SS'?'诉讼':''}}</span>
-                            <span>{{props.row.exhibit_type=='JS'?'技术':''}}</span>
-                            <span>{{props.row.exhibit_type=='WS'?'文书':''}}</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                        label="存放位置"
-                        align="center"
-                        prop="cell_name"
-                        >
-                    </el-table-column>
-                    <el-table-column
-                        label="年度"
-                        align="center"
-                        prop="nd"
-                        >
-                    </el-table-column>
-                    <el-table-column
-                        label="入库状态"
-                        align="center"
-                        >
-                        <template slot-scope="props">
-                            <span>{{props.row.stock_status=='none'?'未入库':'已入库'}}</span> 
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                        label="隶属案件类型"
-                        align="center"
-                        prop="case_type_name"
-                        >
-                    </el-table-column>
-                    <!-- <el-table-column
-                        label="在库案卷数"
-                        align="center"
-                        prop="in_quantity"
-                        >
-                    </el-table-column>
-                    <el-table-column
-                        label="待入库案卷数"
-                        align="center"
-                        >
-                        <template slot-scope="props">
-                            <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                        label="操作"
-                        width="300px"
-                        align="center"
-                        >
-                        <template slot-scope="props">
-                        <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
-                        <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
-                        </template>
-                    </el-table-column> -->
-                </el-table> 
+                <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+                    <el-tab-pane label="案件列表" name="first">
+                        <el-table
+                            :data="caseList"
+                            :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                            :row-style="rowStyle"
+                            class="tableClass"
+                            @selection-change="handleSelectionChange"
+                            > 
+                            <el-table-column
+                                type="selection"
+                                width="55">
+                            </el-table-column>
+                            <el-table-column
+                                type="index"
+                                :index="indexMethod"
+                                align="center"
+                                width="50">
+                            </el-table-column>
+                            <el-table-column
+                                label="统一涉案号"
+                                align="center"
+                                prop="tysah">
+                                <!-- <template slot-scope="props">
+                                <span>签到考勤</span>
+                                </template> -->
+                            </el-table-column>
+                            <el-table-column
+                                label="条形码号"
+                                align="center"
+                                prop="out_exhibit_id">
+                                <!-- <template slot-scope="props">
+                                <span>签到考勤</span>
+                                </template> -->
+                            </el-table-column>
+                            <el-table-column
+                                label="档号"
+                                align="center"
+                                prop="dh"
+                                >
+                            </el-table-column>
+                            <el-table-column
+                                label="卷号"
+                                align="center"
+                                prop="jh"
+                                >
+                            </el-table-column>
+                            <el-table-column
+                                label="案卷名称"
+                                align="center"
+                                show-overflow-tooltip
+                                prop="exhibit_name"
+                                >
+                            </el-table-column>
+                            <el-table-column
+                                label="案卷类型"
+                                align="center"
+                                
+                                >
+                                <template slot-scope="props">
+                                    <span>{{props.row.exhibit_type=='SS'?'诉讼':''}}</span>
+                                    <span>{{props.row.exhibit_type=='JS'?'技术':''}}</span>
+                                    <span>{{props.row.exhibit_type=='WS'?'文书':''}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                label="存放位置"
+                                align="center"
+                                prop="cell_name"
+                                >
+                            </el-table-column>
+                            <el-table-column
+                                label="年度"
+                                align="center"
+                                prop="nd"
+                                >
+                            </el-table-column>
+                            <el-table-column
+                                label="入库状态"
+                                align="center"
+                                >
+                                <template slot-scope="props">
+                                    <span>{{props.row.stock_status=='none'?'未入库':'已入库'}}</span> 
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                label="隶属案件类型"
+                                align="center"
+                                prop="case_type_name"
+                                >
+                            </el-table-column>
+                            
+                        </el-table> 
+                    </el-tab-pane>
+                    <el-tab-pane label="借阅历史" name="second">
+                        <el-table
+                            :data="caseList1"
+                            :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                            :row-style="rowStyle"
+                            class="tableClass"
+                            @selection-change="handleSelectionChange"
+                            > 
+                            <el-table-column
+                                type="index"
+                                :index="indexMethod"
+                                align="center"
+                                width="50">
+                            </el-table-column>
+                            <el-table-column
+                                label="申请时间"
+                                align="center"
+                                prop="create_time">
+                                <!-- <template slot-scope="props">
+                                <span>签到考勤</span>
+                                </template> -->
+                            </el-table-column>
+                            <el-table-column
+                                label="审批状态"
+                                align="center"
+                                >
+                                <template slot-scope="props">
+                                    <span>{{props.row.user_approve_status=='pass'?'通过':'驳回'}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                label="备注消息"
+                                align="center"
+                                >
+                                <template slot-scope="props">
+                                    <span>{{props.row.userApproveApplys[0].mark}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                label="统一涉案号"
+                                align="center"
+                                >
+                                <template slot-scope="props">
+                                    <span>{{props.row.userApproveExhibits[0].case_bh}}</span>
+                                </template>
+                            </el-table-column>
+                            
+                            <el-table-column
+                                label="档号"
+                                align="center"
+                                
+                                >
+                                <template slot-scope="props">
+                                    <span>{{props.row.userApproveExhibits[0].dh}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                label="卷号"
+                                align="center"
+                                
+                                >
+                                <template slot-scope="props">
+                                    <span>{{props.row.userApproveExhibits[0].jh}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                label="案卷名称"
+                                align="center"
+                                show-overflow-tooltip
+                                
+                                >
+                                <template slot-scope="props">
+                                    <span>{{props.row.userApproveExhibits[0].exhibit_name}}</span>
+                                </template>
+                            </el-table-column>
+                            <!-- <el-table-column
+                                label="案卷类型"
+                                align="center"
+                                
+                                >
+                                <template slot-scope="props">
+                                    <span>{{props.row.exhibit_type=='SS'?'诉讼':''}}</span>
+                                    <span>{{props.row.exhibit_type=='JS'?'技术':''}}</span>
+                                    <span>{{props.row.exhibit_type=='WS'?'文书':''}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                label="存放位置"
+                                align="center"
+                                prop="cell_name"
+                                >
+                            </el-table-column>
+                            <el-table-column
+                                label="年度"
+                                align="center"
+                                prop="nd"
+                                >
+                            </el-table-column>
+                            <el-table-column
+                                label="入库状态"
+                                align="center"
+                                >
+                                <template slot-scope="props">
+                                    <span>{{props.row.stock_status=='none'?'未入库':'已入库'}}</span> 
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                label="隶属案件类型"
+                                align="center"
+                                prop="case_type_name"
+                                >
+                            </el-table-column> -->
+                            
+                        </el-table>
+                    </el-tab-pane>
+                </el-tabs>
+                
            
                 
             </div>
@@ -353,7 +450,7 @@
                 :total="total">
           </el-pagination>
             <div>
-                <el-button @click="BorrowClick" type="primary">借阅</el-button>
+                <el-button v-if="activeName=='first'?true:false" @click="BorrowClick" type="primary">借阅</el-button>
             </div>
         </div>
         
@@ -379,7 +476,7 @@
                     print_code:'1'
                 },
                 addNewClickDialog:false,
-                activeName:'tabName1',
+                activeName:'first',
                 case_detail_dialog:false,
                 case_number:'',
                 options4: [],
@@ -388,6 +485,9 @@
                 loading: false,
                 states: [],
                 caseList: [
+                    
+                ],
+                caseList1: [
                     
                 ],
                 bgqxList:[
@@ -497,6 +597,15 @@
             this.getNumBage();
         },
         methods: {
+            handleClick(){
+                var self = this;
+                self.pageNum = 1;
+                if(self.activeName =='first'){
+                    self.getDataList();
+                }else{
+                    self.getDataList2();
+                }
+            },
             handleSelectionChange(val) {
                 console.log(val)
                 this.multipleSelection = val;
@@ -903,7 +1012,70 @@
                         }
                     });
             },
-            
+            //获取默认列表数据
+            getDataList2(){
+                    const self = this;
+                    self.getNumBage();
+                    var params = new URLSearchParams();
+                    var token = localStorage.getItem('auth');
+                    var userId = localStorage.getItem('userId');
+                    params.append('user_id',userId);
+                    params.append('pageNum',self.pageNum);
+                    params.append('pageSize',self.pageSize);
+                    // params.append('exhibit_name',self.case_name);
+                    // params.append('tysah',self.case_number);
+                    // params.append('nd',self.timeYear);
+                    // params.append('stock_status',self.stateFlag);
+                    // params.append('out_exhibit_id',self.scan_number);
+                    // params.append('case_type_id',self.caseType);
+                    // params.append('stock_status','in');
+                    
+                    // params.append('stock_status','out');
+                    // params.append('tongyi_status','');
+                    // switch(self.activeName){
+                    // case 'tabName1':
+                    //   params.append('case_type_id','30');
+                    //   break;
+                    // case 'tabName2':
+                    //   params.append('case_type_id','31');
+                    //   break;
+                    // case 'tabName3':
+                    //   params.append('case_type_id','32');
+                    //   break;
+                    // case 'tabName4':
+                    //   params.append('case_type_id','33');
+                    //   break;
+                    // case 'tabName5':
+                    //   params.append('case_type_id','34');
+                    //   break;
+                    // case 'tabName6':
+                    //   params.append('case_type_id','35');
+                    //   break;
+                    // case 'tabName7':
+                    //   params.append('case_type_id','45');
+                    //   break;
+                    // case 'tabName8':
+                    //   params.append('case_type_id','45');
+                    //   break;
+                    // default:
+                    
+                    // }
+
+                    self.$axios({
+                        method: 'post',
+                        url: '/user/approve/getByPage',
+                        data: params,
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                    }).then(function(data){
+                        
+                        if(data.data.code==0){
+                            self.caseList1 = data.data.data.list;
+                            self.total = data.data.data.total;
+                        }else{
+                        self.$response(data,self);
+                        }
+                    });
+            },
             //修改单元行颜色
             rowStyle({ row, rowIndex}){
                 if(rowIndex%2 ==0){
