@@ -1123,7 +1123,6 @@
           this.uploadUrl = uploadUrl;
           var token = {"kf-token":myHeaders};
           this.myHeaders = token;
-          this.getNumBage();
       },
       methods: {
           indexMethod(index){
@@ -1353,6 +1352,7 @@
                 params.append('stock_status_str','in,out,wout,win');
                 params.append('timeYear',self.timeYear);
                 params.append('case_name',self.case_name);
+                params.append('case_take_user_name',self.user_true_name);
                 params.append('case_bh',self.case_number);
                 
 

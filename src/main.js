@@ -24,6 +24,10 @@ axios.defaults.baseURL = "http://gde7qh.natappfree.cc/dossier";
 // axios.defaults.baseURL = "http://localhost:80/dossier";
 // axios.defaults.baseURL = "http://vj2p7n.natappfree.cc/dossier";
 Vue.prototype.$axios = axios;
+// api接口
+import api from './assets/api'
+Vue.prototype.$api = api
+
 Vue.prototype.$moment = Moment;
 Vue.prototype.$echarts = echarts;
 Vue.prototype.$socketApi = socketApi;

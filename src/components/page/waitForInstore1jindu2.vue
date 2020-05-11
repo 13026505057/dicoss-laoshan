@@ -327,6 +327,19 @@
                     >
                   </el-table-column>
                   <el-table-column
+<<<<<<< HEAD
+                    label="是否成卷"
+                    align="center"
+                    >
+                    <template slot-scope="scope">
+                      <div>
+                        {{ scope.row.chengjuan==0?'否':'是' }}
+                      </div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+=======
+>>>>>>> ac7ede7781bfa57ec60976d877e2d170cb5de62f
                     label="总案卷数"
                     align="center"
                     prop="total_quantity"
@@ -351,6 +364,10 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
+<<<<<<< HEAD
+                        <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="changesStatus(props.row)">修改成卷状态</el-button>
+=======
+>>>>>>> ac7ede7781bfa57ec60976d877e2d170cb5de62f
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -427,8 +444,7 @@
                   </el-table-column>
                   <el-table-column
                     label="是否归档"
-                    align="center"
-                    >
+                    align="center">
                     <template slot-scope="props">
                         <span>{{props.row.time_status=='in'?'已归档':''}}</span>
                         <span>{{props.row.time_status=='in_jj_out'?'已归档（交卷超期）':''}}</span>
@@ -1427,6 +1443,11 @@
           this.getNumBage();
       },
       methods: {
+        // 修改成卷状态
+        async changesStatus(e){
+          let returnData = await this.$api.editChengStatus({case_id:e.case_id,chengjuan:e.chengjuan==0?1:0})
+          if(returnData && returnData.code == '0') this.getDataList()
+        },
           remoteMethod2(query) {
             if (query !== '') {
               this.loading2 = true;

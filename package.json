@@ -19,6 +19,7 @@
     "js-md5": "^0.7.3",
     "moment": "^2.22.2",
     "normalize-wheel": "^1.0.1",
+    "qs": "^6.9.4",
     "resize-observer-polyfill": "^1.5.0",
     "vue": "^2.3.2",
     "vue-core-image-upload": "2.1.11",

@@ -1132,7 +1132,6 @@
           this.uploadUrl = uploadUrl;
           var token = {"kf-token":myHeaders};
           this.myHeaders = token;
-          this.getNumBage();
       },
       methods: {
           indexMethod(index){
@@ -1362,6 +1361,7 @@
                 params.append('case_none_confirm','1');
                 params.append('timeYear',self.timeYear);
                 params.append('case_name',self.case_name);
+                params.append('case_take_user_name',self.user_true_name);
                 params.append('case_bh',self.case_number);
 
                 self.$axios({

@@ -2,62 +2,25 @@
     <div>
         
         <div >
-            <div class="titleBg">借阅总结</div>
+            <div class="titleBg">档案借阅</div>
             <div class="block">
-                
+                <!-- 借阅时间 -->
                 <el-date-picker
-                  v-model="years"
-                  align="right"
-                  style="width: 250px;margin-left: 30px;"
-                  type="year"
-                  value-format="yyyy"
-                  placeholder="选择年">
-                </el-date-picker>
-                <el-date-picker
-                  v-model="months"
-                  type="month"
-                  value-format="yyyy-MM"
-                  style="width: 250px;margin-left: 30px;"
-                  placeholder="选择月">
-                </el-date-picker>
-                <!-- 关键词联想组建 -->
-                <!-- <el-select
-                  v-model="case_name"
-                  style="width: 250px;margin-left: 30px;"
-                  filterable
-                  remote
-                  reserve-keyword
-                  placeholder="选择部门"
-                  :remote-method="remoteMethod"
-                  :loading="loading">
-                  <el-option
-                    v-for="item in options4"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select> -->
-
-                <!-- <el-date-picker
-                  style="margin-left: 20px;width:420px;"
-                  v-model="date"
-                  type="daterange"
-                  range-separator="至"
-                  format="yyyy 年 MM 月 dd 日"
-                  value-format="yyyy-MM-dd"
+                  v-model="detaTimeInfo" value-format="yyyy-MM-dd"
+                  type="daterange" @change="changeDataTime"
                   start-placeholder="开始日期"
-                  end-placeholder="结束日期">
-                </el-date-picker> -->
-                
+                  end-placeholder="结束日期"
+                  :default-time="['00:00:00', '23:59:59']">
+                </el-date-picker>
+                <!-- 借阅人 -->
+                <el-input v-model="submitDataInfo['borrow_user_true_name']" placeholder="请输入借阅人信息" style="width:auto"></el-input>
+                <el-input v-model="submitDataInfo['case_name']" placeholder="请输入案卷名称" style="width:auto"></el-input>
+                <el-input v-model="submitDataInfo['out_exhibit_id']" placeholder="请输入案卷条形码" style="width:auto"></el-input>
                 <el-button type="warning" style="margin-left: 50px;" @click="searchClick">查询</el-button>
                 <el-button type="warning" style="margin-left: 30px;" @click="addHistoryClick">借阅总结</el-button>
             </div>
-
-          
         </div>
-        <!-- <div class="tree">
-          <el-tree :data="data"    @node-click="handleNodeClick"></el-tree>
-        </div> -->
+
         <el-dialog title="借阅总结" :visible.sync="addHisDialog">
             <el-upload
               style="text-align:center;"
@@ -66,7 +29,7 @@
               name="file"
               :on-success="uploadSuccess"
               :action="uploadUrl"
-              :headers="myHeaders"
+              :headers="{'kf-token':token}"
               multiple>
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -130,66 +93,45 @@
           </el-pagination>
         </el-dialog>
         <div id="container" style="width: 100%;height: 110%;  float: right;">
-          
-          
-          <div class="tableList">
-            <el-table
-              
-              :data="bumenList"
-              :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
-              :row-style="rowStyle"
-              class="tableClass"
-              >
-              <el-table-column
-                type="index"
-                :index="indexMethod"
-                align="center"
-                width="50">
-              </el-table-column>
-              <el-table-column
-                label="文章标题"
-                align="center"
-                prop="file_name">
-                <!-- <template slot-scope="props">
-                  <span>签到考勤</span>
-                </template> -->
-              </el-table-column>
-              <el-table-column
-                label="上传时间"
-                align="center"
-                prop="upload_time"
-                
-                >
-              </el-table-column>
-              <el-table-column
-                label="上传人"
-                align="center"
-                prop="upload_user_name"
-                >
-              </el-table-column>
-              
-              <el-table-column
-                label="操作"
-                width="300px"
-                align="center"
-                >
-                <template slot-scope="props">
-                  <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="downLoad(props.row)">下载</el-button>
-                  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="delClick(props.row)">删除</el-button>
-                </template>
-              </el-table-column>
-            </el-table> 
-                
-          </div>
+          <el-tabs v-model="activeName_item" @tab-click="handleClick">
+            <el-tab-pane label="借阅中" name="first">
+              <el-table :data="tableData_pending" :loading="loading"
+                :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                :row-style="rowStyle" class="tableClass">
+                <el-table-column align="center" v-for="item in column_pending"
+                  :key="item.itemId" :label="item.title" :prop="item.dom"></el-table-column>
+                <el-table-column label="操作" align="center">
+                  <template slot-scope="props">
+                    <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="downLoad(props.row)">下载</el-button>
+                    <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="delClick(props.row)">删除</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="借阅历史" name="second">
+              <el-table :data="tableData_history" :loading="loading"
+                :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                :row-style="rowStyle" class="tableClass">
+                <el-table-column align="center" v-for="item in column_history"
+                  :key="item.itemId" :label="item.title" :prop="item.dom"></el-table-column>
+                <el-table-column label="操作" align="center">
+                  <template slot-scope="props">
+                    <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="downLoad(props.row)">下载</el-button>
+                    <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="delClick(props.row)">删除</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+          </el-tabs>
+          <!-- 分页器 -->
           <el-pagination
-                small
-                background
-                style="text-align: center;margin-top: 20px;"
-                @current-change="pageChange"
-                :current-page.sync="pageNum"
-                :page-size="pageSize"
-                layout="prev, pager, next, jumper"
-                :total="total">
+            small background
+            style="text-align: center;margin-top: 20px;"
+            @current-change="pageChange"
+            :current-page.sync="pagination.pageNum"
+            :page-size="pagination.pageSize"
+            layout="prev, pager, next, jumper"
+            :total="pagination.total">
           </el-pagination>
         </div>
         
@@ -204,15 +146,11 @@
       data: function(){
           return {
               case_detail_dialog:false,
-              years:'2019',
-              months:'2019-04',
-              case_number:'',
               options4: [],
               case_name: [],
               list: [],
-              loading: false,
+              
               states: [],
-              bumenList:[],
               caseList: [
                 {
                   case_name:2
@@ -230,25 +168,88 @@
               pageSize2:10,
               addHisDialog:false,
               uploadUrl:'',
-              myHeaders:''
+              pagination: {
+                pageNum: 1,
+                pageSize: 10,
+              },
+              submitDataInfo: {
+                borrow_begin_time: '',
+                borrow_end_time: '',
+                is_back: 0,
+                out_exhibit_id: '',
+                case_name: '',
+                borrow_user_true_name: ''
+              },
+              detaTimeInfo: '',
+              loading: false,
+              activeName_item: 'first',
+              tableData_pending: [],
+              tableData_history: [],
+              column_pending: [
+                { title: '案卷编号', dom: 'exhibit_id',itemId: 1 },
+                { title: '案卷档号', dom: 'dh',itemId: 2 },
+                { title: '隶属案件', dom: 'case_name',itemId: 3 },
+                { title: '借阅人', dom: 'borrow_user_true_name',itemId: 4 },
+                { title: '借阅时间', dom: 'borrow_time',itemId: 5 },
+              ],
+              column_history: [
+                { title: '案卷编号', dom: 'exhibit_id',itemId: 1 },
+                { title: '案卷档号', dom: 'dh',itemId: 2 },
+                { title: '隶属案件', dom: 'case_name',itemId: 3 },
+                { title: '借阅人', dom: 'borrow_user_true_name',itemId: 4 },
+                { title: '借阅时间', dom: 'borrow_time',itemId: 5 },
+                { title: '归还时间', dom: 'back_time',itemId: 6 },
+              ],
             }
               
       },
       mounted() {
-          this.getDataList();
-          // this.getNameList();
-          var myHeaders = localStorage.getItem('auth');
-          var uploadUrl = this.$axios.defaults.baseURL+'/file/addBorrow';
-          this.uploadUrl = uploadUrl;
-          var token = {"kf-token":myHeaders};
-          this.myHeaders = token;
+        this.getTableList({
+          ...this.pagination,
+          ...this.submitDataInfo
+        });
+        this.token = localStorage.getItem('auth');
+        this.uploadUrl = this.$axios.defaults.baseURL+'/file/addBorrow';
       },
       methods: {
-          // cellClick(row, column, cell, event){
-          //   this.addHisDialog = true;
-          //   console.log(row)
-          //   console.log(column.property)
-          // },
+        //获取列表
+        async getTableList(dataInfo){
+          this.loading = true;
+          console.log(dataInfo)
+          const titleList = await this.$api.getArchivesList(dataInfo);
+          const pagination = { ...this.pagination };
+          if (dataInfo.is_back == 0) this.tableData_pending = titleList.data.list;
+            else this.tableData_history = titleList.data.list;
+          pagination.total = titleList.total;
+          this.pagination = pagination;
+          this.loading = false;
+        },
+        handleClick(tab) {
+          this.submitDataInfo.is_back = tab.index;
+          this.getTableList({
+            ...this.pagination,
+            ...this.submitDataInfo
+          })
+        },
+        changeDataTime(){
+          console.log(this.detaTimeInfo)
+          this.submitDataInfo['borrow_begin_time'] = this.detaTimeInfo[0];
+          this.submitDataInfo['borrow_end_time'] = this.detaTimeInfo[1];
+        },
+        //分页器点击事件
+        pageChange(){
+          this.getTableList({
+            ...this.pagination,
+            ...this.submitDataInfo
+          });
+        },
+        //查询事件
+        searchClick(){
+          this.getTableList({
+            ...this.pagination,
+            ...this.submitDataInfo
+          });
+        },
           indexMethod(index){
             return this.pageSize*(this.pageNum-1)+index+1;
           },
@@ -274,30 +275,12 @@
           addHistoryClick(){
             this.addHisDialog = true;
           },
-          // getConfigResult(e){
-          //   console.log(e)
-          //   // if(e.data==101){
-          //   //   router.push('/readme')
-          //   // }else if(e.data==102){
-          //   //   router.push('/jiedurenliebiao')
-          //   // }else if(e.data==103){
-          //   //   router.push('/jiedurendangan')
-          //   // }else{
-          //   //   router.push('/jingyuanliebiao')
-          //   // }
-          // },
           //案卷详情点击事件
           downLoad(res){
             window.open(res.file_url)
             // this.$socketApi.sendSock('text',this.getConfigResult);
             // this.exhibits = res.exhibits;
             // this.case_detail_dialog = true;
-          },
-          //查询事件
-          searchClick(){
-            console.log(this.months)
-            console.log(this.years)
-            // this.getDataList();
           },
           //补打条码
           printAgain(res){
@@ -384,10 +367,6 @@
             });
           },
           //分页器点击事件
-          pageChange(){
-            this.getDataList();
-          },
-          //分页器点击事件
           pageChange2(){
 
           },
@@ -427,33 +406,6 @@
                         self.list = self.states.map(item => {
                           return { value: item.value, label: item.value};
                         });
-                    }else{
-                      self.$response(data,self);
-                    }
-                 });
-          },
-          //获取默认列表数据
-          getDataList(){
-                const self = this;
-               
-                var params = new URLSearchParams();
-                var token = localStorage.getItem('auth');
-
-                params.append('pageNum',self.pageNum);
-                params.append('pageSize',self.pageSize);
-                params.append('file_type','borrow');
-                
-
-                self.$axios({
-                    method: 'post',
-                    url: '/file/getByPage',
-                    data: params,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
-                 }).then(function(data){
-                    
-                    if(data.data.code==0){
-                        self.bumenList = data.data.data.list;
-                        self.total = data.data.data.total;
                     }else{
                       self.$response(data,self);
                     }

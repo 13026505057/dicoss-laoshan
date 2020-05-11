@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">档案接收<div style="font-size: 20px;line-height: 20px;margin-top: -25px;"></div></div>
+            <div class="titleBg">档案接收审查<div style="font-size: 20px;line-height: 20px;margin-top: -25px;"></div></div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
