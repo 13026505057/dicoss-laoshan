@@ -367,6 +367,11 @@ export default new Router({
                     component: resolve => require(['../components/page/Borrow1.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
+                    name: '电子案卷',
+                    path: '/archivesData',
+                    component: resolve => require(['../components/page/archivesData.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
                     name: '借阅审批',
                     path: '/jieyueshenpi',
                     component: resolve => require(['../components/page/jieyueshenpi.vue'], resolve) // Vue-Quill-Editor组件

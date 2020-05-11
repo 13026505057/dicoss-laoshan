@@ -1518,13 +1518,14 @@
                 var token = localStorage.getItem('auth');
                 // params.append('tongyi_status','');
                 // params.append('stock_status','none');
-                params.append('case_none_confirm','1');
-                params.append('stock_status_str','none');
-                params.append('case_none_status','1');
+                // params.append('case_none_confirm','1');
+                // params.append('stock_status_str','none');
+                // params.append('case_none_status','1');
                 params.append('timeYear',self.timeYear);
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
                 params.append('case_take_user_name',self.user_true_name);
+                params.append('cout_for','danganjieshoushencha');
                 self.$axios({
                     method: 'post',
                     url: '/cases/cases/getCountForType',
