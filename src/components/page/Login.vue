@@ -63,8 +63,16 @@
                         for(var i = 0; i < data.data.data.user.userGroups.length;i++){
                             arr.push(data.data.data.user.userGroups[i].group_id)
                         }
-                        var arrStr = arr.join(',')
+                        var arr1 = [];
+                        for(var i = 0; i < data.data.data.user.userPositions.length;i++){
+                            arr1.push(data.data.data.user.userPositions[i].position_id)
+                        }
+                        var arrStr = arr.join(',');
+                        var arrStr1 = arr1.join(',');
+
                         localStorage.setItem('user_type',arrStr);
+                        localStorage.setItem('user_type1',arrStr1);
+
                         self.$router.push('/readme');
                     }else{
                         self.$response(data,self);

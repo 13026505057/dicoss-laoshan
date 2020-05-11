@@ -5,12 +5,12 @@
             <div class="titleBg">历史案卷</div>
             <div class="block">
                 
-                <el-input style="width:150px;" v-model="case_number" placeholder="请输入统一涉案号"></el-input>
-                <el-input @change="scanChange" style="width:180px;margin-left: 20px;" v-model="scan_number" placeholder="请扫描案卷条码"></el-input>
+                <el-input style="width:120px;" v-model="case_number" placeholder="请输入统一涉案号"></el-input>
+                <el-input @change="scanChange" style="width:150px;margin-left: 20px;" v-model="scan_number" placeholder="请扫描案卷条码"></el-input>
                 <!-- 关键词联想组建 -->
                 <el-select
                   v-model="case_name"
-                  style="width: 150px;margin-left: 20px;"
+                  style="width: 120px;margin-left: 20px;"
                   filterable
                   remote
                   clearable
@@ -34,6 +34,14 @@
                   value-format="yyyy"
                   placeholder="选择年份">
                 </el-date-picker>
+                <el-select style="width: 120px;margin-left: 20px;" v-model="caseType" placeholder="请选择案件类型">
+                  <el-option
+                    v-for="item in typeList1"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
                 <el-select style="width: 120px;margin-left: 20px;" v-model="stateFlag" placeholder="请选择状态">
                   <el-option
                     v-for="item in stateList"
@@ -429,7 +437,43 @@
                   label:'已入库'
                 }
               ],
-              stateFlag:''
+              stateFlag:'',
+              caseType:'',
+              typeList1:[
+                {
+                  value:'',
+                  label:'全部'
+                },
+                {
+                  value:'30',
+                  label:'侦监业务'
+                },
+                {
+                  value:'31',
+                  label:'公诉业务'
+                },{
+                  value:'32',
+                  label:'民行业务'
+                },{
+                  value:'33',
+                  label:'公益诉讼'
+                },{
+                  value:'34',
+                  label:'执检业务'
+                },{
+                  value:'35',
+                  label:'控申业务'
+                },{
+                  value:'44',
+                  label:'未检业务'
+                },{
+                  value:'45',
+                  label:'检察技术'
+                },{
+                  value:'46',
+                  label:'检委会'
+                }
+              ],
             }
               
       },
@@ -762,6 +806,7 @@
                 params.append('nd',self.timeYear);
                 params.append('stock_status',self.stateFlag);
                 params.append('out_exhibit_id',self.scan_number);
+                params.append('case_type_id',self.caseType);
                 
                 // params.append('stock_status','out');
                 params.append('tongyi_status','');
