@@ -125,7 +125,7 @@ import md5 from 'js-md5';
                             },
                             {
                                 index: 'waitForInStore',
-                                title: '> 档案接收'
+                                title: '> 档案接收审查'
                                 // icon: 'el-icon-setting',
                                 // index: '1',
                                 // title: '应入库档案管理',
@@ -223,7 +223,8 @@ import md5 from 'js-md5';
                             {   
                                 index: 'chukutongji',
                                 title: '> 出库统计'
-                            },
+                            }
+                            
                         ]
                     },
                     {
@@ -245,6 +246,14 @@ import md5 from 'js-md5';
                             //     index: 'waitForInStore1',
                             //     title: '> 待质量审查案件'
                             // },
+                            {   
+                                index: 'Borrow1',
+                                title: '> 借阅'
+                            },
+                            {   
+                                index: 'jieyueshenpi',
+                                title: '> 借阅审批'
+                            },
                             {   
                                 index: 'biguidang',
                                 title: '> 应归档案件'
@@ -443,6 +452,8 @@ import md5 from 'js-md5';
         },
         created(){
             var level = localStorage.getItem('user_type');
+            var level1 = localStorage.getItem('user_type1');
+
             switch(level) {
                 case '1,2,3,4':
                     
@@ -538,7 +549,14 @@ import md5 from 'js-md5';
                 default:
                 this.items = [];
                     
-            } 
+            }
+            switch(level1) {
+                case '5,6':
+                    this.items[6].splice(1,1)
+                   break;
+                default:
+            }
+            
             
         },
         methods:{

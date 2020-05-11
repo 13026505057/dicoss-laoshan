@@ -360,6 +360,16 @@ export default new Router({
                     path: '/historicalCases',
                     component: resolve => require(['../components/page/historicalCases.vue'], resolve) // Vue-Quill-Editor组件
                 },
+                {
+                    name: '借阅',
+                    path: '/Borrow1',
+                    component: resolve => require(['../components/page/Borrow1.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '借阅审批',
+                    path: '/jieyueshenpi',
+                    component: resolve => require(['../components/page/jieyueshenpi.vue'], resolve) // Vue-Quill-Editor组件
+                },
             ]
         },
         {

@@ -33,6 +33,14 @@
                   value-format="yyyy"
                   placeholder="选择年份">
                 </el-date-picker>
+                <el-select style="width: 250px;margin-left: 20px;" v-model="time_status" placeholder="请选择状态">
+                  <el-option
+                    v-for="item in stateList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
                 <!-- <el-date-picker
                   style="margin-left: 20px;width:420px;"
                   v-model="date"
@@ -1099,7 +1107,31 @@
               addHisDialog:false,
               uploadUrl:'',
               myHeaders:'',
-              timeYear:''
+              timeYear:'',
+              stateList:[{
+                  value:'none',
+                  label:'未归档',
+                },{
+                  value:'in',
+                  label:'已归档',
+                },{
+                  value:'none_jj_out',
+                  label:'未归档（交卷超期）',
+                },{
+                  value:'in_jj_out',
+                  label:'已归档（交卷超期）',
+                },{
+                  value:'none_all_out',
+                  label:'未归档（双超期）',
+                },{
+                  value:'none_rk_out',
+                  label:'未归档（入库超期）',
+                },{
+                  value:'in_rk_out',
+                  label:'已归档（入库超期）',
+                },
+              ],
+              time_status:'',
             }
               
       },
@@ -1375,6 +1407,8 @@
                 params.append('case_bh',self.case_number);
                 params.append('timeYear',self.timeYear);
                 params.append('user_id',userId);
+                params.append('time_status',self.time_status);
+                
                 // params.append('stock_status','unnone');
                 // params.append('tongyi_status','0');
                 switch(self.activeName){
