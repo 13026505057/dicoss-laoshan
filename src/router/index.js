@@ -63,6 +63,11 @@ export default new Router({
                     component: resolve => require(['../components/page/returnStore.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
+                    name: '电子档案',
+                    path: '/archivesData',
+                    component: resolve => require(['../components/page/archivesData.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
                     name: '归还历史',
                     path: '/returnHistory',
                     component: resolve => require(['../components/page/returnHistory.vue'], resolve) // Vue-Quill-Editor组件

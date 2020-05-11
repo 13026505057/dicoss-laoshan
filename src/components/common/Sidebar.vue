@@ -233,6 +233,11 @@ import md5 from 'js-md5';
                     },
                     {
                         icon: 'el-icon-setting',
+                        index: 'archivesData',
+                        title: '电子档案'
+                    },
+                    {
+                        icon: 'el-icon-setting',
                         index: 'addHistory1',
                         title: ' 档案绩效评价'
                     },
