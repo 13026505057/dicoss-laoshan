@@ -479,10 +479,10 @@ import md5 from 'js-md5';
                    this.items.splice(4,1)
                    break;
                 case '2,3,4':
-                   // this.items.splice(9,1)
+                   // this.items.splice(8,1)
                    this.items.splice(2,1)
                    this.items.splice(2,1)
-                   this.items.splice(3,1)
+                   this.items.splice(2,1)
                    break;
                 case '1,2,3':
                    this.items.splice(7,1)
@@ -490,28 +490,28 @@ import md5 from 'js-md5';
                 case '1,4':
                    this.items.splice(9,1)
                    this.items.splice(1,1)
-                   this.items.splice(5,1)
+                   this.items.splice(4,1)
                    break;
                 case '2,4':
                    this.items.splice(9,1)
                    this.items.splice(2,1)
                    this.items.splice(2,1)
-                   this.items.splice(3,1)
+                   this.items.splice(2,1)
                    break;
                 case '3,4':
                    this.items.splice(1,1)
                    this.items.splice(1,1)
                    this.items.splice(1,1)
-                   this.items.splice(3,1)
-                   this.items.splice(3,1)
+                   this.items.splice(1,1)
+                   this.items.splice(2,1)
                    break;
                 case '4':
                    this.items.splice(9,1)
                    this.items.splice(1,1)
                    this.items.splice(1,1)
                    this.items.splice(1,1)
-                   this.items.splice(3,1)
-                   this.items.splice(3,1)
+                   this.items.splice(1,1)
+                   this.items.splice(2,1)
                    break;
                 case '1,3':
                     this.items.splice(7,1)
@@ -523,33 +523,33 @@ import md5 from 'js-md5';
                     this.items.splice(7,1)
                     this.items.splice(2,1)
                     this.items.splice(2,1)
-                    this.items.splice(3,1)
+                    this.items.splice(2,1)
                    break;
                 case '1':
                     this.items.splice(9,1)
                     this.items.splice(7,1)
                     this.items.splice(1,1)
-                    this.items.splice(5,1)
+                    this.items.splice(4,1)
                    break;
                 case '5':
                     this.items.splice(9,1)
                     this.items.splice(7,1)
                     this.items.splice(1,1)
-                    this.items.splice(5,1)
+                    this.items.splice(4,1)
                    break;
                 case '2':
                     this.items.splice(9,1)
                     this.items.splice(7,1)
                     this.items.splice(2,1)
                     this.items.splice(2,1)
-                    this.items.splice(3,1)
+                    this.items.splice(2,1)
                    break;
                 case '6':
                     this.items.splice(9,1)
                     this.items.splice(7,1)
                     this.items.splice(2,1)
                     this.items.splice(2,1)
-                    this.items.splice(3,1)
+                    this.items.splice(2,1)
                    break;
                 default:
                 this.items = [];
