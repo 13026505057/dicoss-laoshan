@@ -1132,7 +1132,6 @@
           this.uploadUrl = uploadUrl;
           var token = {"kf-token":myHeaders};
           this.myHeaders = token;
-          
       },
       methods: {
           indexMethod(index){

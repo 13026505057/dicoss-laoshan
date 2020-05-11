@@ -1123,7 +1123,6 @@
           this.uploadUrl = uploadUrl;
           var token = {"kf-token":myHeaders};
           this.myHeaders = token;
-          // this.getNumBage();
       },
       methods: {
           indexMethod(index){

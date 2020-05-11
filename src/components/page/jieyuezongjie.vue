@@ -20,6 +20,7 @@
                 <el-button type="warning" style="margin-left: 30px;" @click="addHistoryClick">借阅总结</el-button>
             </div>
         </div>
+
         <el-dialog title="借阅总结" :visible.sync="addHisDialog">
             <el-upload
               style="text-align:center;"
@@ -91,7 +92,6 @@
                 :total="total2">
           </el-pagination>
         </el-dialog>
-
         <div id="container" style="width: 100%;height: 110%;  float: right;">
           <el-tabs v-model="activeName_item" @tab-click="handleClick">
             <el-tab-pane label="借阅中" name="first">
@@ -168,7 +168,6 @@
               pageSize2:10,
               addHisDialog:false,
               uploadUrl:'',
-
               pagination: {
                 pageNum: 1,
                 pageSize: 10,
@@ -283,7 +282,6 @@
             // this.exhibits = res.exhibits;
             // this.case_detail_dialog = true;
           },
-          
           //补打条码
           printAgain(res){
                 var self = this;
@@ -368,7 +366,6 @@
               });          
             });
           },
-          
           //分页器点击事件
           pageChange2(){
 
