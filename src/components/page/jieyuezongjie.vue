@@ -94,7 +94,22 @@
         </el-dialog>
         <div id="container" style="width: 100%;height: 110%;  float: right;">
           <el-tabs v-model="activeName_item" @tab-click="handleClick">
-            <el-tab-pane label="借阅中" name="first">
+            <el-tab-pane label="待出库" name="first">
+              <el-table :data="tableData_waitOut" :loading="loading"
+                :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                :row-style="rowStyle" class="tableClass">
+                <el-table-column align="center" v-for="item in column_waitOut"
+                  :key="item.itemId" :label="item.title" :prop="item.dom"></el-table-column>
+                <el-table-column label="操作" align="center">
+                  <template slot-scope="props">
+                    <el-popconfirm title="确定提交出库吗？" @onConfirm="sendApproveInfo(props.row.user_approve_exhibit_id)">
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" slot="reference">出库</el-button>
+                    </el-popconfirm>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="借阅中" name="second">
               <el-table :data="tableData_pending" :loading="loading"
                 :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
                 :row-style="rowStyle" class="tableClass">
@@ -108,7 +123,7 @@
                 </el-table-column>
               </el-table>
             </el-tab-pane>
-            <el-tab-pane label="借阅历史" name="second">
+            <el-tab-pane label="借阅历史" name="third">
               <el-table :data="tableData_history" :loading="loading"
                 :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
                 :row-style="rowStyle" class="tableClass">
@@ -183,8 +198,16 @@
               detaTimeInfo: '',
               loading: false,
               activeName_item: 'first',
+              tableData_waitOut: [],
               tableData_pending: [],
               tableData_history: [],
+              column_waitOut: [
+                { title: '案卷编号', dom: 'exhibit_id',itemId: 1 },
+                { title: '案卷档号', dom: 'dh',itemId: 2 },
+                { title: '隶属案件', dom: 'case_name',itemId: 3 },
+                { title: '借阅人', dom: 'borrow_user_true_name',itemId: 4 },
+                { title: '借阅时间', dom: 'borrow_time',itemId: 5 },
+              ],
               column_pending: [
                 { title: '案卷编号', dom: 'exhibit_id',itemId: 1 },
                 { title: '案卷档号', dom: 'dh',itemId: 2 },
@@ -204,10 +227,10 @@
               
       },
       mounted() {
-        this.getTableList({
+        this.getWaitList({
           ...this.pagination,
           ...this.submitDataInfo
-        });
+        })
         this.token = localStorage.getItem('auth');
         this.uploadUrl = this.$axios.defaults.baseURL+'/file/addBorrow';
       },
@@ -216,20 +239,93 @@
         async getTableList(dataInfo){
           this.loading = true;
           console.log(dataInfo)
-          const titleList = await this.$api.getArchivesList(dataInfo);
+          let titleList;
+          if(this.activeName_item == 'first' || this.activeName_item == 'second') {
+            titleList = await this.$api.getWaitOutByPage(dataInfo);
+            
+          } else {
+            titleList = await this.$api.getArchivesList(dataInfo);
+          }
           const pagination = { ...this.pagination };
-          if (dataInfo.is_back == 0) this.tableData_pending = titleList.data.list;
-            else this.tableData_history = titleList.data.list;
+          if (this.activeName_item == 'first') this.tableData_waitOut = titleList.data.list;
+            else if(this.activeName_item == 'second') this.tableData_pending = titleList.data.list;
+            else if(this.activeName_item == 'third') this.tableData_history = titleList.data.list;
+          //   this.tableData_pending = titleList.data.list;
+          //   console.log(this.tableData_pending)
+          // } else if(dataInfo.is_back == 1) {
+          //   this.tableData_history = titleList.data.list;
+          //   console.log(this.tableData_history)
+          // } else {
+          //   this.tableData_waitOut = titleList.data.list;
+          //   console.log(this.tableData_waitOut)
+          // }
           pagination.total = titleList.total;
           this.pagination = pagination;
           this.loading = false;
         },
+        // 待出库
+        async getWaitList(dataInfo){
+          this.loading = true;
+          const pagination = { ...this.pagination };
+          let titleList = await this.$api.getWaitOutByPage(dataInfo);
+          if(titleList && titleList.code=='0'){
+            this.tableData_waitOut = titleList.data.list;
+            pagination.total = titleList.total;
+            this.pagination = pagination;
+            this.loading = false;
+          }
+        },
+        // 节约中
+        async getBorrowList(dataInfo){
+          this.loading = true;
+          const pagination = { ...this.pagination };
+          let titleList = await this.$api.getBorrowList(dataInfo);
+          if(titleList && titleList.code=='0'){
+            this.tableData_pending = titleList.data.list;
+            pagination.total = titleList.total;
+            this.pagination = pagination;
+            this.loading = false;
+          }
+        },
+        // 借阅历史
+        async getHistoryList(dataInfo){
+          this.loading = true;
+          const pagination = { ...this.pagination };
+          let titleList = await this.$api.getHistoryList(dataInfo);
+          if(titleList && titleList.code=='0'){
+            this.tableData_history = titleList.data.list;
+            pagination.total = titleList.total;
+            this.pagination = pagination;
+            this.loading = false;
+          }
+        },
         handleClick(tab) {
-          this.submitDataInfo.is_back = tab.index;
-          this.getTableList({
-            ...this.pagination,
-            ...this.submitDataInfo
-          })
+          console.log(tab)
+          if(tab.index == 0) {
+            this.submitDataInfo.is_back = ''
+            this.getWaitList({
+              ...this.pagination,
+              ...this.submitDataInfo
+            })
+          } else if(tab.index == 1) {
+            this.submitDataInfo.is_back = 0
+            this.getBorrowList({
+              ...this.pagination,
+              ...this.submitDataInfo
+            })
+          } else if(tab.index == 2) {
+            this.submitDataInfo.is_back = 1
+            this.getHistoryList({
+              ...this.pagination,
+              ...this.submitDataInfo
+            })
+          }
+          // if(tab.index > 0) this.submitDataInfo.is_back = Number(tab.index)-1;
+          //   else this.submitDataInfo.is_back = ''
+          // this.getTableList({
+          //   ...this.pagination,
+          //   ...this.submitDataInfo
+          // })
         },
         changeDataTime(){
           console.log(this.detaTimeInfo)
@@ -238,17 +334,50 @@
         },
         //分页器点击事件
         pageChange(){
-          this.getTableList({
-            ...this.pagination,
-            ...this.submitDataInfo
-          });
+          if (this.activeName_item == 'first') {
+            this.getWaitList({
+              ...this.pagination,
+              ...this.submitDataInfo
+            })
+          } else if(this.activeName_item == 'second') {
+            this.getBorrowList({
+              ...this.pagination,
+              ...this.submitDataInfo
+            })
+          } else if(this.activeName_item == 'third') {
+            this.getHistoryList({
+              ...this.pagination,
+              ...this.submitDataInfo
+            })
+          }
         },
         //查询事件
         searchClick(){
-          this.getTableList({
-            ...this.pagination,
-            ...this.submitDataInfo
-          });
+          if (this.activeName_item == 'first') {
+            this.getWaitList({
+              ...this.pagination,
+              ...this.submitDataInfo
+            })
+          } else if(this.activeName_item == 'second') {
+            this.getBorrowList({
+              ...this.pagination,
+              ...this.submitDataInfo
+            })
+          } else if(this.activeName_item == 'third') {
+            this.getHistoryList({
+              ...this.pagination,
+              ...this.submitDataInfo
+            })
+          }
+        },
+        // 提交出库申请
+        async sendApproveInfo(user_approve_exhibit_id){
+          let returnData = await this.$api.sendApproveInfo({user_approve_exhibit_id});
+          if(returnData && returnData.code=='0') 
+            this.getWaitList({
+              ...this.pagination,
+              ...this.submitDataInfo
+            })
         },
           indexMethod(index){
             return this.pageSize*(this.pageNum-1)+index+1;

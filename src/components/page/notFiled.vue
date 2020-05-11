@@ -400,8 +400,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>{{props.row.case_none_status=='1'?'未交卷':''}}</span>
-                        <span>{{props.row.case_none_status=='2'?'已交卷':''}}</span>
+                      <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
                         
                     </template>
                   </el-table-column>
@@ -504,8 +503,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>{{props.row.case_none_status=='1'?'未交卷':''}}</span>
-                        <span>{{props.row.case_none_status=='2'?'已交卷':''}}</span>
+                        <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
                         
                     </template>
                   </el-table-column>
@@ -609,8 +607,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>{{props.row.case_none_status=='1'?'未交卷':''}}</span>
-                        <span>{{props.row.case_none_status=='2'?'已交卷':''}}</span>
+                        <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
                         
                     </template>
                   </el-table-column>
@@ -713,8 +710,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>{{props.row.case_none_status=='1'?'未交卷':''}}</span>
-                        <span>{{props.row.case_none_status=='2'?'已交卷':''}}</span>
+                        <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
                         
                     </template>
                   </el-table-column>
@@ -817,8 +813,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>{{props.row.case_none_status=='1'?'未交卷':''}}</span>
-                        <span>{{props.row.case_none_status=='2'?'已交卷':''}}</span>
+                        <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
                         
                     </template>
                   </el-table-column>
@@ -922,8 +917,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>{{props.row.case_none_status=='1'?'未交卷':''}}</span>
-                        <span>{{props.row.case_none_status=='2'?'已交卷':''}}</span>
+                        <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
                         
                     </template>
                   </el-table-column>
@@ -1026,8 +1020,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>{{props.row.case_none_status=='1'?'未交卷':''}}</span>
-                        <span>{{props.row.case_none_status=='2'?'已交卷':''}}</span>
+                        <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
                         
                     </template>
                   </el-table-column>
@@ -1130,8 +1123,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>{{props.row.case_none_status=='1'?'未交卷':''}}</span>
-                        <span>{{props.row.case_none_status=='2'?'已交卷':''}}</span>
+                        <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
                         
                     </template>
                   </el-table-column>
@@ -1234,8 +1226,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>{{props.row.case_none_status=='1'?'未交卷':''}}</span>
-                        <span>{{props.row.case_none_status=='2'?'已交卷':''}}</span>
+                        <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
                         
                     </template>
                   </el-table-column>

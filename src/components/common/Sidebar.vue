@@ -511,7 +511,8 @@ import md5 from 'js-md5';
                    this.items.splice(1,1)
                    this.items.splice(1,1)
                    this.items.splice(1,1)
-                   this.items.splice(2,1)
+                   this.items.splice(1,1)
+                   this.items.splice(1,1)
                    break;
                 case '1,3':
                     this.items.splice(7,1)

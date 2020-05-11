@@ -450,7 +450,9 @@
                 :total="total">
           </el-pagination>
             <div>
-                <el-button v-if="activeName=='first'?true:false" @click="BorrowClick" type="primary">借阅</el-button>
+                <el-popconfirm title="确定提交借阅吗？" @onConfirm="BorrowClick">
+                    <el-button v-if="activeName=='first'?true:false" type="primary" slot="reference">借阅</el-button>
+                </el-popconfirm>
             </div>
         </div>
         
