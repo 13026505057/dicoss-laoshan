@@ -1290,13 +1290,14 @@
                 var userId = localStorage.getItem('userId');
                 // params.append('tongyi_status','1');
                 // params.append('stock_status','unnone');
-                params.append('stock_status_str','none');
+                // params.append('stock_status_str','none');
                 params.append('timeYear',self.timeYear);
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
                 params.append('user_id',userId);
-                params.append('case_none_confirm','1');
-                params.append('case_none_status','2');
+                params.append('cout_for','getGeRenWeiGui');
+                // params.append('case_none_confirm','1');
+                // params.append('case_none_status','2');
 
                 self.$axios({
                     method: 'post',
@@ -1405,7 +1406,7 @@
 
                 self.$axios({
                     method: 'post',
-                    url: '/cases/cases/getConfirmedNoneByPage',
+                    url: '/cases/cases/getGeRenWeiGuiByPage',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
