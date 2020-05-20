@@ -65,16 +65,17 @@ import md5 from 'js-md5';
                             },
                             {   
                                 index: 'returnBacking1',
-                                title: '> 符合归档条件案卷'
+                                title: '> 符合归档条件案件'
                             },
                             
-                            {   
-                                index: 'returnBacked1',
-                                title: '> >已归档案件'
-                            },
+                            
                             {   
                                 index: 'weiguidanganguan',
                                 title: '> >未归档案件'
+                            },
+                            {   
+                                index: 'returnBacked1',
+                                title: '> >已归档案件'
                             },
                             // {   
                             //     index: 'instore1',
@@ -98,7 +99,7 @@ import md5 from 'js-md5';
                             },
                             {
                                 index: 'returnBacking',
-                                title: '> 符合归档条件的案卷'
+                                title: '> 符合归档条件的案件'
                                 
                                 // subs:[
                                 //     {   
@@ -121,11 +122,11 @@ import md5 from 'js-md5';
                             },
                             {   
                                 index: 'notFiled',
-                                title: '> 未归档案件'
+                                title: '> >未归档案件'
                             },
                             {
                                 index: 'waitForInStore',
-                                title: '> 档案接收审查'
+                                title: '> >档案接收审查'
                                 // icon: 'el-icon-setting',
                                 // index: '1',
                                 // title: '应入库档案管理',
@@ -146,7 +147,7 @@ import md5 from 'js-md5';
                             },
                             {
                                 index: 'waitForOutStore',
-                                title: '>档案检查（已通过）'
+                                title: '> >通过审查的档案'
                                 // icon: 'el-icon-setting',
                                 // index: '2',
                                 // title: '待出库档案管理',
@@ -167,7 +168,7 @@ import md5 from 'js-md5';
                             },
                             {
                                 index: 'returnStore',
-                                title: '>入库上架'
+                                title: '> >已入库上架'
                                 // icon: 'el-icon-setting',
                                 // index: '3',
                                 // title: '待归还档案管理',
@@ -261,16 +262,20 @@ import md5 from 'js-md5';
                             },
                             {   
                                 index: 'biguidang',
-                                title: '> 应归档案件'
+                                title: '> 已办结案件'
+                            },
+                            {   
+                                index: 'gerendaipingcha',
+                                title: '> 等待质量评查'
                             },
                             {   
                                 index: 'returnBacking2',
-                                title: '> > 必归档案件'
-                            },
-                            {   
-                                index: 'weiguidanganguan2',
                                 title: '> > 未归档案件'
                             },
+                            // {   
+                            //     index: 'weiguidanganguan2',
+                            //     title: '> > 未归档案件'
+                            // },
                             {   
                                 index: 'returnBacked2',
                                 title: '> > 已归档案件'
@@ -337,7 +342,7 @@ import md5 from 'js-md5';
                             },
                             {   
                                 index: 'geyewuwei',
-                                title: '> 各业务类型必归档案件'
+                                title: '> 各业务类型未归档案件'
                             },
                            
                             {   
@@ -350,7 +355,11 @@ import md5 from 'js-md5';
                             },
                             {   
                                 index: 'bananrenwei',
-                                title: '> 办案人必归档案件'
+                                title: '> 办案人未归档案件'
+                            },
+                            {   
+                                index: 'shixiaopingjia',
+                                title: '> 时效评价'
                             }
                         ]
                     },

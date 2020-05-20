@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">历史案卷</div>
+            <div class="titleBg">历史案卷<div style="font-size: 20px;line-height: 20px;margin-top: -25px;">包含无案件信息的案卷</div></div>
             <div class="block">
                 
                 <el-input style="width:120px;" v-model="case_number" placeholder="请输入统一涉案号"></el-input>

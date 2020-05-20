@@ -2,7 +2,8 @@
     <div>
         
         <div >
-            <div class="titleBg">回写业务绩效</div>
+            <div class="titleBg">回写业务绩效<div style="font-size: 20px;line-height: 20px;margin-top: -25px;">（仅限2017年以后）
+</div></div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
@@ -1288,11 +1289,12 @@
                 var token = localStorage.getItem('auth');
                 // params.append('tongyi_status','');
                 // params.append('stock_status','out');
-                params.append('stock_status_str','in,out,wout,win');
+                // params.append('stock_status_str','in,out,wout,win');
                 params.append('timeYear',self.timeYear);
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
-                params.append('slrqBeginYear','2017');
+                // params.append('slrqBeginYear','2017');
+                params.append('cout_for','jixiao');
                 self.$axios({
                     method: 'post',
                     url: '/cases/cases/getCountForType',
@@ -1370,7 +1372,7 @@
 
                 self.$axios({
                     method: 'post',
-                    url: '/cases/cases/getInByPage',
+                    url: '/cases/cases/getJiXiao',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){

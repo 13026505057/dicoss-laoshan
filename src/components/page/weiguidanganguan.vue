@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">未归档案件<div style="font-size: 20px;line-height: 20px;margin-top: -25px;">未归档=必归档+待质量评查</div></div>
+            <div class="titleBg">未归档案件<div style="font-size: 20px;line-height: 20px;margin-top: -25px;">已通过案管质量评查的未归档案件</div></div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>

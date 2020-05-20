@@ -2,14 +2,14 @@
     <div>
         
         <div >
-            <div class="titleBg">符合归档条件案件</div>
+            <div class="titleBg">未归档案件<div style="font-size: 20px;line-height: 20px;margin-top: -25px;">已通过案管质量评查的未归档案件</div></div>
             <div class="block">
                 
-                <el-input style="width:200px;" v-model="case_number" placeholder="案卷号查询"></el-input>
+                <el-input style="width:150px;" v-model="case_number" placeholder="案卷号查询"></el-input>
                 <!-- 关键词联想组建 -->
                 <el-select
                   v-model="case_name"
-                  style="width: 200px;margin-left: 30px;"
+                  style="width: 150px;margin-left: 20px;"
                   filterable
                   remote
                   clearable
@@ -26,7 +26,7 @@
                 </el-select>
                 <el-select
                   v-model="case_name"
-                  style="width: 200px;margin-left: 30px;"
+                  style="width: 150px;margin-left: 20px;"
                   filterable
                   remote
                   clearable
@@ -42,7 +42,7 @@
                   </el-option>
                 </el-select>
                 <el-date-picker
-                  style="width: 200px;margin-left: 30px;"
+                  style="width: 150px;margin-left: 20px;"
                   v-model="timeYear"
                   align="right"
                   type="year"
@@ -52,7 +52,7 @@
                 </el-date-picker>
                 <el-select
                   v-model="user_true_name"
-                  style="width: 200px;margin-left: 30px;"
+                  style="width: 150px;margin-left: 20px;"
                   filterable
                   remote
                   clearable
@@ -67,7 +67,7 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
-                <el-select style="width: 200px;margin-left: 30px;" v-model="case_value" placeholder="是否已交卷">
+                <el-select style="width: 150px;margin-left: 20px;" v-model="case_value" placeholder="是否已交卷">
                   <el-option
                     v-for="item in options5"
                     :key="item.value"
@@ -86,9 +86,9 @@
                   end-placeholder="结束日期">
                 </el-date-picker> -->
                 
-                <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
-
-                <el-button type="warning" style="margin-left: 30px;" @click="printClickForreturn">批量打印回执单</el-button>
+                <el-button type="warning" style="margin-left: 20px;" @click="searchClick">查询</el-button>
+                <el-button type="warning" style="margin-left: 20px;" @click="exportClick">导出</el-button>
+                <!-- <el-button type="warning" style="margin-left: 20px;" @click="printClickForreturn">批量打印回执单</el-button> -->
                 
             </div>
 
@@ -1389,7 +1389,7 @@
                 label: '未交卷'
               }, {
                 value: '2',
-                label: '已交卷'
+                label: '已交卷（未上架）'
               }, ],
               case_value:""
             }
@@ -1424,6 +1424,7 @@
           // },10000)
       },
       methods: {
+          
           remoteMethod2(query) {
             if (query !== '') {
               this.loading2 = true;
@@ -1877,6 +1878,13 @@
                       self.$response(data,self);
                     }
                  });
+          },
+          //导出
+          exportClick(){
+                const self = this;
+                // self.getNumBage();
+                window.open(self.$axios.defaults.baseURL+'/cases/cases/exportDangAnWeiGui?case_name='+self.case_name+'&case_bh='+self.case_number+'&timeYear='+self.timeYear+'&case_take_user_name='+self.user_true_name+'&case_none_status='+self.case_value)
+                
           },
           //获取默认列表数据
           getDataList(){

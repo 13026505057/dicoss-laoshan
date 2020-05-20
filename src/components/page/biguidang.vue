@@ -2,7 +2,8 @@
     <div>
         
         <div >
-            <div class="titleBg">应归档</div>
+            <div class="titleBg">已办结案件<div style="font-size: 20px;line-height: 20px;margin-top: -25px;">统计结果为本人管理职责内所有案件
+</div></div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
@@ -36,6 +37,23 @@
                 <el-select style="width: 250px;margin-left: 20px;" v-model="time_status" placeholder="请选择状态">
                   <el-option
                     v-for="item in stateList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <el-select
+                  v-model="user_true_name"
+                  style="width: 250px;margin-left: 30px;"
+                  filterable
+                  remote
+                  clearable
+                  reserve-keyword
+                  placeholder="请输入承办人"
+                  :remote-method="remoteMethod2"
+                  :loading="loading2">
+                  <el-option
+                    v-for="item in options42"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value">
@@ -1097,6 +1115,9 @@
               caseList: [
                 
               ],
+              loading2:false,
+              options42:[],
+              user_true_name:'',
               exhibits:[],
               total:0,
               pageNum:1,
@@ -1111,28 +1132,39 @@
               stateList:[{
                   value:'',
                   label:'全部',
-                },{
+                },
+                {
                   value:'none',
-                  label:'未归档',
-                },{
-                  value:'in',
-                  label:'已归档',
-                },{
+                  label:'未归档（未超期）',
+                },
+                {
                   value:'none_jj_out',
                   label:'未归档（交卷超期）',
-                },{
-                  value:'in_jj_out',
-                  label:'已归档（交卷超期）',
-                },{
-                  value:'none_all_out',
-                  label:'未归档（双超期）',
-                },{
+                },
+                {
                   value:'none_rk_out',
                   label:'未归档（入库超期）',
-                },{
+                },
+                {
+                  value:'none_all_out',
+                  label:'未归档（双超期）',
+                },
+                {
+                  value:'in',
+                  label:'已归档（未超期）',
+                },
+                {
+                  value:'in_jj_out',
+                  label:'已归档（交卷超期）',
+                },
+                {
                   value:'in_rk_out',
                   label:'已归档（入库超期）',
                 },
+                {
+                  value:'in_all_out',
+                  label:'已归档（双超期）',
+                }
               ],
               time_status:'',
             }
@@ -1148,6 +1180,46 @@
           this.getNumBage();
       },
       methods: {
+          remoteMethod2(query) {
+            if (query !== '') {
+              this.loading2 = true;
+              this.getNameList2(query);
+              setTimeout(() => {
+                this.loading2 = false;
+                this.options42 = this.list2.filter(item => {
+                  return item.label.toLowerCase()
+                    .indexOf(query.toLowerCase()) > -1;
+                });
+              }, 2000);
+            } else {
+              this.options42 = [];
+            }
+          },
+          getNameList2(query){
+                const self = this;
+                self.user_true_name = query;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('user_true_name',self.user_true_name);
+                params.append('pageNum',1);
+                params.append('pageSize',1000);
+                self.$axios({
+                    method: 'post',
+                    url: '/user/getByPage',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                        self.states2 = data.data.data.list;
+                        self.list2 = self.states2.map(item => {
+                          return { value: item.user_true_name, label: item.user_true_name};
+                        });
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
           indexMethod(index){
             return this.pageSize*(this.pageNum-1)+index+1;
           },
@@ -1338,8 +1410,9 @@
                 params.append('timeYear',self.timeYear);
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
-                params.append('user_id',userId);
+                // params.append('user_id',userId);
                 params.append('time_status',self.time_status);
+                params.append('case_take_user_name',self.user_true_name);
                 self.$axios({
                     method: 'post',
                     url: '/cases/cases/getCountForType',
@@ -1410,7 +1483,8 @@
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
                 params.append('timeYear',self.timeYear);
-                params.append('user_id',userId);
+                // params.append('user_id',userId);
+                params.append('case_take_user_name',self.user_true_name);
                 params.append('time_status',self.time_status);
                 
                 // params.append('stock_status','unnone');

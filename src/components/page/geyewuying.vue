@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">各业务类型应归档案件</div>
+            <div class="titleBg">各业务类型符合归档条件<div style="font-size: 20px;line-height: 20px;margin-top: -25px;">办结且通过案管质量评查</div></div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
@@ -33,6 +33,14 @@
                   value-format="yyyy"
                   placeholder="选择年份">
                 </el-date-picker>
+                <el-select style="width: 180px;margin-left: 20px;" v-model="time_status" placeholder="请选择状态">
+                  <el-option
+                    v-for="item in stateList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
                 <!-- <el-select
                   v-model="user_true_name"
                   style="width: 250px;margin-left: 30px;"
@@ -1121,7 +1129,46 @@
               addHisDialog:false,
               uploadUrl:'',
               myHeaders:'',
-              timeYear:''
+              timeYear:'',
+              time_status:'',
+              stateList:[
+                {
+                  value:'',
+                  label:'全部',
+                },
+                {
+                  value:'none',
+                  label:'未归档（未超期）',
+                },
+                {
+                  value:'none_jj_out',
+                  label:'未归档（交卷超期）',
+                },
+                {
+                  value:'none_rk_out',
+                  label:'未归档（入库超期）',
+                },
+                {
+                  value:'none_all_out',
+                  label:'未归档（双超期）',
+                },
+                {
+                  value:'in',
+                  label:'已归档（未超期）',
+                },
+                {
+                  value:'in_jj_out',
+                  label:'已归档（交卷超期）',
+                },
+                {
+                  value:'in_rk_out',
+                  label:'已归档（入库超期）',
+                },
+                {
+                  value:'in_all_out',
+                  label:'已归档（双超期）',
+                }
+              ],
             }
               
       },
@@ -1364,7 +1411,7 @@
                 params.append('timeYear',self.timeYear);
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
-
+                params.append('time_status',self.time_status);
                 self.$axios({
                     method: 'post',
                     url: '/cases/cases/getCountForType',
@@ -1435,7 +1482,7 @@
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
                 params.append('timeYear',self.timeYear);
-                
+                params.append('time_status',self.time_status);
                 // params.append('stock_status','unnone');
                 // params.append('tongyi_status','0');
                 switch(self.activeName){

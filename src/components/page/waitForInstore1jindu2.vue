@@ -265,10 +265,10 @@
                     align="center"
                     width="50">
                   </el-table-column>
-                  <el-table-column
+                  <!-- <el-table-column
                     type="selection"
                     width="65">
-                  </el-table-column>
+                  </el-table-column> -->
                   <el-table-column
                     label="案件编号"
                     align="center"
@@ -401,10 +401,10 @@
                     align="center"
                     width="50">
                   </el-table-column>
-                  <el-table-column
+                  <!-- <el-table-column
                     type="selection"
                     width="65">
-                  </el-table-column>
+                  </el-table-column> -->
                   <el-table-column
                     label="案件编号"
                     align="center"
@@ -485,6 +485,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -520,10 +523,10 @@
                     align="center"
                     width="50">
                   </el-table-column>
-                  <el-table-column
+                  <!-- <el-table-column
                     type="selection"
                     width="65">
-                  </el-table-column>
+                  </el-table-column> -->
                   <el-table-column
                     label="案件编号"
                     align="center"
@@ -605,6 +608,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -640,10 +646,10 @@
                     align="center"
                     width="50">
                   </el-table-column>
-                  <el-table-column
+                  <!-- <el-table-column
                     type="selection"
                     width="65">
-                  </el-table-column>
+                  </el-table-column> -->
                   <el-table-column
                     label="案件编号"
                     align="center"
@@ -725,6 +731,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -760,10 +769,10 @@
                     align="center"
                     width="50">
                   </el-table-column>
-                  <el-table-column
+                  <!-- <el-table-column
                     type="selection"
                     width="65">
-                  </el-table-column>
+                  </el-table-column> -->
                   <el-table-column
                     label="案件编号"
                     align="center"
@@ -845,6 +854,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -880,10 +892,10 @@
                     align="center"
                     width="50">
                   </el-table-column>
-                  <el-table-column
+                  <!-- <el-table-column
                     type="selection"
                     width="65">
-                  </el-table-column>
+                  </el-table-column> -->
                   <el-table-column
                     label="案件编号"
                     align="center"
@@ -965,6 +977,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -1000,10 +1015,10 @@
                     align="center"
                     width="50">
                   </el-table-column>
-                  <el-table-column
+                  <!-- <el-table-column
                     type="selection"
                     width="65">
-                  </el-table-column>
+                  </el-table-column> -->
                   <el-table-column
                     label="案件编号"
                     align="center"
@@ -1085,6 +1100,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -1120,10 +1138,10 @@
                     align="center"
                     width="50">
                   </el-table-column>
-                  <el-table-column
+                  <!-- <el-table-column
                     type="selection"
                     width="65">
-                  </el-table-column>
+                  </el-table-column> -->
                   <el-table-column
                     label="案件编号"
                     align="center"
@@ -1205,6 +1223,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -1240,10 +1261,10 @@
                     align="center"
                     width="50">
                   </el-table-column>
-                  <el-table-column
+                  <!-- <el-table-column
                     type="selection"
                     width="65">
-                  </el-table-column>
+                  </el-table-column> -->
                   <el-table-column
                     label="案件编号"
                     align="center"
@@ -1325,6 +1346,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -1442,10 +1466,10 @@
       },
       methods: {
         // 修改成卷状态
-        async changesStatus(e){
-          let returnData = await this.$api.editChengStatus({case_id:e.case_id,chengjuan:e.chengjuan==0?1:0})
-          if(returnData && returnData.code == '0') this.getDataList()
-        },
+          async changesStatus(e){
+            let returnData = await this.$api.editChengStatus({case_id:e.case_id,chengjuan:e.chengjuan==0?1:0})
+            if(returnData && returnData.code == '0') this.getDataList()
+          },
           remoteMethod2(query) {
             if (query !== '') {
               this.loading2 = true;

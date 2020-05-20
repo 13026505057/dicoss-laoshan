@@ -29,9 +29,19 @@ export default new Router({
                     component: resolve => require(['../components/page/chukutongji.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
+                    name: '时效评价',
+                    path: '/shixiaopingjia',
+                    component: resolve => require(['../components/page/shixiaopingjia.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
                     name: '应归档',
                     path: '/biguidang',
                     component: resolve => require(['../components/page/biguidang.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '个人待质量评查',
+                    path: '/gerendaipingcha',
+                    component: resolve => require(['../components/page/gerendaipingcha.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
                     name: '待入库',

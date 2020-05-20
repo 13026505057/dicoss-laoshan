@@ -361,7 +361,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
-                        <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="changesStatus(props.row)">修改成卷状态</el-button>
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -482,6 +484,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -602,6 +607,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -722,6 +730,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -842,6 +853,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -962,6 +976,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -1082,6 +1099,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -1202,6 +1222,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -1322,6 +1345,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>
@@ -1435,11 +1461,11 @@
           this.getNumBage();
       },
       methods: {
-        // 修改成卷状态
-        async changesStatus(e){
-          let returnData = await this.$api.editChengStatus({case_id:e.case_id,chengjuan:e.chengjuan==0?1:0})
-          if(returnData && returnData.code == '0') this.getDataList()
-        },
+          // 修改成卷状态
+          async changesStatus(e){
+            let returnData = await this.$api.editChengStatus({case_id:e.case_id,chengjuan:e.chengjuan==0?1:0})
+            if(returnData && returnData.code == '0') this.getDataList()
+          },
           indexMethod(index){
             // console.log(index)
             // return index*this.pageNum+1;

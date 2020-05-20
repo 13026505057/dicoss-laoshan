@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">入库上架</div>
+            <div class="titleBg">已入库上架</div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>

@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">办案人应归档案件</div>
+            <div class="titleBg">办案人符合归档条件<div style="font-size: 20px;line-height: 20px;margin-top: -25px;">办结且通过案管质量评查</div></div>
             <div class="block">
                 
                 <el-input style="width:180px;" v-model="case_number" placeholder="案卷号查询"></el-input>
@@ -1140,31 +1140,43 @@
               timeYear:'',
               time_status:'',
               case_none_confirm:'',
-              stateList:[{
+              stateList:[
+                {
                   value:'',
                   label:'全部',
-                },{
+                },
+                {
                   value:'none',
-                  label:'未归档',
-                },{
-                  value:'in',
-                  label:'已归档',
-                },{
+                  label:'未归档（未超期）',
+                },
+                {
                   value:'none_jj_out',
                   label:'未归档（交卷超期）',
-                },{
-                  value:'in_jj_out',
-                  label:'已归档（交卷超期）',
-                },{
-                  value:'none_all_out',
-                  label:'未归档（双超期）',
-                },{
+                },
+                {
                   value:'none_rk_out',
                   label:'未归档（入库超期）',
-                },{
+                },
+                {
+                  value:'none_all_out',
+                  label:'未归档（双超期）',
+                },
+                {
+                  value:'in',
+                  label:'已归档（未超期）',
+                },
+                {
+                  value:'in_jj_out',
+                  label:'已归档（交卷超期）',
+                },
+                {
                   value:'in_rk_out',
                   label:'已归档（入库超期）',
                 },
+                {
+                  value:'in_all_out',
+                  label:'已归档（双超期）',
+                }
               ],
               stateList1:[{
                   value:'',

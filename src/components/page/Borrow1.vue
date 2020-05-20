@@ -2,15 +2,15 @@
     <div>
         
         <div >
-            <div class="titleBg">借阅案卷</div>
+            <div class="titleBg">借阅</div>
             <div class="block">
                 
-                <el-input style="width:150px;" v-model="case_number" placeholder="请输入统一涉案号"></el-input>
+                <el-input style="width:180px;" v-model="case_number" placeholder="请输入统一涉案号"></el-input>
                 <el-input @change="scanChange" style="width:180px;margin-left: 20px;" v-model="scan_number" placeholder="请扫描案卷条码"></el-input>
                 <!-- 关键词联想组建 -->
                 <el-select
                   v-model="case_name"
-                  style="width: 150px;margin-left: 20px;"
+                  style="width: 180px;margin-left: 20px;"
                   filterable
                   remote
                   clearable
@@ -26,7 +26,7 @@
                   </el-option>
                 </el-select>
                 <el-date-picker
-                  style="width: 120px;margin-left: 20px;"
+                  style="width: 150px;margin-left: 20px;"
                   v-model="timeYear"
                   align="right"
                   type="year"
@@ -346,7 +346,18 @@
                                 align="center"
                                 >
                                 <template slot-scope="props">
-                                    <span>{{props.row.user_approve_status=='pass'?'通过':'驳回'}}</span>
+                                    <span>{{props.row.user_approve_status=='waiting'?'待审批':''}}</span>
+                                    <span>{{props.row.user_approve_status=='pass'?'通过':''}}</span>
+                                    <span>{{props.row.user_approve_status=='unpass'?'驳回':''}}</span>
+                                    <span>{{props.row.user_approve_status=='out'?'已出库':''}}</span>
+                                    <span>{{props.row.user_approve_status=='over'?'已归还':''}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                label="审批人"
+                                align="center">
+                                <template slot-scope="props">
+                                    <p v-for="(item2,index2) in props.row.userApproveApplys">{{item2.approve_user_true_name}}</p>
                                 </template>
                             </el-table-column>
                             <el-table-column
@@ -354,7 +365,7 @@
                                 align="center"
                                 >
                                 <template slot-scope="props">
-                                    <span>{{props.row.userApproveApplys[0].mark}}</span>
+                                    <p v-for="(item3,index3) in props.row.userApproveApplys">{{item3.mark}}</p>
                                 </template>
                             </el-table-column>
                             <el-table-column
@@ -362,7 +373,7 @@
                                 align="center"
                                 >
                                 <template slot-scope="props">
-                                    <span>{{props.row.userApproveExhibits[0].case_bh}}</span>
+                                    <p v-for="(item4,index4) in props.row.userApproveExhibits">{{item4.case_bh}}</p>
                                 </template>
                             </el-table-column>
                             
@@ -372,7 +383,8 @@
                                 
                                 >
                                 <template slot-scope="props">
-                                    <span>{{props.row.userApproveExhibits[0].dh}}</span>
+                                    <p v-for="(item4,index4) in props.row.userApproveExhibits">{{item4.dh}}</p>
+                                  
                                 </template>
                             </el-table-column>
                             <el-table-column
@@ -381,7 +393,7 @@
                                 
                                 >
                                 <template slot-scope="props">
-                                    <span>{{props.row.userApproveExhibits[0].jh}}</span>
+                                    <p v-for="(item4,index4) in props.row.userApproveExhibits">{{item4.jh}}</p>
                                 </template>
                             </el-table-column>
                             <el-table-column
@@ -391,7 +403,8 @@
                                 
                                 >
                                 <template slot-scope="props">
-                                    <span>{{props.row.userApproveExhibits[0].exhibit_name}}</span>
+                                    <p v-for="(item4,index4) in props.row.userApproveExhibits">{{item4.exhibit_name}}</p>
+                                    <!-- <span>{{props.row.userApproveExhibits[0].exhibit_name}}</span> -->
                                 </template>
                             </el-table-column>
                             <!-- <el-table-column
@@ -450,9 +463,9 @@
                 :total="total">
           </el-pagination>
             <div>
-                <el-popconfirm title="确定提交借阅吗？" @onConfirm="BorrowClick">
-                    <el-button v-if="activeName=='first'?true:false" type="primary" slot="reference">借阅</el-button>
-                </el-popconfirm>
+                
+                <el-button @click="BorrowClick" v-if="activeName=='first'?true:false" type="primary" slot="reference">借阅</el-button>
+                
             </div>
         </div>
         
@@ -627,24 +640,34 @@
                 var exhibit_ids = arr.join(",");
                 params.append('exhibit_ids',exhibit_ids);
                 
-                self.$axios({
-                    method: 'post',
-                    url: '/user/approve/add',
-                    data: params,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
-                }).then(function(data){
-                    
-                    if(data.data.code==0){
-                        self.$message({
-                            type: 'success',
-                            message: '借阅成功'
+                self.$confirm('确定提交借阅申请？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                    }).then(() => {
+                        self.$axios({
+                            method: 'post',
+                            url: '/user/approve/add',
+                            data: params,
+                            headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                        }).then(function(data){
+                            
+                            if(data.data.code==0){
+                                self.$message({
+                                    type: 'success',
+                                    message: '借阅成功'
+                                });
+                            }else{
+                                self.$response(data,self);
+                            }
                         });
-
-                    
-                    }else{
-                        self.$response(data,self);
-                    }
+                    }).catch(() => {
+                        self.$message({
+                            type: 'info',
+                            message: '已取消'
+                        });          
                 });
+                
             },
             indexMethod(index){
                 return this.pageSize*(this.pageNum-1)+index+1;
@@ -866,7 +889,13 @@
             },
             //分页器点击事件
             pageChange(){
-                this.getDataList();
+                var self = this;
+                if(self.activeName=='first'){
+                    self.getDataList();
+                }else{
+                    self.getDataList2();
+                }
+                
             },
             //分页器点击事件
             pageChange2(){

@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">符合归档条件案件</div>
+            <div class="titleBg">符合归档条件案件<div style="font-size: 20px;line-height: 20px;margin-top: -25px;">办结且通过案管质量评查</div></div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
@@ -274,6 +274,14 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    label="评查是否超期"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>未超期</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="操作"
                     width="300px"
                     align="center"
@@ -370,6 +378,14 @@
                     >
                     <template slot-scope="props">
                         <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="评查是否超期"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>未超期</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -472,6 +488,14 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    label="评查是否超期"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>未超期</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="操作"
                     width="300px"
                     align="center"
@@ -568,6 +592,14 @@
                     >
                     <template slot-scope="props">
                         <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="评查是否超期"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>未超期</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -670,6 +702,14 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    label="评查是否超期"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>未超期</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="操作"
                     width="300px"
                     align="center"
@@ -766,6 +806,14 @@
                     >
                     <template slot-scope="props">
                         <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="评查是否超期"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>未超期</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -868,6 +916,14 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    label="评查是否超期"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>未超期</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="操作"
                     width="300px"
                     align="center"
@@ -967,6 +1023,14 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    label="评查是否超期"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>未超期</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="操作"
                     width="300px"
                     align="center"
@@ -1063,6 +1127,14 @@
                     >
                     <template slot-scope="props">
                         <span>{{num1}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="评查是否超期"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>未超期</span>
                     </template>
                   </el-table-column>
                   <el-table-column

@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">必归档 <span>已通过案件质量评查，请于通过之日起一月内向档案室交卷</span></div>
+            <div class="titleBg">未归档 <span>已通过案管质量评查的未归档案件 </span></div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
@@ -33,6 +33,23 @@
                   value-format="yyyy"
                   placeholder="选择年份">
                 </el-date-picker>
+                <el-select
+                  v-model="user_true_name"
+                  style="width: 250px;margin-left: 30px;"
+                  filterable
+                  remote
+                  clearable
+                  reserve-keyword
+                  placeholder="请输入承办人"
+                  :remote-method="remoteMethod2"
+                  :loading="loading2">
+                  <el-option
+                    v-for="item in options42"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
                 <!-- <el-date-picker
                   style="margin-left: 20px;width:420px;"
                   v-model="date"
@@ -213,6 +230,24 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    label="是否交卷"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
+                        
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="剩余交卷天数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{30-props.row.anguan_confirm_day}}</span>
+                        
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="承办人"
                     align="center"
                     prop="case_take_user_name"
@@ -309,6 +344,24 @@
                         <span>{{props.row.time_status=='none_jj_out'?'未归档（交卷超期）':''}}</span>
                         <span>{{props.row.time_status=='none_rk_out'?'未归档（入库超期）':''}}</span>
                         <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="是否交卷"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
+                        
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="剩余交卷天数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{30-props.row.anguan_confirm_day}}</span>
+                        
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -411,6 +464,24 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    label="是否交卷"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
+                        
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="剩余交卷天数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{30-props.row.anguan_confirm_day}}</span>
+                        
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="承办人"
                     align="center"
                     prop="case_take_user_name"
@@ -507,6 +578,24 @@
                         <span>{{props.row.time_status=='none_jj_out'?'未归档（交卷超期）':''}}</span>
                         <span>{{props.row.time_status=='none_rk_out'?'未归档（入库超期）':''}}</span>
                         <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="是否交卷"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
+                        
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="剩余交卷天数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{30-props.row.anguan_confirm_day}}</span>
+                        
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -609,6 +698,24 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    label="是否交卷"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
+                        
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="剩余交卷天数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{30-props.row.anguan_confirm_day}}</span>
+                        
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="承办人"
                     align="center"
                     prop="case_take_user_name"
@@ -705,6 +812,24 @@
                         <span>{{props.row.time_status=='none_jj_out'?'未归档（交卷超期）':''}}</span>
                         <span>{{props.row.time_status=='none_rk_out'?'未归档（入库超期）':''}}</span>
                         <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="是否交卷"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
+                        
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="剩余交卷天数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{30-props.row.anguan_confirm_day}}</span>
+                        
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -807,6 +932,24 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    label="是否交卷"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
+                        
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="剩余交卷天数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{30-props.row.anguan_confirm_day}}</span>
+                        
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="承办人"
                     align="center"
                     prop="case_take_user_name"
@@ -903,6 +1046,24 @@
                         <span>{{props.row.time_status=='none_jj_out'?'未归档（交卷超期）':''}}</span>
                         <span>{{props.row.time_status=='none_rk_out'?'未归档（入库超期）':''}}</span>
                         <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="是否交卷"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
+                        
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="剩余交卷天数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{30-props.row.anguan_confirm_day}}</span>
+                        
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -1005,6 +1166,24 @@
                     </template>
                   </el-table-column>
                   <el-table-column
+                    label="是否交卷"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
+                        
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="剩余交卷天数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <span>{{30-props.row.anguan_confirm_day}}</span>
+                        
+                    </template>
+                  </el-table-column>
+                  <el-table-column
                     label="承办人"
                     align="center"
                     prop="case_take_user_name"
@@ -1099,7 +1278,10 @@
               addHisDialog:false,
               uploadUrl:'',
               myHeaders:'',
-              timeYear:''
+              timeYear:'',
+              loading2:false,
+              options42:[],
+              user_true_name:'',
             }
               
       },
@@ -1113,6 +1295,46 @@
           this.getNumBage();
       },
       methods: {
+          remoteMethod2(query) {
+            if (query !== '') {
+              this.loading2 = true;
+              this.getNameList2(query);
+              setTimeout(() => {
+                this.loading2 = false;
+                this.options42 = this.list2.filter(item => {
+                  return item.label.toLowerCase()
+                    .indexOf(query.toLowerCase()) > -1;
+                });
+              }, 2000);
+            } else {
+              this.options42 = [];
+            }
+          },
+          getNameList2(query){
+                const self = this;
+                self.user_true_name = query;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('user_true_name',self.user_true_name);
+                params.append('pageNum',1);
+                params.append('pageSize',1000);
+                self.$axios({
+                    method: 'post',
+                    url: '/user/getByPage',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                        self.states2 = data.data.data.list;
+                        self.list2 = self.states2.map(item => {
+                          return { value: item.user_true_name, label: item.user_true_name};
+                        });
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
           indexMethod(index){
             return this.pageSize*(this.pageNum-1)+index+1;
           },
@@ -1300,6 +1522,7 @@
                 // params.append('tongyi_status','0');
                 // params.append('stock_status','unnone');
                 params.append('cout_for','bigui');
+                params.append('user_true_name',self.user_true_name);
                 // params.append('case_type_id',self.timeYear);
                 // params.append('case_name',self.case_name);
                 // params.append('case_bh',self.case_number);
@@ -1374,7 +1597,8 @@
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
                 params.append('timeYear',self.timeYear);
-                params.append('user_id',userId);
+                params.append('user_true_name',self.user_true_name);
+                // params.append('user_id',userId);
                 // params.append('stock_status','unnone');
                 // params.append('tongyi_status','0');
                 switch(self.activeName){

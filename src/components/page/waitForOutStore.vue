@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">档案检查（已通过）</div>
+            <div class="titleBg">通过审查的档案</div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>

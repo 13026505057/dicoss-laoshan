@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">已审结案件<div style="font-size: 20px;line-height: 20px;margin-top: -25px;"></div></div>
+            <div class="titleBg">等待质量评查<div style="font-size: 20px;line-height: 20px;margin-top: -25px;"></div></div>
             <div class="block">
                 
                 <el-input style="width:200px;" v-model="case_number" placeholder="案卷号查询"></el-input>

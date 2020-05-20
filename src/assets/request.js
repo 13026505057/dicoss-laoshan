@@ -4,8 +4,8 @@ import router from '../router/index'
 import { Message } from 'element-ui'
 
 const service = axios.create({
-    baseURL: 'http://192.168.2.98:8080/dossier',  // api的base_url 
-    // baseURL: 'http://gde7qh.natappfree.cc/dossier',
+    // baseURL: 'http://192.168.100.87:8080/dossier',  // api的base_url 
+    baseURL: 'http://192.168.2.99:8080/dossier',
     timeout: 50000  // 请求超时时间
 })
 

@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">借阅案卷</div>
+            <div class="titleBg">借阅审批</div>
             <div class="block">
                 
                 <el-input style="width:150px;" v-model="case_number" placeholder="请输入统一涉案号"></el-input>
