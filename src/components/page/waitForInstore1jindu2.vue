@@ -363,9 +363,9 @@
                     width="300px"
                     align="center">
                       <template slot-scope="props">
-
-                        <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="changesStatus(props.row)">修改成卷状态</el-button>
-
+                        <el-popconfirm title="确定修改状态吗？" @onConfirm="changesStatus(props.row)">
+                          <el-button slot="reference" type="warning" size="mini" style="margin-left: 0px;">修改成卷状态</el-button>
+                        </el-popconfirm>
                         <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="liuchengClick(props.row)">查看进度</el-button>
                       </template>
                   </el-table-column>

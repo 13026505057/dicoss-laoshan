@@ -1292,6 +1292,7 @@
                 params.append('timeYear',self.timeYear);
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
+                params.append('slrqBeginYear','2017');
                 self.$axios({
                     method: 'post',
                     url: '/cases/cases/getCountForType',
@@ -1330,6 +1331,7 @@
                 params.append('pageSize',self.pageSize);
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
+                params.append('slrqBeginYear','2017');
                 params.append('timeYear',self.timeYear);
                 
                 // params.append('stock_status','out');
