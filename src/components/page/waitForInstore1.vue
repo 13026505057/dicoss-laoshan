@@ -296,6 +296,11 @@
                         <span>{{props.row.case_none_status==1?'评查中':'待入库'}}</span>
                     </template>
                   </el-table-column>
+                  <el-table-column label="评查是否超期" align="center">
+                    <template>
+                      <span>未超期</span>
+                    </template>
+                  </el-table-column>
                   <el-table-column
                     label="案件描述"
                     align="center"
@@ -415,6 +420,11 @@
                     >
                     <template slot-scope="props">
                         <span>{{props.row.case_none_status==1?'评查中':'待入库'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="评查是否超期" align="center">
+                    <template>
+                      <span>未超期</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -537,6 +547,11 @@
                         <span>{{props.row.case_none_status==1?'评查中':'待入库'}}</span>
                     </template>
                   </el-table-column>
+                  <el-table-column label="评查是否超期" align="center">
+                    <template>
+                      <span>未超期</span>
+                    </template>
+                  </el-table-column>
                   <el-table-column
                     label="案件描述"
                     align="center"
@@ -655,6 +670,11 @@
                     >
                     <template slot-scope="props">
                         <span>{{props.row.case_none_status==1?'评查中':'待入库'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="评查是否超期" align="center">
+                    <template>
+                      <span>未超期</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -777,6 +797,11 @@
                         <span>{{props.row.case_none_status==1?'评查中':'待入库'}}</span>
                     </template>
                   </el-table-column>
+                  <el-table-column label="评查是否超期" align="center">
+                    <template>
+                      <span>未超期</span>
+                    </template>
+                  </el-table-column>
                   <el-table-column
                     label="案件描述"
                     align="center"
@@ -895,6 +920,11 @@
                     >
                     <template slot-scope="props">
                         <span>{{props.row.case_none_status==1?'评查中':'待入库'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="评查是否超期" align="center">
+                    <template>
+                      <span>未超期</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -1017,6 +1047,11 @@
                         <span>{{props.row.case_none_status==1?'评查中':'待入库'}}</span>
                     </template>
                   </el-table-column>
+                  <el-table-column label="评查是否超期" align="center">
+                    <template>
+                      <span>未超期</span>
+                    </template>
+                  </el-table-column>
                   <el-table-column
                     label="案件描述"
                     align="center"
@@ -1137,6 +1172,11 @@
                         <span>{{props.row.case_none_status==1?'评查中':'待入库'}}</span>
                     </template>
                   </el-table-column>
+                  <el-table-column label="评查是否超期" align="center">
+                    <template>
+                      <span>未超期</span>
+                    </template>
+                  </el-table-column>
                   <el-table-column
                     label="案件描述"
                     align="center"
@@ -1255,6 +1295,11 @@
                     >
                     <template slot-scope="props">
                         <span>{{props.row.case_none_status==1?'评查中':'待入库'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="评查是否超期" align="center">
+                    <template>
+                      <span>未超期</span>
                     </template>
                   </el-table-column>
                   <el-table-column

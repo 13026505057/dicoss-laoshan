@@ -309,9 +309,14 @@
                     prop="case_desc"
                     >
                   </el-table-column>
-                  
                   <el-table-column
-                    label="是否归档"
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="是否双归档"
                     align="center"
                     >
                     <template slot-scope="props">
@@ -325,20 +330,9 @@
                         <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    label="承办人"
-                    align="center"
-                    prop="case_take_user_name"
-                    >
-                  </el-table-column>
-                  <el-table-column
-                    label="是否成卷"
-                    align="center"
-                    >
-                    <template slot-scope="scope">
-                      <div>
-                        {{ scope.row.chengjuan==0?'否':'是' }}
-                      </div>
+                  <el-table-column label="评查状态" align="center">
+                    <template slot-scope="{row}">
+                        <span>{{ row.case_none_confirm | statusCheck }}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -437,7 +431,13 @@
                     >
                   </el-table-column>
                   <el-table-column
-                    label="是否归档"
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="是否双归档"
                     align="center"
                     >
                     <template slot-scope="props">
@@ -451,11 +451,10 @@
                         <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    label="承办人"
-                    align="center"
-                    prop="case_take_user_name"
-                    >
+                  <el-table-column label="评查状态" align="center">
+                    <template slot-scope="{row}">
+                        <span>{{ row.case_none_confirm | statusCheck }}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="案管是否评查超期"
@@ -553,7 +552,13 @@
                     >
                   </el-table-column>
                   <el-table-column
-                    label="是否归档"
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="是否双归档"
                     align="center"
                     >
                     <template slot-scope="props">
@@ -567,11 +572,10 @@
                         <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    label="承办人"
-                    align="center"
-                    prop="case_take_user_name"
-                    >
+                  <el-table-column label="评查状态" align="center">
+                    <template slot-scope="{row}">
+                        <span>{{ row.case_none_confirm | statusCheck }}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="案管是否评查超期"
@@ -669,7 +673,13 @@
                     >
                   </el-table-column>
                   <el-table-column
-                    label="是否归档"
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="是否双归档"
                     align="center"
                     >
                     <template slot-scope="props">
@@ -683,11 +693,10 @@
                         <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    label="承办人"
-                    align="center"
-                    prop="case_take_user_name"
-                    >
+                  <el-table-column label="评查状态" align="center">
+                    <template slot-scope="{row}">
+                        <span>{{ row.case_none_confirm | statusCheck }}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="案管是否评查超期"
@@ -785,7 +794,13 @@
                     >
                   </el-table-column>
                   <el-table-column
-                    label="是否归档"
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="是否双归档"
                     align="center"
                     >
                     <template slot-scope="props">
@@ -799,11 +814,10 @@
                         <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    label="承办人"
-                    align="center"
-                    prop="case_take_user_name"
-                    >
+                  <el-table-column label="评查状态" align="center">
+                    <template slot-scope="{row}">
+                        <span>{{ row.case_none_confirm | statusCheck }}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="案管是否评查超期"
@@ -901,7 +915,13 @@
                     >
                   </el-table-column>
                   <el-table-column
-                    label="是否归档"
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="是否双归档"
                     align="center"
                     >
                     <template slot-scope="props">
@@ -915,11 +935,10 @@
                         <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    label="承办人"
-                    align="center"
-                    prop="case_take_user_name"
-                    >
+                  <el-table-column label="评查状态" align="center">
+                    <template slot-scope="{row}">
+                        <span>{{ row.case_none_confirm | statusCheck }}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="案管是否评查超期"
@@ -1017,7 +1036,13 @@
                     >
                   </el-table-column>
                   <el-table-column
-                    label="是否归档"
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="是否双归档"
                     align="center"
                     >
                     <template slot-scope="props">
@@ -1031,11 +1056,10 @@
                         <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    label="承办人"
-                    align="center"
-                    prop="case_take_user_name"
-                    >
+                  <el-table-column label="评查状态" align="center">
+                    <template slot-scope="{row}">
+                        <span>{{ row.case_none_confirm | statusCheck }}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="案管是否评查超期"
@@ -1133,7 +1157,13 @@
                     >
                   </el-table-column>
                   <el-table-column
-                    label="是否归档"
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="是否双归档"
                     align="center"
                     >
                     <template slot-scope="props">
@@ -1147,11 +1177,10 @@
                         <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    label="承办人"
-                    align="center"
-                    prop="case_take_user_name"
-                    >
+                  <el-table-column label="评查状态" align="center">
+                    <template slot-scope="{row}">
+                        <span>{{ row.case_none_confirm | statusCheck }}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="案管是否评查超期"
@@ -1249,7 +1278,13 @@
                     >
                   </el-table-column>
                   <el-table-column
-                    label="是否归档"
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="是否双归档"
                     align="center"
                     >
                     <template slot-scope="props">
@@ -1263,11 +1298,10 @@
                         <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    label="承办人"
-                    align="center"
-                    prop="case_take_user_name"
-                    >
+                  <el-table-column label="评查状态" align="center">
+                    <template slot-scope="{row}">
+                        <span>{{ row.case_none_confirm | statusCheck }}</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="案管是否评查超期"
@@ -1338,6 +1372,15 @@
   import  TMap from '../../TMap';
   import md5 from 'js-md5';
   export default {
+    filters: {
+      statusCheck(status){
+        const statusMap = {
+          0: '未完成',
+          1: '完成',
+        }
+        return statusMap[status]
+      }
+    },
       data: function(){
           return {
               num1:0,

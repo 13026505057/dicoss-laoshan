@@ -4,11 +4,10 @@ import router from '../router/index'
 import { Message } from 'element-ui'
 
 const service = axios.create({
-    // baseURL: 'http://192.168.100.87:8080/dossier',  // api的base_url 
-    baseURL: 'http://192.168.2.99:8080/dossier',
+    baseURL: process.env.BASE_URL, 
     timeout: 50000  // 请求超时时间
 })
-
+console.log(process.env)
 service.interceptors.request.use(config => {
     console.log(config)
     if (localStorage.getItem('auth')) {
@@ -39,10 +38,10 @@ service.interceptors.response.use(
                 router.push('./login')
             },3000)
             
-        }else if(response.data.code == '601'){
-            Message.info(response.data.msg);
         }else if(response.data.code == '500'){
             Message.info('操作异常或信息填写错误，请重新再试一次');
+        } else {
+            Message.info(response.data.msg);
         }
     },
     error => {  //响应错误处理

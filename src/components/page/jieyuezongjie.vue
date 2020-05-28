@@ -115,12 +115,12 @@
                 :row-style="rowStyle" class="tableClass">
                 <el-table-column align="center" v-for="item in column_pending"
                   :key="item.itemId" :label="item.title" :prop="item.dom"></el-table-column>
-                <el-table-column label="操作" align="center">
+                <!-- <el-table-column label="操作" align="center">
                   <template slot-scope="props">
                     <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="downLoad(props.row)">下载</el-button>
                     <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="delClick(props.row)">删除</el-button>
                   </template>
-                </el-table-column>
+                </el-table-column> -->
               </el-table>
             </el-tab-pane>
             <el-tab-pane label="借阅历史" name="third">
@@ -129,12 +129,12 @@
                 :row-style="rowStyle" class="tableClass">
                 <el-table-column align="center" v-for="item in column_history"
                   :key="item.itemId" :label="item.title" :prop="item.dom"></el-table-column>
-                <el-table-column label="操作" align="center">
+                <!-- <el-table-column label="操作" align="center">
                   <template slot-scope="props">
                     <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="downLoad(props.row)">下载</el-button>
                     <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="delClick(props.row)">删除</el-button>
                   </template>
-                </el-table-column>
+                </el-table-column> -->
               </el-table>
             </el-tab-pane>
           </el-tabs>
@@ -373,11 +373,14 @@
         // 提交出库申请
         async sendApproveInfo(user_approve_exhibit_id){
           let returnData = await this.$api.sendApproveInfo({user_approve_exhibit_id});
-          if(returnData && returnData.code=='0') 
+          if(returnData && returnData.code=='0') {
             this.getWaitList({
               ...this.pagination,
               ...this.submitDataInfo
             })
+            this.$message({ type:'success', message: '操作成功' })
+          }
+            
         },
           indexMethod(index){
             return this.pageSize*(this.pageNum-1)+index+1;

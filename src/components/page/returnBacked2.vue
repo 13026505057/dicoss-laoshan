@@ -2,7 +2,9 @@
     <div>
         
         <div >
-            <div class="titleBg">已归档</div>
+            <div class="titleBg">已归档
+              <span>线上线下双归档</span>
+            </div>
             <div class="block">
                 
                 <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
@@ -1631,5 +1633,12 @@
     }
     .colorRed{
       color: red;
+    }
+    .titleBg{
+      line-height: 50px;
+    }
+    .titleBg span{
+      display: block;
+      font-size: 20px;
     }
 </style>

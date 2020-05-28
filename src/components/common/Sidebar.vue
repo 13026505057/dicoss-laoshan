@@ -266,7 +266,7 @@ import md5 from 'js-md5';
                             },
                             {   
                                 index: 'gerendaipingcha',
-                                title: '> 等待质量评查'
+                                title: '> > 等待质量评查'
                             },
                             {   
                                 index: 'returnBacking2',
