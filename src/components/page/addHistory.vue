@@ -103,12 +103,22 @@
               </el-form-item>
               
               
-              <el-form-item label="期限" style="display: block;">
+              <el-form-item label="期限" style="display: inline-block;">
                 <el-select  v-model="form.bgqx" placeholder="请选择" style="width:208px;">
                   <el-option
                     v-for="item in bgqxList"
                     :key="item.value"
                     :label="item.name"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="案件类型" style="display: inline-block;margin-left:80px;">
+                <el-select  v-model="form.case_type_id" placeholder="请选择" style="width:208px;">
+                  <el-option
+                    v-for="item in typeList1"
+                    :key="item.value"
+                    :label="item.label"
                     :value="item.value">
                   </el-option>
                 </el-select>
@@ -527,6 +537,7 @@
                 params.append('dh',self.form.dh);
                 params.append('jh',self.form.jh);
                 params.append('print_code',self.form.print_code);
+                params.append('case_type_id',self.form.case_type_id);
                 // const loading = self.$loading({
                 //   lock: true,
                 //   text: '打印中',

@@ -5,11 +5,11 @@
             <div class="titleBg">未归档案件<div style="font-size: 20px;line-height: 20px;margin-top: -25px;">已通过案管质量评查的未归档案件</div></div>
             <div class="block">
                 
-                <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
+                <el-input style="width:200px;" v-model="case_number" placeholder="案卷号查询"></el-input>
                 <!-- 关键词联想组建 -->
                 <el-select
                   v-model="case_name"
-                  style="width: 250px;margin-left: 30px;"
+                  style="width: 200px;margin-left: 30px;"
                   filterable
                   remote
                   clearable
@@ -26,7 +26,7 @@
                 </el-select>
                 <el-select
                   v-model="case_name"
-                  style="width: 250px;margin-left: 30px;"
+                  style="width: 200px;margin-left: 30px;"
                   filterable
                   remote
                   clearable
@@ -42,7 +42,7 @@
                   </el-option>
                 </el-select>
                 <el-date-picker
-                  style="width: 250px;margin-left: 30px;"
+                  style="width: 200px;margin-left: 30px;"
                   v-model="timeYear"
                   align="right"
                   type="year"
@@ -52,7 +52,7 @@
                 </el-date-picker>
                 <el-select
                   v-model="user_true_name"
-                  style="width: 250px;margin-left: 30px;"
+                  style="width: 200px;margin-left: 30px;"
                   filterable
                   remote
                   clearable
@@ -62,6 +62,14 @@
                   :loading="loading2">
                   <el-option
                     v-for="item in options42"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <el-select v-model="anguan_pingcha_chaoqi" style="width: 200px;margin-left: 30px;" placeholder="评查是否超期">
+                  <el-option
+                    v-for="item in chaoqiStatus"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value">
@@ -277,7 +285,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>未超期</span>
+                        <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -383,7 +391,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>未超期</span>
+                        <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -489,7 +497,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>未超期</span>
+                        <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -595,7 +603,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>未超期</span>
+                        <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -701,7 +709,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>未超期</span>
+                        <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -807,7 +815,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>未超期</span>
+                        <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -913,7 +921,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>未超期</span>
+                        <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -1019,7 +1027,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>未超期</span>
+                        <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -1125,7 +1133,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>未超期</span>
+                        <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -1186,6 +1194,21 @@
               caseList: [
                 
               ],
+              chaoqiStatus:[
+                {
+                  value: '',
+                  label: '全部'
+                }, 
+                {
+                  value: '1',
+                  label: '评查超期'
+                }, 
+                {
+                  value: '0',
+                  label: '评查未超期'
+                }
+              ],
+              anguan_pingcha_chaoqi:'',
               exhibits:[],
               total:0,
               pageNum:1,
@@ -1447,7 +1470,7 @@
                 // params.append('case_none_confirm','1');
                 params.append('cout_for','weigui');
                 params.append('case_take_user_name',self.user_true_name);
-
+                params.append('anguan_pingcha_chaoqi',self.anguan_pingcha_chaoqi);
                 self.$axios({
                     method: 'post',
                     url: '/cases/cases/getCountForType',
@@ -1519,6 +1542,7 @@
                 params.append('case_bh',self.case_number);
                 params.append('timeYear',self.timeYear);
                 params.append('case_take_user_name',self.user_true_name);
+                params.append('anguan_pingcha_chaoqi',self.anguan_pingcha_chaoqi);
                 // params.append('stock_status','unnone');
                 // params.append('tongyi_status','1');
                 switch(self.activeName){

@@ -52,7 +52,7 @@
                 </el-date-picker>
                 <el-select
                   v-model="user_true_name"
-                  style="width: 250px;margin-left: 30px;"
+                  style="width: 200px;margin-left: 30px;"
                   filterable
                   remote
                   clearable
@@ -62,6 +62,14 @@
                   :loading="loading2">
                   <el-option
                     v-for="item in options42"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <el-select v-model="anguan_pingcha_chaoqi" style="width: 200px;margin-left: 30px;" placeholder="评查是否超期">
+                  <el-option
+                    v-for="item in chaoqiStatus"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value">
@@ -297,8 +305,8 @@
                     </template>
                   </el-table-column>
                   <el-table-column label="评查是否超期" align="center">
-                    <template>
-                      <span>未超期</span>
+                    <template slot-scope="props">
+                      <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -423,8 +431,8 @@
                     </template>
                   </el-table-column>
                   <el-table-column label="评查是否超期" align="center">
-                    <template>
-                      <span>未超期</span>
+                    <template slot-scope="props">
+                      <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -548,8 +556,8 @@
                     </template>
                   </el-table-column>
                   <el-table-column label="评查是否超期" align="center">
-                    <template>
-                      <span>未超期</span>
+                    <template slot-scope="props">
+                      <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -673,8 +681,8 @@
                     </template>
                   </el-table-column>
                   <el-table-column label="评查是否超期" align="center">
-                    <template>
-                      <span>未超期</span>
+                    <template slot-scope="props">
+                      <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -798,8 +806,8 @@
                     </template>
                   </el-table-column>
                   <el-table-column label="评查是否超期" align="center">
-                    <template>
-                      <span>未超期</span>
+                    <template slot-scope="props">
+                      <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -923,8 +931,8 @@
                     </template>
                   </el-table-column>
                   <el-table-column label="评查是否超期" align="center">
-                    <template>
-                      <span>未超期</span>
+                    <template slot-scope="props">
+                      <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -1048,8 +1056,8 @@
                     </template>
                   </el-table-column>
                   <el-table-column label="评查是否超期" align="center">
-                    <template>
-                      <span>未超期</span>
+                    <template slot-scope="props">
+                      <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -1173,8 +1181,8 @@
                     </template>
                   </el-table-column>
                   <el-table-column label="评查是否超期" align="center">
-                    <template>
-                      <span>未超期</span>
+                    <template slot-scope="props">
+                      <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -1298,8 +1306,8 @@
                     </template>
                   </el-table-column>
                   <el-table-column label="评查是否超期" align="center">
-                    <template>
-                      <span>未超期</span>
+                    <template slot-scope="props">
+                      <span>{{props.row.anguan_pingcha_chaoqi==1?'超期':'未超期'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -1425,6 +1433,21 @@
               caseList: [
                 
               ],
+              chaoqiStatus:[
+                {
+                  value: '',
+                  label: '全部'
+                }, 
+                {
+                  value: '1',
+                  label: '评查超期'
+                }, 
+                {
+                  value: '0',
+                  label: '评查未超期'
+                }
+              ],
+              anguan_pingcha_chaoqi:'',
               multipleSelection: [],
               exhibits:[],
               total:0,
@@ -1776,6 +1799,7 @@
                 params.append('case_bh',self.case_number);
                 params.append('cout_for','yishenjie');
                 params.append('case_take_user_name',self.user_true_name);
+                params.append('anguan_pingcha_chaoqi',self.anguan_pingcha_chaoqi);
                 self.$axios({
                     method: 'post',
                     url: '/cases/cases/getCountForType',
@@ -1879,6 +1903,7 @@
                 params.append('timeYear',self.timeYear);
                 // params.append('bjrq','NOTNULL');
                 params.append('case_take_user_name',self.user_true_name);
+                params.append('anguan_pingcha_chaoqi',self.anguan_pingcha_chaoqi);
                 switch(self.activeName){
                 case 'tabName1':
                   params.append('case_type_id','30');

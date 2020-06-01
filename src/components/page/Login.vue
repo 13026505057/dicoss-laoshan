@@ -1,6 +1,6 @@
 <template>
     <div class="login-wrap">
-        <div class="ms-title">青岛市崂山区人民检察院</div>
+        <div class="ms-title">青岛市人民检察院</div>
         <div class="ms-title2">智慧档案管理系统</div>
         <div class="ms-login">
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
@@ -59,6 +59,7 @@
                         localStorage.setItem('auth',data.data.data.token);
                         localStorage.setItem('userId',data.data.data.user.user_id);
                         localStorage.setItem('ad_user_true_name',data.data.data.user.user_true_name);
+                        localStorage.setItem('org_name',data.data.data.user.org.org_name);
                         var arr = []
                         for(var i = 0; i < data.data.data.user.userGroups.length;i++){
                             arr.push(data.data.data.user.userGroups[i].group_id)

@@ -5,9 +5,9 @@
             <!-- <div class="logo1"><img src="../../../static/img/logo.png"></div> -->
             <div class="user-info">
                 <el-dropdown trigger="click" @command="handleCommand">
-                    <span class="el-dropdown-link" style="font-size:20px;">
+                    <span class="el-dropdown-link" style="font-size:18px;">
                         <!-- <img class="user-logo" src="../../../static/img/img.jpg"> -->
-                        {{username}}
+                        {{locationName}}：{{username}}
                     </span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item command="loginout">退出</el-dropdown-item>
@@ -61,6 +61,7 @@ import md5 from 'js-md5';
                 org_name:'',
                 top_name:'',
                 top_head:'',
+                locationName:'',
                 items: [
                     {
                         icon: 'el-icon-setting',
@@ -345,7 +346,8 @@ import md5 from 'js-md5';
 
         },
         mounted(){
-            
+            let org_name = localStorage.getItem('org_name');
+            this.locationName = org_name;
          
             
         }
