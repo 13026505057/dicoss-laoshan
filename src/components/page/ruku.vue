@@ -952,7 +952,7 @@
                 params.append('pageSize',self.pageSize);
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
-                params.append('stock_log_type','in');
+                params.append('stock_log_type','init');
 
                 self.$axios({
                     method: 'post',

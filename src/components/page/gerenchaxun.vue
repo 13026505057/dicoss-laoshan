@@ -128,6 +128,7 @@
                   </el-table-column>
                   <el-table-column
                     label="单位名称"
+                    width="300"
                     align="center"
                     height="10%"
                     prop="org_name">
@@ -138,20 +139,22 @@
                   <el-table-column
                     label="应交卷数量"
                     align="center"
-                    prop="in_count"
                     >
+                    <template slot-scope="props">
+                        <span>{{props.row.none_count+props.row.in_count}}</span>
+                    </template>
                   </el-table-column>
                   
                   <el-table-column
                     label="实交卷数量"
                     align="center"
-                    prop="none_count"
+                    prop="in_count"
                     >
                   </el-table-column>
                   <el-table-column
                     label="超期交卷数量"
                     align="center"
-                    prop="persent"
+                    prop="chaoqi_count"
                     >
                   </el-table-column>
                   <el-table-column
@@ -204,7 +207,16 @@
                   <el-table-column
                     label="办案人姓名"
                     align="center"
-                    prop="case_bh">
+                    prop="case_take_user_name">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="单位名称"
+                    align="center"
+                    width="300"
+                    prop="org_name">
                     <!-- <template slot-scope="props">
                       <span>签到考勤</span>
                     </template> -->
@@ -212,7 +224,7 @@
                   <el-table-column
                     label="部门"
                     align="center"
-                    prop="case_bh">
+                    prop="dept_name">
                     <!-- <template slot-scope="props">
                       <span>签到考勤</span>
                     </template> -->
@@ -220,8 +232,10 @@
                   <el-table-column
                     label="应交卷数量"
                     align="center"
-                    prop="in_count"
                     >
+                    <template slot-scope="props">
+                        <span>{{props.row.none_count+props.row.in_count}}</span>
+                    </template>
                   </el-table-column>
                   
                   <el-table-column
@@ -232,8 +246,9 @@
                   </el-table-column>
                   <el-table-column
                     label="超期交卷数量"
+                    width="100"
                     align="center"
-                    prop="persent"
+                    prop="chaoqi_count"
                     >
                   </el-table-column>
                   <el-table-column
