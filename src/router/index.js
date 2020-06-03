@@ -24,6 +24,21 @@ export default new Router({
                     component: resolve => require(['../components/page/waitForInStore.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
+                    name: '入库',
+                    path: '/ruku',
+                    component: resolve => require(['../components/page/ruku.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '单位管理',
+                    path: '/orgAdmin',
+                    component: resolve => require(['../components/page/orgAdmin.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '预入库',
+                    path: '/yuruku',
+                    component: resolve => require(['../components/page/yuruku.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
                     name: '出库统计',
                     path: '/chukutongji',
                     component: resolve => require(['../components/page/chukutongji.vue'], resolve) // Vue-Quill-Editor组件

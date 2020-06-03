@@ -116,38 +116,46 @@
           <div class="tableList" >
                 <el-table
                   :data="caseList"
-                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
-                  :row-style="rowStyle"
+                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000','height':'100px'}"
+                  :row-style="{'height':'100px'}"
                   class="tableClass"
-                  >
+                  height="750">
                   <el-table-column
                     type="index"
                     align="center"
-                    width="50">
+                    width="50"
+                    height="10%">
                   </el-table-column>
                   <el-table-column
                     label="单位名称"
                     align="center"
+                    height="10%"
                     prop="org_name">
                     <!-- <template slot-scope="props">
                       <span>签到考勤</span>
                     </template> -->
                   </el-table-column>
                   <el-table-column
-                    label="归档数量"
+                    label="应交卷数量"
                     align="center"
                     prop="in_count"
                     >
                   </el-table-column>
                   
                   <el-table-column
-                    label="未归档数量"
+                    label="实交卷数量"
                     align="center"
                     prop="none_count"
                     >
                   </el-table-column>
                   <el-table-column
-                    label="未归档数量"
+                    label="超期交卷数量"
+                    align="center"
+                    prop="persent"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="交卷率"
                     align="center"
                     prop="persent"
                     >
@@ -167,7 +175,7 @@
            
                 
           </div>
-          <el-pagination
+          <!-- <el-pagination
                 small
                 background
                 style="text-align: center;margin-top: 20px;"
@@ -176,16 +184,17 @@
                 :page-size="pageSize"
                 layout="prev, pager, next, jumper"
                 :total="total">
-          </el-pagination>
+          </el-pagination> -->
         </div>
         <div id="container" style="width: 100%;height: 110%;  float: right;" v-if="orgShow">
           
           <div class="tableList" >
                 <el-table
                   :data="caseList"
-                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
-                  :row-style="rowStyle"
+                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000','height':'100px'}"
+                  :row-style="{'height':'100px'}"
                   class="tableClass"
+                  height="750"
                   >
                   <el-table-column
                     type="index"
@@ -201,25 +210,37 @@
                     </template> -->
                   </el-table-column>
                   <el-table-column
-                    label="归档数量"
+                    label="部门"
                     align="center"
-                    prop="case_name"
+                    prop="case_bh">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="应交卷数量"
+                    align="center"
+                    prop="in_count"
                     >
                   </el-table-column>
                   
                   <el-table-column
-                    label="未归档数量"
+                    label="实交卷数量"
                     align="center"
-                    prop="in_quantity"
+                    prop="none_count"
                     >
                   </el-table-column>
                   <el-table-column
-                    label="归档率"
+                    label="超期交卷数量"
                     align="center"
+                    prop="persent"
                     >
-                    <template slot-scope="props">
-                        <span>{{num1}}</span>
-                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="交卷率"
+                    align="center"
+                    prop="persent"
+                    >
                   </el-table-column>
                   
                 </el-table>
@@ -228,7 +249,7 @@
            
                 
           </div>
-          <el-pagination
+          <!-- <el-pagination
                 small
                 background
                 style="text-align: center;margin-top: 20px;"
@@ -237,7 +258,7 @@
                 :page-size="pageSize"
                 layout="prev, pager, next, jumper"
                 :total="total">
-          </el-pagination>
+          </el-pagination> -->
         </div>
         
 
@@ -506,29 +527,31 @@
                 // self.getNumBage();
                 var params = {};
                 var token = localStorage.getItem('auth');
-                var urlNum = self.url.indexOf('370200');
-                var cityId = self.url.split('city=')[1];
-                console.log(cityId)
+                var urlNum = self.url.indexOf('city');
+                
+                
                 console.log(urlNum)
                 var requestUrl = '';
                 if(urlNum>0){
+                    var cityId = self.url.split('city=')[1];
                     self.orgShow = false;
                     self.cityShow = true;
                     requestUrl = 'chart/city/getStockPersentByCity';
                     
                    
                     params = {
-                        city_id:'370200',
+                        city_id:cityId,
                         nd:'2019'
                     }
                     
                 }else{
+                    var areaId = self.url.split('area=')[1];
                     self.cityShow = false;
                     self.orgShow = true;
                     requestUrl = 'chart/area/getStockCountByArea';
                     
                     params = {
-                        area_id:'370200',
+                        area_id:areaId,
                         nd:'2019'
                     }
                 }
@@ -556,11 +579,13 @@
           
          //修改单元行颜色
           rowStyle({ row, rowIndex}){
-            if(rowIndex%2 ==0){
-              return 'background:#eee;color:#000;'
-            }else{
-             return 'background:#e5e7e8;color:#000;'
-            }
+            // console.log('看这里',row)
+            return 'color:green!important;'
+            // if(rowIndex%2 ==0){
+            //   return 'background:#eee;color:#000;height:200px;!important'
+            // }else{
+            //  return 'background:#e5e7e8;color:#000;height:200px;!important'
+            // }
           },      
          
           
@@ -569,17 +594,11 @@
       }
      
   }
-    window.addEventListener('message', function(event) {
-        // 接收位置信息，用户选择确认位置点后选点组件会触发该事件，回传用户的位置信息
-        var loc = event.data;
-        if (loc && loc.module == 'locationPicker') {//防止其他应用也会向该页面post信息，需判断module是否为'locationPicker'
-          console.log('location', loc);
-          localStorage.setItem('locationDes',loc.poiaddress);
-          localStorage.setItem('localLat',loc.latlng.lat);
-          localStorage.setItem('localLng',loc.latlng.lng);
-          localStorage.setItem('isLocalChoosed',1);
-        }
-    }, false);
+    // window.onload = window.onresize = function () {
+    //   var devicewidth = document.documentElement.clientWidth;
+    //   var scale =  1920/devicewidth;  // 分母——设计稿的尺寸
+    //   document.body.style.zoom = 1;
+    // };
 </script>
 
 <style scoped>
@@ -590,6 +609,10 @@
       height: 600px;
       
     }
+    .titleBg{
+      width: 55%;
+      margin:0 auto;
+    }
     .el-tree{
       background: rgba(255,215,0,0.3);
       color: #fff;
@@ -597,18 +620,22 @@
 
     .tableClass{
       width: 100%;
-      height: auto;
-      background-color: #231a75;
+      height: 750px;
+      /* overflow-y: scroll; */
+      border-top: 1px solid #fff;
+      background-color: #fff!important;
     }
     .tableList{
-      width: 99%;
-      height: 760px!important;
-      overflow-y: scroll;
+      width: 55%;
+      height: 750px!important;
+      /* overflow-y: scroll; */
       border:1px solid #231a75;
      /* border-radius: 20px;*/
+      
+      margin:0 auto;
       margin-top: 20px;
       background-color: #231a75;
-      background-size: 100% 6%;
+      background-size: 180% 6%;
     }
     .tableList::-webkit-scrollbar {/*滚动条整体样式*/
             width: 4px;     /*高宽分别对应横竖滚动条的尺寸*/
@@ -641,7 +668,7 @@
     }
 
     /*#container {
-        min-width:900px;
+        min-width:750px;
         min-height:607px;
         
         overflow-y: hidden;
@@ -707,5 +734,8 @@
     }
     .colorRed{
       color: red;
+    }
+    .el-table__row{
+      height: 120px!important;
     }
 </style>

@@ -75,7 +75,7 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
-                <el-select v-model="orgId" placeholder="请选择单位" v-if="orgId==370200?true:false">
+                <el-select v-model="orgId" placeholder="请选择单位" v-if="orgId1==370200?true:false">
                   <el-option
                     v-for="item in orgList"
                     :key="item.value"
@@ -1400,6 +1400,7 @@
                 label: '已交卷（未上架）'
               }, ],
               case_value:"",
+              orgId1:localStorage.getItem('orgId'),
               orgId:localStorage.getItem('orgId'),
               orgList: [{
                 value: '',

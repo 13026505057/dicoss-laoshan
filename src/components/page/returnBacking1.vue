@@ -75,7 +75,7 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
-                <el-select v-model="orgId" placeholder="请选择单位" v-if="orgId==370200?true:false">
+                <el-select v-model="orgId" placeholder="请选择单位" v-if="orgId1==370200?true:false">
                   <el-option
                     v-for="item in orgList"
                     :key="item.value"
@@ -1240,6 +1240,7 @@
               ],
               anguan_pingcha_chaoqi:'',
               user_true_name:'',
+              orgId1:localStorage.getItem('orgId'),
               orgId:localStorage.getItem('orgId'),
               orgList: [{
                 value: '',

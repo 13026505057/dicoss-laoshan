@@ -94,6 +94,16 @@ import md5 from 'js-md5';
                         subs:[
                             {
                                 
+                                index: 'yuruku',
+                                title: '> 案件预入库'
+                            },
+                            {
+                                
+                                index: 'ruku',
+                                title: '> 案件入库'
+                            },
+                            {
+                                
                                 index: 'waitForInstore1jindu2',
                                 title: '> 案件进度查询'
                             },
@@ -374,6 +384,10 @@ import md5 from 'js-md5';
                         index: '5',
                         title: '通用设置',
                         subs:[
+                            {   
+                                index: 'orgAdmin',
+                                title: '> 单位设置'
+                            },
                             {   
                                 index: 'bumenAdmin',
                                 title: '> 部门设置'
