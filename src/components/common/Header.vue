@@ -401,19 +401,23 @@ import md5 from 'js-md5';
     }
     .user-info {
         float: right;
-        width:15%;
+        width:25%;
         height:70px;
         padding-right: 20px;
         font-size: 16px;
         color: #fff;
+        text-align: right;
     }
     .user-info .el-dropdown-link{
+        /* display: inline-block; */
+        /* width: 500px; */
         position: relative;
         display: inline-block;
-        padding-left: 50px;
+        /* padding-left: 50px; */
         color: #fff;
         cursor: pointer;
         vertical-align: middle;
+        text-align: right;
     }
     .user-info .user-logo{
         position: absolute;

@@ -42,7 +42,7 @@
                     clearable>
                 </el-input> -->
                 <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
-                <!-- <el-button type="primary" style="margin-left: 80px;" @click="importUsers = true">批量导入</el-button> -->
+                <el-button type="primary" style="margin-left: 80px;" @click="importUsers = true">批量导入</el-button>
                 <!-- <el-button type="primary" style="margin-left: 60px;" @click="downLoadFile">导入模板下载</el-button> -->
                 <el-button type="primary" style="margin-left: 60px;" @click="addUser = true">单人新增</el-button>
                 
@@ -61,6 +61,8 @@
               class="upload-demo"
               drag
               :action="addManyUserUploadUrl"
+              :on-success="upLoadSuccess"
+              :headers="myHeaders"
               multiple>
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -93,7 +95,7 @@
                           <el-option
                             v-for="item in bumenList"
                             :key="item.dept_id"
-                            :label="item.dept_total_name"
+                            :label="item.dept_name"
                             :value="item.dept_id">
                           </el-option>
                         </el-select>
@@ -144,7 +146,7 @@
                           <el-option
                             v-for="item in bumenList"
                             :key="item.dept_id"
-                            :label="item.dept_total_name"
+                            :label="item.dept_name"
                             :value="item.dept_id">
                           </el-option>
                         </el-select>
@@ -267,7 +269,7 @@
               user_true_name:'',
               addManyUserUploadUrl:'',
               dept_id:'',
-              bumenList:[],
+              myHeaders:null,
               importUsers:false,
               addUser:false,
               show_btn:true,
@@ -313,8 +315,12 @@
       },
       mounted() {
          
-          var addManyUserUploadUrl = this.$axios.defaults.baseURL+'/user/addByExcel';
+          var addManyUserUploadUrl = this.$axios.defaults.baseURL+'/user/user/addByExcel';
           this.addManyUserUploadUrl = addManyUserUploadUrl;
+          var token = localStorage.getItem('auth');
+          this.myHeaders = {
+            'kf-token':token
+          }
           this.getDeptList();
           this.getPowerList();
           this.getDataList();
@@ -324,6 +330,16 @@
       methods: {
           indexMethod(index){
             return this.pageSize*(this.pageNum-1)+index+1;
+          },
+          upLoadSuccess(response, file, fileList){
+            if(response.code==0){
+              this.$message({
+                message: '上传成功',
+                type: 'success'
+              });
+            }else{
+              this.$message.error('上传失败');
+            }
           },
           //人员删除
           handleEdit(res){
@@ -639,7 +655,6 @@
                  }).then(function(data){
                     if(data.data.code==0){
                        self.bumenList = data.data.data.list;
-
                     }else{
                       self.$response(data,self);
                     }

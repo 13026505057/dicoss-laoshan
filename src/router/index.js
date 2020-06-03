@@ -392,7 +392,12 @@ export default new Router({
                     name: '下载',
                     path: '/downLoadweigui',
                     component: resolve => require(['../components/page/downLoadweigui.vue'], resolve) // Vue-Quill-Editor组件
-                },
+        },
+        {
+            name: '办案人归档率每日排名',
+            path: '/gerenchaxun',
+            component: resolve => require(['../components/page/gerenchaxun.vue'], resolve) // Vue-Quill-Editor组件
+        },
         {
             path: '/login',
             component: resolve => require(['../components/page/Login.vue'], resolve)

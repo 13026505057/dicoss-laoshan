@@ -5,11 +5,11 @@
             <div class="titleBg">符合归档条件案件<div style="font-size: 20px;line-height: 20px;margin-top: -25px;">办结且通过案管质量评查</div></div>
             <div class="block">
                 
-                <el-input style="width:180px;" v-model="case_number" placeholder="案卷号查询"></el-input>
+                <el-input style="width:160px;" v-model="case_number" placeholder="案卷号查询"></el-input>
                 <!-- 关键词联想组建 -->
                 <el-select
                   v-model="case_name"
-                  style="width: 180px;margin-left: 30px;"
+                  style="width: 160px;margin-left: 30px;"
                   filterable
                   remote
                   clearable
@@ -26,7 +26,7 @@
                 </el-select>
                 <el-select
                   v-model="case_name"
-                  style="width: 180px;margin-left: 30px;"
+                  style="width: 160px;margin-left: 30px;"
                   filterable
                   remote
                   clearable
@@ -42,7 +42,7 @@
                   </el-option>
                 </el-select>
                 <el-date-picker
-                  style="width: 180px;margin-left: 30px;"
+                  style="width: 160px;margin-left: 30px;"
                   v-model="timeYear"
                   align="right"
                   type="year"
@@ -52,7 +52,7 @@
                 </el-date-picker>
                 <el-select
                   v-model="user_true_name"
-                  style="width: 180px;margin-left: 30px;"
+                  style="width: 160px;margin-left: 30px;"
                   filterable
                   remote
                   clearable
@@ -67,9 +67,17 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
-                <el-select v-model="anguan_pingcha_chaoqi" style="width: 180px;margin-left: 30px;" placeholder="评查是否超期">
+                <el-select v-model="anguan_pingcha_chaoqi" style="width: 160px;margin-left: 30px;" placeholder="评查是否超期">
                   <el-option
                     v-for="item in chaoqiStatus"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <el-select v-model="orgId" placeholder="请选择单位" v-if="orgId==370200?true:false">
+                  <el-option
+                    v-for="item in orgList"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value">
@@ -1232,6 +1240,44 @@
               ],
               anguan_pingcha_chaoqi:'',
               user_true_name:'',
+              orgId:localStorage.getItem('orgId'),
+              orgList: [{
+                value: '',
+                label: '全部数据'
+              }, {
+                value: '370200',
+                label: '青岛市人民检察院'
+              }, {
+                value: '370202',
+                label: '青岛市市南区人民检察院'
+              }, {
+                value: '370203',
+                label: '青岛市市北区人民检察院'
+              }, {
+                value: '370211',
+                label: '青岛市黄岛区人民检察院'
+              }, {
+                value: '370212',
+                label: '青岛市崂山区人民检察院'
+              },{
+                value: '370213',
+                label: '青岛市李沧区人民检察院'
+              },{
+                value: '370214',
+                label: '青岛市城阳区人民检察院'
+              },{
+                value: '370215',
+                label: '青岛市即墨区人民检察院'
+              },{
+                value: '370281',
+                label: '青岛市胶州市人民检察院'
+              },{
+                value: '370283',
+                label: '青岛市平度市人民检察院'
+              },{
+                value: '370285',
+                label: '青岛市莱西市人民检察院'
+              }],
             }
               
       },
@@ -1476,6 +1522,7 @@
                 params.append('case_bh',self.case_number);
                 params.append('case_take_user_name',self.user_true_name);
                 params.append('anguan_pingcha_chaoqi',self.anguan_pingcha_chaoqi);
+                params.append('org_id',self.orgId);
                 self.$axios({
                     method: 'post',
                     url: '/cases/cases/getCountForType',
@@ -1548,6 +1595,7 @@
                 params.append('timeYear',self.timeYear);
                 params.append('case_take_user_name',self.user_true_name);
                 params.append('anguan_pingcha_chaoqi',self.anguan_pingcha_chaoqi);
+                params.append('org_id',self.orgId);
                 // params.append('stock_status','unnone');
                 // params.append('tongyi_status','0');
                 switch(self.activeName){

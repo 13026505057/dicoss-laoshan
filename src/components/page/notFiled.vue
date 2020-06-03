@@ -75,6 +75,14 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
+                <el-select v-model="orgId" placeholder="请选择单位" v-if="orgId==370200?true:false">
+                  <el-option
+                    v-for="item in orgList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
                 <!-- <el-date-picker
                   style="margin-left: 20px;width:420px;"
                   v-model="date"
@@ -1391,7 +1399,45 @@
                 value: '2',
                 label: '已交卷（未上架）'
               }, ],
-              case_value:""
+              case_value:"",
+              orgId:localStorage.getItem('orgId'),
+              orgList: [{
+                value: '',
+                label: '全部数据'
+              }, {
+                value: '370200',
+                label: '青岛市人民检察院'
+              }, {
+                value: '370202',
+                label: '青岛市市南区人民检察院'
+              }, {
+                value: '370203',
+                label: '青岛市市北区人民检察院'
+              }, {
+                value: '370211',
+                label: '青岛市黄岛区人民检察院'
+              }, {
+                value: '370212',
+                label: '青岛市崂山区人民检察院'
+              },{
+                value: '370213',
+                label: '青岛市李沧区人民检察院'
+              },{
+                value: '370214',
+                label: '青岛市城阳区人民检察院'
+              },{
+                value: '370215',
+                label: '青岛市即墨区人民检察院'
+              },{
+                value: '370281',
+                label: '青岛市胶州市人民检察院'
+              },{
+                value: '370283',
+                label: '青岛市平度市人民检察院'
+              },{
+                value: '370285',
+                label: '青岛市莱西市人民检察院'
+              }],
             }
               
       },
@@ -1851,7 +1897,7 @@
                 params.append('case_take_user_name',self.user_true_name);
                 params.append('cout_for','getDangAnWeiGui');
                 params.append('case_none_status',self.case_value);
-                
+                params.append('org_id',self.orgId);
                 self.$axios({
                     method: 'post',
                     url: '/cases/cases/getCountForType',
@@ -1900,7 +1946,7 @@
                 params.append('timeYear',self.timeYear);
                 params.append('case_take_user_name',self.user_true_name);
                 params.append('case_none_status',self.case_value);
-                
+                params.append('org_id',self.orgId);
                 // params.append('stock_status','unnone');
                 // params.append('tongyi_status','0');
                 switch(self.activeName){

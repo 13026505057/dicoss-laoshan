@@ -52,7 +52,7 @@
                 </el-date-picker>
                 <el-select
                   v-model="user_true_name"
-                  style="width: 250px;margin-left: 30px;"
+                  style="width: 200px;margin-left: 30px;"
                   filterable
                   remote
                   clearable
@@ -62,6 +62,14 @@
                   :loading="loading2">
                   <el-option
                     v-for="item in options42"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <el-select v-model="orgId" placeholder="请选择单位" v-if="orgId==370200?true:false">
+                  <el-option
+                    v-for="item in orgList"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value">
@@ -1444,7 +1452,45 @@
               overtime:'',
               user_true_name:'',
               loading2:false,
-              options42:[]
+              options42:[],
+              orgId:localStorage.getItem('orgId'),
+              orgList: [{
+                value: '',
+                label: '全部数据'
+              }, {
+                value: '370200',
+                label: '青岛市人民检察院'
+              }, {
+                value: '370202',
+                label: '青岛市市南区人民检察院'
+              }, {
+                value: '370203',
+                label: '青岛市市北区人民检察院'
+              }, {
+                value: '370211',
+                label: '青岛市黄岛区人民检察院'
+              }, {
+                value: '370212',
+                label: '青岛市崂山区人民检察院'
+              },{
+                value: '370213',
+                label: '青岛市李沧区人民检察院'
+              },{
+                value: '370214',
+                label: '青岛市城阳区人民检察院'
+              },{
+                value: '370215',
+                label: '青岛市即墨区人民检察院'
+              },{
+                value: '370281',
+                label: '青岛市胶州市人民检察院'
+              },{
+                value: '370283',
+                label: '青岛市平度市人民检察院'
+              },{
+                value: '370285',
+                label: '青岛市莱西市人民检察院'
+              }],
              
             }
               
@@ -1774,6 +1820,7 @@
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
                 params.append('case_take_user_name',self.user_true_name);
+                params.append('org_id',self.orgId);
                 // params.append('bjrq','NOTNULL');
                 self.$axios({
                     method: 'post',
@@ -1876,6 +1923,7 @@
                 // params.append('tongyi_status','');
                 // params.append('case_none_confirm','0');
                 params.append('timeYear',self.timeYear);
+                params.append('org_id',self.orgId);
                 // params.append('bjrq','NOTNULL');
                 
                 switch(self.activeName){

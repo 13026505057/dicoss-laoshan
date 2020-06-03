@@ -60,6 +60,7 @@
                         localStorage.setItem('userId',data.data.data.user.user_id);
                         localStorage.setItem('ad_user_true_name',data.data.data.user.user_true_name);
                         localStorage.setItem('org_name',data.data.data.user.org.org_name);
+                        localStorage.setItem('orgId',data.data.data.user.org.org_id);
                         var arr = []
                         for(var i = 0; i < data.data.data.user.userGroups.length;i++){
                             arr.push(data.data.data.user.userGroups[i].group_id)

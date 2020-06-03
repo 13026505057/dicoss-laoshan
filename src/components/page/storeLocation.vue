@@ -610,7 +610,7 @@
           },
           //
           searchClick(){
-
+            this.getDataList();
           },
           addNewClick(){
             this.addNewShebei = true;
@@ -680,7 +680,7 @@
           },
           //翻页事件
           pageChange1(){
-
+            this.getDataList();
           },
           //修改单元行颜色
           rowStyle({ row, rowIndex}){
