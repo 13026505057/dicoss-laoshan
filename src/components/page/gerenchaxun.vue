@@ -115,6 +115,7 @@
           
           <div class="tableList" >
                 <el-table
+                  v-loading="loading1"
                   :data="caseList"
                   :header-cell-style="{ 'background-color': '#deedf4','color':'#000','height':'100px'}"
                   :row-style="{'height':'100px'}"
@@ -152,7 +153,7 @@
                     >
                   </el-table-column>
                   <el-table-column
-                    label="超期交卷数量"
+                    label="超期未交卷数量"
                     align="center"
                     prop="chaoqi_count"
                     >
@@ -193,6 +194,7 @@
           
           <div class="tableList" >
                 <el-table
+                  v-loading="loading2"
                   :data="caseList"
                   :header-cell-style="{ 'background-color': '#deedf4','color':'#000','height':'100px'}"
                   :row-style="{'height':'100px'}"
@@ -241,11 +243,11 @@
                   <el-table-column
                     label="实交卷数量"
                     align="center"
-                    prop="none_count"
+                    prop="in_count"
                     >
                   </el-table-column>
                   <el-table-column
-                    label="超期交卷数量"
+                    label="超期未交卷数量"
                     width="100"
                     align="center"
                     prop="chaoqi_count"
@@ -286,6 +288,8 @@
   export default {
       data: function(){
           return {
+              loading2:false,
+              loading1:false,
               num1:0,
               num2:0,
               num3:0,
@@ -551,6 +555,8 @@
                     var cityId = self.url.split('city=')[1];
                     self.orgShow = false;
                     self.cityShow = true;
+                    self.loading1  = true;
+                    self.loading2  = false;
                     requestUrl = 'chart/city/getStockPersentByCity';
                     
                    
@@ -563,6 +569,8 @@
                     var areaId = self.url.split('area=')[1];
                     self.cityShow = false;
                     self.orgShow = true;
+                    self.loading2  = true;
+                    self.loading1  = false;
                     requestUrl = 'chart/area/getStockCountByArea';
                     
                     params = {
@@ -586,6 +594,8 @@
                     if(data.data.code==0){
                         self.caseList = data.data.data;
                         self.total = data.data.data.total;
+                        self.loading1  = false;
+                        self.loading2  = false;
                     }else{
                       self.$response(data,self);
                     }

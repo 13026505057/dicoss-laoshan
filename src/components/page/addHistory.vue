@@ -578,7 +578,13 @@
                   self.$router.push('/historicalCases');
               })
               .catch(action => {
-                  self.addNewClickDialog = true;
+                console.log(action)
+                if(action=='close'){
+
+                }else{
+                   self.addNewClickDialog = true;
+                }
+                 
 
                 // this.$message({
                 //   type: 'info',

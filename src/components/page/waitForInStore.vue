@@ -1310,6 +1310,7 @@
               type: 'warning',
               distinguishCancelAndClose:true
             }).then(() => {
+              
               var params = new URLSearchParams();
               params.append('case_ids',res.case_id);
                 
@@ -1331,25 +1332,38 @@
               });
             }).catch(action => {
               if(action=='cancel'){
-                var params = new URLSearchParams();
-                params.append('case_ids',res.case_id);
+                self.$prompt('请填写退查原因', '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  // inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+                  // inputErrorMessage: '邮箱格式不正确'
+                }).then(({ value }) => {
+                  var params = new URLSearchParams();
+                  params.append('case_ids',res.case_id);
+                  params.append('mark',value);
+                  self.$axios({
+                      method: 'post',
+                      url: '/cases/cases/refuseConfirmNone',
+                      data: params,
+                      headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                  }).then(function(data){
+                      
+                      if(data.data.code==0){
+                        self.$message({
+                          type: 'success',
+                          message: '操作成功'
+                        });
+                      }else{
+                        self.$response(data,self);
+                      }
+                  });      
+                }).catch(() => {
+                  self.$message({
+                    type: 'info',
+                    message: '取消输入'
+                  });       
+                });
                 
-                self.$axios({
-                    method: 'post',
-                    url: '/cases/cases/refuseConfirmNone',
-                    data: params,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
-                }).then(function(data){
-                    
-                    if(data.data.code==0){
-                      self.$message({
-                        type: 'success',
-                        message: '操作成功'
-                      });
-                    }else{
-                      self.$response(data,self);
-                    }
-                });      
               }
               
             });

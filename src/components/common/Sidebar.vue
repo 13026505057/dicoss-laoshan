@@ -575,6 +575,9 @@ import md5 from 'js-md5';
                     this.items.splice(2,1)
                     this.items.splice(2,1)
                    break;
+                case '4,5,6':
+                    this.items.splice(9,1)
+                   break;
                 default:
                 this.items = [];
                     

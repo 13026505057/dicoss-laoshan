@@ -33,7 +33,14 @@
                     :value="item.label">
                   </el-option>
                 </el-select>
-                
+                <el-select v-model="orgId" placeholder="请选择单位" v-if="orgId1==370200?true:false">
+                  <el-option
+                    v-for="item in orgList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
                 <!-- <el-input
                     clearable
                     placeholder="工号查询"
@@ -206,6 +213,11 @@
                 prop="user_true_name">
               </el-table-column>
               <el-table-column
+                label="单位"
+                align="center"
+                prop="org_name">
+              </el-table-column>
+              <el-table-column
                 label="部门"
                 align="center"
                 >
@@ -310,6 +322,45 @@
               },
               zhiweiList:[],
               bumenList: [],
+              orgId1:localStorage.getItem('orgId'),
+              orgId:localStorage.getItem('orgId'),
+              orgList: [{
+                value: '',
+                label: '全部数据'
+              }, {
+                value: '370200',
+                label: '青岛市人民检察院'
+              }, {
+                value: '370202',
+                label: '青岛市市南区人民检察院'
+              }, {
+                value: '370203',
+                label: '青岛市市北区人民检察院'
+              }, {
+                value: '370211',
+                label: '青岛市黄岛区人民检察院'
+              }, {
+                value: '370212',
+                label: '青岛市崂山区人民检察院'
+              },{
+                value: '370213',
+                label: '青岛市李沧区人民检察院'
+              },{
+                value: '370214',
+                label: '青岛市城阳区人民检察院'
+              },{
+                value: '370215',
+                label: '青岛市即墨区人民检察院'
+              },{
+                value: '370281',
+                label: '青岛市胶州市人民检察院'
+              },{
+                value: '370283',
+                label: '青岛市平度市人民检察院'
+              },{
+                value: '370285',
+                label: '青岛市莱西市人民检察院'
+              }],
             }
               
       },
@@ -558,7 +609,7 @@
                 params.append('user_true_name',self.user_true_name); 
                 // params.append('user_gonghao',self.number);
                 params.append('dept_id',self.dept_id);
-                
+                params.append('org_id',self.orgId); 
                 self.$axios({
                     method: 'post',
                     url: '/user/getByPage',
@@ -646,7 +697,8 @@
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
                 params.append('pageNum',1); 
-                params.append('pageSize',100);          
+                params.append('pageSize',100); 
+                        
                 self.$axios({
                     method: 'post',
                     url: '/dept/getByPage',

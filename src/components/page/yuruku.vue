@@ -557,6 +557,7 @@
                         type: 'success',
                         message: '添加成功'
                       });
+                      self.getDataList();
                       self.form = {
                         print_code:'1'
                       }
@@ -853,7 +854,7 @@
 
                 self.$axios({
                     method: 'post',
-                    url: 'yrExhibitGetByPage',
+                    url: '/yrExhibitGetByPage',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
