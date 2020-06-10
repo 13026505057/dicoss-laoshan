@@ -151,7 +151,7 @@
                 prop="case_type"
                 >
               </el-table-column>
-              <el-table-column
+              <!-- <el-table-column
                 label="操作"
                 width="300px"
                 align="center"
@@ -160,7 +160,7 @@
                   <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printAgain(props.row)">补打条码</el-button>
                   <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="zuofeiClick(props.row)">作废</el-button>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
             </el-table> 
             <el-pagination
                 small
@@ -1433,7 +1433,7 @@
                        self.num9 = data.data.data._46;
                        // console.log(self.num1)
                        console.log(self.$children)
-                       self.$children[6].$children[0].$forceUpdate();
+                       self.$children[8].$children[0].$forceUpdate();
                        // self.$forceUpdate()
                     }else{
                       self.$response(data,self);

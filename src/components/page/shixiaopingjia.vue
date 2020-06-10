@@ -1847,7 +1847,7 @@
                        self.num9 = data.data.data._46;
                        // console.log(self.num1)
                        console.log(self.$children)
-                       self.$children[12].$children[0].$forceUpdate();
+                       self.$children[14].$children[0].$forceUpdate();
                        // self.$forceUpdate()
                     }else{
                       self.$response(data,self);

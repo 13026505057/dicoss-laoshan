@@ -1110,7 +1110,7 @@
           this.uploadUrl = uploadUrl;
           var token = {"kf-token":myHeaders};
           this.myHeaders = token;
-          // this.getNumBage();
+          this.getNumBage();
       },
       methods: {
           indexMethod(index){
@@ -1321,8 +1321,9 @@
                        self.num7 = data.data.data._44;
                        self.num8 = data.data.data._45;
                        self.num9 = data.data.data._46;
-                       // console.log(self.num1)
-                       console.log(self.$children)
+                      //  console.log(self.num1)
+                      //  console.log(self.$children)
+                      //  console.log(111)
                        self.$children[6].$children[0].$forceUpdate();
                        // self.$forceUpdate()
                     }else{

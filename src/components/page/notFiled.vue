@@ -1918,8 +1918,8 @@
                        self.num8 = data.data.data._45;
                        self.num9 = data.data.data._46;
                        // console.log(self.num1)
-                       console.log(self.$children)
-                       self.$children[11].$children[0].$forceUpdate();
+                      //  console.log(self.$children)
+                       self.$children[13].$children[0].$forceUpdate();
                        // self.$forceUpdate()
                     }else{
                       self.$response(data,self);
@@ -1930,7 +1930,8 @@
           exportClick(){
                 const self = this;
                 // self.getNumBage();
-                window.open(self.$axios.defaults.baseURL+'/cases/cases/exportDangAnWeiGui?case_name='+self.case_name+'&case_bh='+self.case_number+'&timeYear='+self.timeYear+'&case_take_user_name='+self.user_true_name+'&case_none_status='+self.case_value)
+                var orgId = localStorage.getItem('orgId');
+                window.open(self.$axios.defaults.baseURL+'/cases/cases/exportDangAnWeiGui?case_name='+self.case_name+'&case_bh='+self.case_number+'&timeYear='+self.timeYear+'&case_take_user_name='+self.user_true_name+'&case_none_status='+self.case_value+'&org_id='+orgId)
                 
           },
           //获取默认列表数据

@@ -187,7 +187,7 @@
                 prop="cell_name"
                 >
               </el-table-column>
-              <el-table-column
+              <!-- <el-table-column
                 label="操作"
                 width="300px"
                 align="center"
@@ -196,7 +196,7 @@
                   <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printAgain(props.row)">补打条码</el-button>
                   <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="zuofeiClick(props.row)">作废</el-button>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
             </el-table> 
             <el-pagination
                 small
@@ -1329,12 +1329,12 @@
            
                 
           </div>
-          <div style="margin-top: 20px">
+          <!-- <div style="margin-top: 20px">
               <el-button @click="toggleSelection(caseList)">全选</el-button>
               <el-button @click="toggleSelection()">取消全选</el-button>
-              <!-- <el-button @click="updateForIns()">确认待入库</el-button> -->
+              
               <el-button @click="updateForChecks()">确认已审查</el-button>
-          </div> 
+          </div>  -->
           <el-pagination
                 small
                 background
