@@ -973,7 +973,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>{{num1}}</span>
+                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -1090,7 +1090,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>{{num1}}</span>
+                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -1207,7 +1207,7 @@
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>{{num1}}</span>
+                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
