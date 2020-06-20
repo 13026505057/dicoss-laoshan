@@ -548,6 +548,9 @@
                   label:'已入库'
                 }
               ],
+              user_true_name:'',
+              loading2:false,
+              options42:[],
               stateFlag:'',
               addNewAnJuan:false,
               addNewForm:{
@@ -609,6 +612,46 @@
           this.getNumBage();
       },
       methods: {
+          remoteMethod2(query) {
+            if (query !== '') {
+              this.loading2 = true;
+              this.getNameList2(query);
+              setTimeout(() => {
+                this.loading2 = false;
+                this.options42 = this.list2.filter(item => {
+                  return item.label.toLowerCase()
+                    .indexOf(query.toLowerCase()) > -1;
+                });
+              }, 2000);
+            } else {
+              this.options42 = [];
+            }
+          },
+          getNameList2(query){
+                const self = this;
+                self.user_true_name = query;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('user_true_name',self.user_true_name);
+                params.append('pageNum',1);
+                params.append('pageSize',1000);
+                self.$axios({
+                    method: 'post',
+                    url: '/user/getByPage',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                        self.states2 = data.data.data.list;
+                        self.list2 = self.states2.map(item => {
+                          return { value: item.user_true_name, label: item.user_true_name};
+                        });
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
           indexMethod(index){
             return this.pageSize*(this.pageNum-1)+index+1;
           },

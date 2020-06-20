@@ -5,17 +5,17 @@
             <div class="titleBg">历史案卷<div style="font-size: 20px;line-height: 20px;margin-top: -25px;">包含无案件信息的案卷</div></div>
             <div class="block">
                 
-                <el-input style="width:120px;" v-model="case_number" placeholder="请输入统一涉案号"></el-input>
-                <el-input @change="scanChange" style="width:150px;margin-left: 20px;" v-model="scan_number" placeholder="请扫描案卷条码"></el-input>
+                <el-input style="width:100px;" v-model="case_number" placeholder="统一涉案号"></el-input>
+                <el-input @change="scanChange" style="width:150px;margin-left: 10px;" v-model="scan_number" placeholder="请扫描案卷条码"></el-input>
                 <!-- 关键词联想组建 -->
                 <el-select
                   v-model="case_name"
-                  style="width: 120px;margin-left: 20px;"
+                  style="width: 100px;margin-left: 10px;"
                   filterable
                   remote
                   clearable
                   reserve-keyword
-                  placeholder="请输入案件名"
+                  placeholder="案件名"
                   :remote-method="remoteMethod"
                   :loading="loading">
                   <el-option
@@ -26,15 +26,15 @@
                   </el-option>
                 </el-select>
                 <el-date-picker
-                  style="width: 120px;margin-left: 20px;"
+                  style="width: 100px;margin-left: 10px;"
                   v-model="timeYear"
                   align="right"
                   type="year"
                   format="yyyy年"
                   value-format="yyyy"
-                  placeholder="选择年份">
+                  placeholder="年份">
                 </el-date-picker>
-                <el-select style="width: 120px;margin-left: 20px;" v-model="caseType" placeholder="请选择案件类型">
+                <el-select style="width: 100px;margin-left: 10px;" v-model="caseType" placeholder="请选择案件类型">
                   <el-option
                     v-for="item in typeList1"
                     :key="item.value"
@@ -42,7 +42,7 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
-                <el-select style="width: 120px;margin-left: 20px;" v-model="stateFlag" placeholder="请选择状态">
+                <el-select style="width: 100px;margin-left: 10px;" v-model="stateFlag" placeholder="请选择状态">
                   <el-option
                     v-for="item in stateList"
                     :key="item.value"
@@ -61,12 +61,13 @@
                   end-placeholder="结束日期">
                 </el-date-picker> -->
                 
-                <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
-                <el-button type="warning" style="margin-left: 30px;" @click="outClick">导出</el-button>
-                <el-button type="warning" style="margin-left: 30px;" @click="addNewClick">新增</el-button>
-                <el-button type="warning" style="margin-left: 30px;" @click="pipeiClick">人工匹配</el-button>
-                <el-button type="warning" style="margin-left: 30px;" @click="weibangClick">未绑查询</el-button>
-                <el-button type="warning" style="margin-left: 30px;" @click="lishiClick">匹配历史</el-button>
+                <el-button type="warning" style="margin-left: 10px;" @click="searchClick">查询</el-button>
+                <el-button type="warning" style="margin-left: 10px;" @click="addHistoryClick">导入</el-button>
+                <el-button type="warning" style="margin-left: 10px;" @click="outClick">导出</el-button>
+                <el-button type="warning" style="margin-left: 10px;" @click="addNewClick">新增</el-button>
+                <el-button type="warning" style="margin-left: 10px;" @click="pipeiClick">人工匹配</el-button>
+                <el-button type="warning" style="margin-left: 10px;" @click="weibangClick">未绑查询</el-button>
+                <el-button type="warning" style="margin-left: 10px;" @click="lishiClick">匹配历史</el-button>
                 
             </div>
 
@@ -332,17 +333,17 @@
                     <template slot-scope="props">
                         <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
                     </template>
-                  </el-table-column>
+                  </el-table-column> -->
                   <el-table-column
                     label="操作"
-                    width="300px"
+                    width="150px"
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
-                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button> -->
+                      <el-button  type="warning" size="mini"  @click="zuofeiClick(props.row)">作废</el-button>
                     </template>
-                  </el-table-column> -->
+                  </el-table-column>
                 </el-table> 
            
                 
@@ -497,6 +498,37 @@
           this.getNumBage();
       },
       methods: {
+          zuofeiClick(res){
+            var self = this;
+            var params = new URLSearchParams();
+            var token = localStorage.getItem('auth');
+
+            params.append('exhibit_id',res.exhibit_id);
+            params.append('exhibit_status','0');
+            
+
+            self.$axios({
+                method: 'post',
+                url: '/exhibit/exhibit/update',
+                data: params,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+             }).then(function(data){
+                
+                if(data.data.code==0){
+                  
+                  self.$message({
+                    type: 'success',
+                    message: '操作成功'
+                  });
+                  self.case_detail_dialog = false;
+                  self.getDataList();
+                }else{
+
+                  self.$response(data,self);
+                  
+                }
+             });
+          },
           indexMethod(index){
             return this.pageSize*(this.pageNum-1)+index+1;
           },
@@ -819,6 +851,7 @@
                 params.append('pageNum',self.pageNum);
                 params.append('pageSize',self.pageSize);
                 params.append('exhibit_name',self.case_name);
+                params.append('exhibit_status','1');
                 params.append('tysah',self.case_number);
                 params.append('nd',self.timeYear);
                 params.append('stock_status',self.stateFlag);

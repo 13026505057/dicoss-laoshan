@@ -150,7 +150,7 @@
             <el-button type="primary" @click="addNewJuanzong">确 定</el-button>
           </div>
         </el-dialog>
-        <el-dialog title="案卷详情" :visible.sync="printDialog" width="80%">
+        <el-dialog title="案卷详情" :visible.sync="printDialog" width="90%">
           <el-table
               ref="multipleTable99"
               :data="exhibits2"
@@ -219,13 +219,13 @@
               </el-table-column>
               <el-table-column
                 label="操作"
-                width="400px"
+                width="500px"
                 align="center"
                 >
                 <template slot-scope="props">
-                  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printAgain(props.row)">补打条码</el-button>
-                  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printAgain2(props.row)">打印回执单</el-button>
-                  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="zuofeiClick(props.row)">作废</el-button>
+                  <el-button  type="warning" size="mini"  @click="printAgain(props.row)">补打条码</el-button>
+                  <el-button  type="warning" size="mini"  @click="printAgain2(props.row)">打印回执单</el-button>
+                  <el-button  type="warning" size="mini"  @click="zuofeiClick(props.row)">作废</el-button>
                 </template>
               </el-table-column>
             </el-table> 
@@ -246,7 +246,7 @@
                 :total="total2">
           </el-pagination>
         </el-dialog>
-        <el-dialog title="案卷详情" :visible.sync="case_detail_dialog">
+        <el-dialog title="案卷详情" :visible.sync="case_detail_dialog" width="90%">
           <el-table
               :data="exhibits"
               :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
@@ -1435,7 +1435,7 @@
                 value: '370214',
                 label: '青岛市城阳区人民检察院'
               },{
-                value: '370215',
+                value: '370282',
                 label: '青岛市即墨区人民检察院'
               },{
                 value: '370281',

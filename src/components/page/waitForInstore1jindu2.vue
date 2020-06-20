@@ -152,7 +152,7 @@
               <!-- <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
             </el-upload>
         </el-dialog>
-        <el-dialog title="案卷详情" :visible.sync="case_detail_dialog">
+        <el-dialog title="案卷详情" :visible.sync="case_detail_dialog" width="90%">
           <el-table
               :data="exhibits"
               :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
@@ -1480,7 +1480,7 @@
                 value: '370214',
                 label: '青岛市城阳区人民检察院'
               },{
-                value: '370215',
+                value: '370282',
                 label: '青岛市即墨区人民检察院'
               },{
                 value: '370281',

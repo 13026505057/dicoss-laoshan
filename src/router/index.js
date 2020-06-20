@@ -401,6 +401,16 @@ export default new Router({
                     path: '/jieyueshenpi',
                     component: resolve => require(['../components/page/jieyueshenpi.vue'], resolve) // Vue-Quill-Editor组件
                 },
+                {
+                    name: '退查历史',
+                    path: '/backHistory',
+                    component: resolve => require(['../components/page/backHistory.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '个人退查历史',
+                    path: '/backHistory1',
+                    component: resolve => require(['../components/page/backHistory1.vue'], resolve) // Vue-Quill-Editor组件
+                },
             ]
         },
         {

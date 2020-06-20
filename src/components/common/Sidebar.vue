@@ -177,6 +177,27 @@ import md5 from 'js-md5';
                                 // ]
                             },
                             {
+                                index: 'backHistory',
+                                title: '> >未通过审查的档案'
+                                // icon: 'el-icon-setting',
+                                // index: '2',
+                                // title: '待出库档案管理',
+                                // subs:[
+                                //     {   
+                                //         index: 'waitForOutStore',
+                                //         title: '> 待出库案件档案'
+                                //     },
+                                //     {   
+                                //         index: 'outStored',
+                                //         title: '> 已出库案件档案'
+                                //     },
+                                //     {   
+                                //         index: 'outStoreHistory',
+                                //         title: '> 案件档案出库操作记录'
+                                //     },
+                                // ]
+                            },
+                            {
                                 index: 'returnStore',
                                 title: '> >已入库上架'
                                 // icon: 'el-icon-setting',
@@ -289,6 +310,10 @@ import md5 from 'js-md5';
                             {   
                                 index: 'returnBacked2',
                                 title: '> > 已归档案件'
+                            },
+                            {   
+                                index: 'backHistory1',
+                                title: '> > 整改中案件'
                             },
                             // {   
                             //     index: 'instore1',

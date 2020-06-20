@@ -110,7 +110,7 @@
               <!-- <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
             </el-upload>
         </el-dialog>
-        <el-dialog title="案卷详情" :visible.sync="case_detail_dialog">
+        <el-dialog title="案卷详情" :visible.sync="case_detail_dialog" width="80%">
           <el-table
               :data="exhibits"
               :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
