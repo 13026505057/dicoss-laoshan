@@ -2,11 +2,11 @@
     <div>
         
         <div >
-            <div class="titleBg">办案人归档率每日排名</div>
+            <div class="titleBg">办案人归档率每日排名 <el-button type="warning" style="width:120px;position:absolute!important;top:25px;right:30px;" @click="loginClick">登录系统</el-button></div>
             <div class="block" v-if="false">
                 
-                <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
-                <!-- 关键词联想组建 -->
+                <!-- <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
+               
                 <el-select
                   v-model="case_name"
                   style="width: 250px;margin-left: 30px;"
@@ -23,7 +23,7 @@
                     :label="item.label"
                     :value="item.value">
                   </el-option>
-                </el-select>
+                </el-select> -->
 
                 <!-- <el-date-picker
                   style="margin-left: 20px;width:420px;"
@@ -62,6 +62,7 @@
               :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
               :row-style="rowStyle"
               class="tableClass"
+              
               >
               <el-table-column
                 type="index"
@@ -120,6 +121,7 @@
                   :header-cell-style="{ 'background-color': '#deedf4','color':'#000','height':'100px'}"
                   :row-style="{'height':'100px'}"
                   class="tableClass"
+                  @row-dblclick="doubleClick"
                   height="750">
                   <el-table-column
                     type="index"
@@ -136,6 +138,26 @@
                     <!-- <template slot-scope="props">
                       <span>签到考勤</span>
                     </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="组织机构代码"
+                    width="110"
+                    align="center"
+                    height="10%"
+                    prop="org_id">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="年度"
+                    width="100"
+                    align="center"
+                    height="10%"
+                    >
+                    <template >
+                      <span>2019</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     label="应交卷数量"
@@ -334,6 +356,9 @@
           
       },
       methods: {
+          loginClick(){
+            window.open('http://141.113.80.44/da/')
+          },
           tabClick(res){
             console.log(res)
             this.activeName = res.name;
@@ -540,6 +565,13 @@
                     }
                  });
           },
+          doubleClick(row, column, event){
+            // console.log(window.location.origin+'/#/gerenchaxun?nd=2019&area='+row.org_id)
+            window.open(window.location.origin+'/old_qd/#/gerenchaxun?nd=2019&area='+row.org_id)
+            // window.location.href = 
+            // window.load();
+            // window.location = ""
+          },
           //获取默认列表数据
           getDataList(){
                 const self = this;
@@ -637,6 +669,7 @@
     .titleBg{
       width: 55%;
       margin:0 auto;
+      position:relative;
     }
     .el-tree{
       background: rgba(255,215,0,0.3);

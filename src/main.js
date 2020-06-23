@@ -22,9 +22,9 @@ Vue.use(ElementUI);
 const baseURL = process.env.BASE_URL;
 axios.defaults.baseURL = baseURL;
 console.log(baseURL)
-// axios.defaults.baseURL = "http://141.113.80.44/dossier_qd";
+axios.defaults.baseURL = "http://141.113.80.44/dossier_qd";
 // axios.defaults.baseURL = "http://106.12.68.167/dossier_qd";
-axios.defaults.baseURL = "http://192.168.100.87/dossier";
+// axios.defaults.baseURL = "http://192.168.100.87/dossier";
 // axios.defaults.baseURL = "http://vj2p7n.natappfree.cc/dossier";
 Vue.prototype.$axios = axios;
 // api接口

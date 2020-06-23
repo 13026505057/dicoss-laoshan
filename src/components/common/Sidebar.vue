@@ -604,7 +604,7 @@ import md5 from 'js-md5';
                     this.items.splice(9,1)
                    break;
                 default:
-                this.items = [];
+                // this.items = [];
                     
             }
             switch(level1) {
