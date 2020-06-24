@@ -214,7 +214,7 @@
               <el-table-column
                 label="存放位置"
                 align="center"
-                prop="case_type"
+                prop="cell_name"
                 >
               </el-table-column>
               <el-table-column

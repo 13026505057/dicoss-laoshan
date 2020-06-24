@@ -73,11 +73,11 @@
           
         </div>
         <el-dialog
-          title="新增历史案卷"
+          title="预入库"
           :visible.sync="addNewClickDialog" 
           >
             <el-form ref="form" :model="form" label-width="120px" label-position="left" style="margin-left:20px;">
-              <el-form-item label="卷宗名称" style="display: inline-block;">
+              <el-form-item label="案件名称" style="display: inline-block;">
                 <el-input v-model="form.exhibit_name" style="width: 200px;float: left;"></el-input>
               </el-form-item>
               <el-form-item label="年度" style="display: inline-block;margin-left:80px;">
@@ -378,7 +378,8 @@
               num7:0,
               num8:0,
               form:{
-                print_code:'1'
+                print_code:'1',
+                dh:''
               },
               addNewClickDialog:false,
               activeName:'tabName1',
@@ -546,7 +547,7 @@
                 // });
                 self.$axios({
                     method: 'post',
-                    url: '/yrExhibitAdd',
+                    url: '/exhibit/exhibit/addYrExhibit',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){

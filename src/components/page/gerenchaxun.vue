@@ -357,7 +357,7 @@
       },
       methods: {
           loginClick(){
-            window.open('http://141.113.80.44/da/')
+            window.open('http://141.113.80.44/')
           },
           tabClick(res){
             console.log(res)
