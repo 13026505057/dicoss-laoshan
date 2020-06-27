@@ -1368,7 +1368,7 @@
               user_true_name:'',
               loading2:false,
               options42:[],
-              print_code:false,
+              print_code:true,
               print_accept:false,
               multipleSelection:[],
               timeList:[
@@ -1756,7 +1756,7 @@
 
           
             this.print_accept = false;
-            this.print_code = false;
+            this.print_code = true;
           },
           zuofeiClick(res){
             var self = this;
