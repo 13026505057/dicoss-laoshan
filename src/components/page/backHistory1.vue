@@ -558,6 +558,7 @@
                 params.append('dh',self.form.dh);
                 params.append('jh',self.form.jh);
                 params.append('print_code',self.form.print_code);
+                params.append('print_id',localStorage.setItem('printId'));
                 params.append('case_type_id',self.form.case_type_id);
                 // const loading = self.$loading({
                 //   lock: true,
@@ -667,7 +668,7 @@
 
                 
                 params.append('exhibit_id',res.exhibit_id);
-                
+                params.append('print_id',localStorage.getItem('printId'));
                 const loading = self.$loading({
                   lock: true,
                   text: '打印中',

@@ -62,7 +62,7 @@
                 </el-date-picker> -->
                 
                 <el-button type="warning" style="margin-left: 10px;" @click="searchClick">查询</el-button>
-                <el-button type="warning" style="margin-left: 10px;" @click="addHistoryClick">导入</el-button>
+                <!-- <el-button type="warning" style="margin-left: 10px;" @click="addHistoryClick">导入</el-button> -->
                 <el-button type="warning" style="margin-left: 10px;" @click="outClick">导出</el-button>
                 <el-button type="warning" style="margin-left: 10px;" @click="addNewClick">新增</el-button>
                 <el-button type="warning" style="margin-left: 10px;" @click="pipeiClick">人工匹配</el-button>
@@ -381,6 +381,7 @@
               form:{
                 print_code:'1'
               },
+              org_id:localStorage.getItem('orgId'),
               addNewClickDialog:false,
               activeName:'tabName1',
               case_detail_dialog:false,
@@ -538,7 +539,7 @@
           outClick(){
                 const self = this;
                 // self.getNumBage();
-                window.open(self.$axios.defaults.baseURL+'/exhibit/exhibit/exoprtExhibits?exhibit_name='+self.case_name+'&tysah='+self.case_number+'&nd='+self.timeYear+'&stock_status='+self.stateFlag+'&out_exhibit_id='+self.scan_number)
+                window.open(self.$axios.defaults.baseURL+'/exhibit/exhibit/exoprtExhibits?exhibit_name='+self.case_name+'&tysah='+self.case_number+'&nd='+self.timeYear+'&stock_status='+self.stateFlag+'&out_exhibit_id='+self.scan_number+'&org_id='+self.org_id)
                 
           },
           scanChange(val){
@@ -569,6 +570,7 @@
                 params.append('dh',self.form.dh);
                 params.append('jh',self.form.jh);
                 params.append('print_code',self.form.print_code);
+                params.append('print_id',localStorage.setItem('printId'));
                 params.append('case_type_id',self.form.case_type_id);
                 // const loading = self.$loading({
                 //   lock: true,
@@ -678,7 +680,7 @@
 
                 
                 params.append('exhibit_id',res.exhibit_id);
-                
+                params.append('print_id',localStorage.getItem('printId'));
                 const loading = self.$loading({
                   lock: true,
                   text: '打印中',
@@ -857,7 +859,7 @@
                 params.append('stock_status',self.stateFlag);
                 params.append('out_exhibit_id',self.scan_number);
                 params.append('case_type_id',self.caseType);
-                
+                params.append('org_id',self.orgId);
                 // params.append('stock_status','out');
                 params.append('tongyi_status','');
                 // switch(self.activeName){

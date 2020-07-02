@@ -256,6 +256,14 @@
                     </template> -->
                   </el-table-column>
                   <el-table-column
+                    label="部门受案号"
+                    align="center"
+                    prop="bmsah">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
                     label="条形码号"
                     align="center"
                     prop="out_exhibit_id">
@@ -558,6 +566,7 @@
                 params.append('dh',self.form.dh);
                 params.append('jh',self.form.jh);
                 params.append('print_code',self.form.print_code);
+                params.append('print_id',localStorage.setItem('printId'));
                 params.append('case_type_id',self.form.case_type_id);
                 // const loading = self.$loading({
                 //   lock: true,
@@ -667,7 +676,7 @@
 
                 
                 params.append('exhibit_id',res.exhibit_id);
-                
+                params.append('print_id',localStorage.getItem('printId'));
                 const loading = self.$loading({
                   lock: true,
                   text: '打印中',

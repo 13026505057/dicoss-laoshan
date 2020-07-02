@@ -95,6 +95,7 @@
         },
         mounted(){
             this.onload();
+            // window.location.href = "http://local"
         }
     }
 </script>

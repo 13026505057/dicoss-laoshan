@@ -2,7 +2,7 @@
     <div>
         
         <div >
-            <div class="titleBg">案件入库<div style="font-size: 20px;line-height: 20px;margin-top: -25px;"></div></div>
+            <div class="titleBg">案件入库操作和入库记录<div style="font-size: 20px;line-height: 20px;margin-top: -25px;"></div></div>
             <div class="block">
                 
                 <el-input style="width:200px;" v-model="case_number" placeholder="请输入统一涉案号"></el-input>
@@ -29,16 +29,16 @@
                     style="width: 200px;margin-left: 20px;"
                     v-model="begin_time"
                     type="date"
-                    format="yyyy年mm月dd日"
-                    value-format="yyyy-mm-dd"
+                    format="yyyy年MM月dd日"
+                    value-format="yyyy-MM-dd"
                     placeholder="选择开始日期">
                 </el-date-picker>
                 <el-date-picker
                     style="width: 200px;margin-left: 20px;"
                     v-model="end_time"
                     type="date"
-                    format="yyyy年mm月dd日"
-                    value-format="yyyy-mm-dd"
+                    format="yyyy年MM月dd日"
+                    value-format="yyyy-MM-dd"
                     placeholder="选择结束日期">
                 </el-date-picker>
                 <!-- <el-date-picker
@@ -201,9 +201,6 @@
                 label="条形码号"
                 align="center"
                 prop="out_exhibit_id">
-                <!-- <template slot-scope="props">
-                  <span>签到考勤</span>
-                </template> -->
               </el-table-column>
               <el-table-column
                 label="档号"
@@ -283,13 +280,18 @@
                     </template> -->
                   </el-table-column>
                   <el-table-column
-                    label="条形码号"
+                    label="部门受案号"
                     align="center"
-                    prop="out_exhibit_id">
+                    prop="bmsah">
                     <!-- <template slot-scope="props">
                       <span>签到考勤</span>
                     </template> -->
                   </el-table-column>
+                  <!-- <el-table-column
+                    label="条形码号"
+                    align="center"
+                    prop="out_exhibit_id">
+                  </el-table-column> -->
                   <el-table-column
                     label="档号"
                     align="center"
@@ -303,10 +305,16 @@
                     >
                   </el-table-column>
                   <el-table-column
-                    label="案卷名称"
+                    label="案件名称"
                     align="center"
                     show-overflow-tooltip
-                    prop="exhibit_name"
+                    prop="case_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="嫌疑人"
+                    align="center"
+                    prop="bgr"
                     >
                   </el-table-column>
                   <el-table-column
@@ -402,6 +410,7 @@
                 name2:'',
 
               },
+              orgId:localStorage.getItem('orgId'),
               input:'',
               caseInfo:'',
               exhibit_type:'SS',
@@ -668,6 +677,7 @@
                 params.append('jh',self.form.jh);
                 params.append('print_code',self.form.print_code);
                 params.append('case_type_id',self.form.case_type_id);
+                params.append('print_id',localStorage.setItem('printId'));
                 // const loading = self.$loading({
                 //   lock: true,
                 //   text: '打印中',
@@ -770,7 +780,7 @@
 
                 
                 params.append('exhibit_id',res.exhibit_id);
-                
+                params.append('print_id',localStorage.getItem('printId'));
                 const loading = self.$loading({
                   lock: true,
                   text: '打印中',
@@ -939,21 +949,21 @@
                
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-                if(self.date==null||self.date.length==0){
-                  var begin_time = '';
-                  var end_time = '';
-                }else{
-                  var begin_time = self.date[0];
-                  var end_time = self.date[1];
-                }
-                params.append('begin_time',begin_time);
-                params.append('end_time',end_time);
+                // if(self.date==null||self.date.length==0){
+                //   var begin_time = '';
+                //   var end_time = '';
+                // }else{
+                //   var begin_time = self.date[0];
+                //   var end_time = self.date[1];
+                // }
+                params.append('begin_time',self.begin_time);
+                params.append('end_time',self.end_time);
                 params.append('pageNum',self.pageNum);
                 params.append('pageSize',self.pageSize);
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
                 params.append('stock_log_type','init');
-
+                params.append('org_id',self.orgId);
                 self.$axios({
                     method: 'post',
                     url: '/stock/stock-log/getByPage',

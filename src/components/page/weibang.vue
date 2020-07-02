@@ -490,6 +490,7 @@
               num6:0,
               num7:0,
               num8:0,
+              orgId:localStorage.getItem('orgId'),
               user_bgr:'',
               activeName:'tabName1',
               case_detail_dialog:false,
@@ -557,12 +558,12 @@
           exportClick2(){
             const self = this;
                 // self.getNumBage();
-                window.open(self.$axios.defaults.baseURL+'/cases/cases/exportCases?timeYear='+self.timeYear2+'&total_quantity=0')
+                window.open(self.$axios.defaults.baseURL+'/cases/cases/exportCases?timeYear='+self.timeYear2+'&total_quantity=0'+'&org_id='+self.orgId)
           },
           exportClick(){
             const self = this;
                 // self.getNumBage();
-                window.open(self.$axios.defaults.baseURL+'/exhibit/exhibit/exoprtExhibits?nd='+self.timeYear+'&case_id=NULL')
+                window.open(self.$axios.defaults.baseURL+'/exhibit/exhibit/exoprtExhibits?nd='+self.timeYear+'&case_id=NULL'+'&org_id='+self.orgId)
           },
           valueChange(val){
             // console.log(val)
@@ -697,7 +698,7 @@
 
                 
                 params.append('exhibit_id',res.exhibit_id);
-                
+                params.append('print_id',localStorage.getItem('printId'));
                 const loading = self.$loading({
                   lock: true,
                   text: '打印中',
@@ -917,6 +918,7 @@
                 // params.append('stock_status','out');
                 params.append('tongyi_status','');
                 params.append('case_id','NULL');
+                params.append('orgId',self.orgId);
                 // switch(self.activeName){
                 // case 'tabName1':
                 //   params.append('case_type_id','30');
@@ -971,7 +973,7 @@
                 var token = localStorage.getItem('auth');
 
                 params.append('exhibit_id',self.bangding_exhibit_id);
-                
+                params.append('orgId',self.orgId);
                 self.$axios({
                     method: 'post',
                     url: '/exhibit/exhibit/getExhibitLikeCases',

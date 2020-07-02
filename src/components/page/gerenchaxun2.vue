@@ -2,32 +2,21 @@
     <div>
         
         <div >
-            <div class="titleBg">承办人整体归档梳理</div>
-            <div class="block">
+            <div class="titleBg">办案人归档率每日排名 
+              
+              <el-button type="warning" style="width:120px;position:absolute!important;top:25px;right:30px;" @click="loginClick">登录系统</el-button></div>
+            <div class="block" v-if="false">
                 
-                <el-date-picker
-                  v-model="years"
-                  align="right"
-                  style="width: 250px;margin-left: 30px;"
-                  type="year"
-                  value-format="yyyy"
-                  placeholder="选择年">
-                </el-date-picker>
-                <el-date-picker
-                  v-model="months"
-                  type="month"
-                  value-format="yyyy-MM"
-                  style="width: 250px;margin-left: 30px;"
-                  placeholder="选择月">
-                </el-date-picker>
-                <!-- 关键词联想组建 -->
+                <!-- <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
+               
                 <el-select
-                  v-model="user_true_name"
+                  v-model="case_name"
                   style="width: 250px;margin-left: 30px;"
                   filterable
                   remote
+                  clearable
                   reserve-keyword
-                  placeholder="选择承办人"
+                  placeholder="请输入案件名"
                   :remote-method="remoteMethod"
                   :loading="loading">
                   <el-option
@@ -36,7 +25,7 @@
                     :label="item.label"
                     :value="item.value">
                   </el-option>
-                </el-select>
+                </el-select> -->
 
                 <!-- <el-date-picker
                   style="margin-left: 20px;width:420px;"
@@ -49,81 +38,33 @@
                   end-placeholder="结束日期">
                 </el-date-picker> -->
                 
-                <el-button type="warning" style="margin-left: 50px;" @click="searchClick">查询</el-button>
-                <!-- <el-button type="warning" style="margin-left: 30px;" @click="addHistoryClick">历史案卷导入</el-button> -->
+                <el-button type="warning" style="margin-left: 30px;" @click="searchClick">查询</el-button>
+                
             </div>
 
           
         </div>
-        <!-- <div class="tree">
-          <el-tree :data="data"    @node-click="handleNodeClick"></el-tree>
-        </div> -->
-        <el-dialog title="案件详情" :visible.sync="addHisDialog">
-            <el-table
-              :data="caseList1"
-              :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
-              :row-style="rowStyle"
-              class="tableClass"
-              >
-              <el-table-column
-                type="index"
-                align="center"
-                width="50">
-              </el-table-column>
-              <el-table-column
-                label="案件编号"
-                align="center"
-                prop="case_bh">
-              </el-table-column>
-              <el-table-column
-                label="案件名称"
-                align="center"
-                prop="case_name">
-              </el-table-column>
-              <el-table-column
-                label="案件描述"
-                align="center"
-                show-overflow-tooltip
-                prop="case_desc">
-              </el-table-column>
-              <el-table-column
-                label="承办人"
-                align="center"
-                prop="case_take_user_name">
-              </el-table-column>
-              <el-table-column
-                label="案件状态"
-                align="center"
-                prop="case_type"
-                >
-              </el-table-column>
-              <el-table-column
-                label="操作"
-                width="300px"
-                align="center"
-                >
-                <template slot-scope="props">
-                  <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
-                </template>
-              </el-table-column>
-            </el-table> 
-            <el-pagination
-                small
-                background
-                style="text-align: center;margin-top: 20px;"
-                @current-change="pageChange2"
-                :current-page.sync="pageNum2"
-                :page-size="pageSize2"
-                layout="prev, pager, next, jumper"
-                :total="total2">
-          </el-pagination>
+        <el-dialog title="历史案件导入" :visible.sync="addHisDialog">
+            <el-upload
+              style="text-align:center;"
+              class="upload-demo"
+              drag
+              :on-success="uploadSuccess"
+              :action="uploadUrl"
+              :headers="myHeaders"
+              multiple>
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+              <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
         </el-dialog>
         <el-dialog title="案卷详情" :visible.sync="case_detail_dialog">
-          <el-table
+            <el-table
               :data="exhibits"
               :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
               :row-style="rowStyle"
               class="tableClass"
+              
               >
               <el-table-column
                 type="index"
@@ -173,73 +114,96 @@
                 :total="total2">
           </el-pagination>
         </el-dialog>
-        <div id="container" style="width: 100%;height: 110%;  float: right;">
+        <div id="container" style="width: 100%;height: 110%;  float: right;" v-if="cityShow">
           
-          
-          <div class="tableList">
-            <el-table
-              v-loading="tableLoading"
-              @cell-click="cellClick"
-              :data="caseList"
-              :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
-              :row-style="rowStyle"
-              class="tableClass"
-              >
-              <el-table-column
-                type="index"
-                align="center"
-                width="50">
-              </el-table-column>
-              <el-table-column
-                label="承办人"
-                align="center"
-                prop="user_true_name">
-                <!-- <template slot-scope="props">
-                  <span>签到考勤</span>
-                </template> -->
-              </el-table-column>
+          <div class="tableList" >
+                <el-table
+                  v-loading="loading1"
+                  :data="caseList"
+                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000','height':'100px'}"
+                  :row-style="{'height':'100px'}"
+                  class="tableClass"
+                  @row-dblclick="doubleClick"
+                  height="750">
+                  <el-table-column
+                    type="index"
+                    align="center"
+                    width="50"
+                    height="10%">
+                  </el-table-column>
+                  <el-table-column
+                    label="单位名称"
+                    width="300"
+                    align="center"
+                    height="10%"
+                    prop="org_name">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="组织机构代码"
+                    width="110"
+                    align="center"
+                    height="10%"
+                    prop="org_id">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="年度"
+                    width="100"
+                    align="center"
+                    height="10%"
+                    >
+                    <template >
+                      <span>2019</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="应交卷数量"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.none_count+props.row.in_count}}</span>
+                    </template>
+                  </el-table-column>
+                  
+                  <el-table-column
+                    label="实交卷数量"
+                    align="center"
+                    prop="in_count"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="超期未交卷数量"
+                    align="center"
+                    prop="chaoqi_count"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="交卷率"
+                    align="center"
+                    prop="persent"
+                    >
+                  </el-table-column>
+                  <!-- <el-table-column
+                    label="归档率"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
+                    </template>
+                  </el-table-column> -->
+                  
+                </el-table>
               
-              <el-table-column
-                label="应归档数量"
-                align="center"
-                prop="init_quantity"
-                
-                >
-              </el-table-column>
-              <el-table-column
-                label="待归档数量"
-                align="center"
-                prop="none_quantity"
-                >
-              </el-table-column>
-              <el-table-column
-                label="逾期未归档数量"
-                align="center"
-                style="color:red;"
-                prop="out_time_none_quantity"
-                >
-              </el-table-column>
-              <el-table-column
-                label="逾期已归档"
-                align="center"
-                style="color:red;"
-                prop="out_time_in_quantity"
-                >
-              </el-table-column>
-              <!-- <el-table-column
-                label="操作"
-                width="300px"
-                align="center"
-                >
-                <template slot-scope="props">
-                  <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
-                  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
-                </template>
-              </el-table-column> -->
-            </el-table> 
+         
+           
                 
           </div>
-          <el-pagination
+          <!-- <el-pagination
                 small
                 background
                 style="text-align: center;margin-top: 20px;"
@@ -248,7 +212,94 @@
                 :page-size="pageSize"
                 layout="prev, pager, next, jumper"
                 :total="total">
-          </el-pagination>
+          </el-pagination> -->
+        </div>
+        <div id="container" style="width: 100%;height: 110%;  float: right;" v-if="orgShow">
+          
+          <div class="tableList" >
+                <el-table
+                  v-loading="loading2"
+                  :data="caseList"
+                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000','height':'100px'}"
+                  :row-style="{'height':'100px'}"
+                  class="tableClass"
+                  height="750"
+                  >
+                  <el-table-column
+                    type="index"
+                    align="center"
+                    width="50">
+                  </el-table-column>
+                  <el-table-column
+                    label="办案人姓名"
+                    align="center"
+                    prop="case_take_user_name">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="单位名称"
+                    align="center"
+                    width="300"
+                    prop="org_name">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="部门"
+                    align="center"
+                    prop="dept_name">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="应交卷数量"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.none_count+props.row.in_count}}</span>
+                    </template>
+                  </el-table-column>
+                  
+                  <el-table-column
+                    label="实交卷数量"
+                    align="center"
+                    prop="in_count"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="超期未交卷数量"
+                    width="100"
+                    align="center"
+                    prop="chaoqi_count"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="交卷率"
+                    align="center"
+                    prop="persent"
+                    >
+                  </el-table-column>
+                  
+                </el-table>
+              
+         
+           
+                
+          </div>
+          <!-- <el-pagination
+                small
+                background
+                style="text-align: center;margin-top: 20px;"
+                @current-change="pageChange"
+                :current-page.sync="pageNum"
+                :page-size="pageSize"
+                layout="prev, pager, next, jumper"
+                :total="total">
+          </el-pagination> -->
         </div>
         
 
@@ -261,28 +312,28 @@
   export default {
       data: function(){
           return {
-              tableLoading:false,
+              loading2:false,
+              loading1:false,
+              num1:0,
+              num2:0,
+              num3:0,
+              num4:0,
+              num5:0,
+              num6:0,
+              num7:0,
+              num8:0,
+              activeName:'tabName1',
               case_detail_dialog:false,
-              years:'2019',
-              months:'2019-04',
               case_number:'',
               options4: [],
-              user_true_name: [],
+              case_name: [],
               list: [],
               loading: false,
               states: [],
-              bumenList:[{
-                case_name:1
-              }],
               caseList: [
-                {
-                  case_name:2
-                }
+                
               ],
-              caseList1:[],
-              exhibits:[{
-
-              }],
+              exhibits:[],
               total:0,
               pageNum:1,
               pageSize:10,
@@ -292,86 +343,28 @@
               addHisDialog:false,
               uploadUrl:'',
               myHeaders:'',
-              countMonth:'',
-              countProperty:'',
-              countUserId:'',
-              countDeptId:'',
-              countYear:''
+              url:'',
+              orgShow:false,
+              cityShow:false,
             }
               
       },
       mounted() {
+          
+          var url = location.href;
+          this.url = url;
+          console.log(url);
           this.getDataList();
-          this.getNameList('');
-          var myHeaders = localStorage.getItem('auth');
-          var uploadUrl = this.$axios.defaults.baseURL+'/cases/cases/addByExcel';
-          this.uploadUrl = uploadUrl;
-          var token = {"kf-token":myHeaders};
-          this.myHeaders = token;
+          
       },
       methods: {
-          cellClick(row, column, cell, event){
-             const self = this;
-                var params = new URLSearchParams();
-                var token = localStorage.getItem('auth');
-                params.append('pageNum',self.pageNum2);
-                params.append('pageSize',self.pageSize2);
-                
-                self.countProperty = column.property;
-                params.append('month_time',self.months);
-                params.append('year_time',self.years);
-                params.append('query_type',self.countProperty);
-                if(row.user_id!=null){
-                  self.countUserId = row.user_id;
-                  params.append('user_id',self.countUserId);
-                }else if(row.dept_id!=null){
-                  self.countDeptId = row.dept_id;
-                  params.append('dept_id',self.countDeptId);
-                }
-                self.$axios({
-                    method: 'post',
-                    url: '/cases/cases/getByPage',
-                    data: params,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
-                 }).then(function(data){
-                    
-                    if(data.data.code==0){
-                      self.caseList1 = data.data.data.list;
-                      self.total2 = data.data.data.total;
-                      self.addHisDialog = true;
-                    }else{
-                      self.$response(data,self);
-                    }
-                 });
+          loginClick(){
+            this.$router.push('/login');
           },
-          cellClick2(){
-             const self = this;
-                var params = new URLSearchParams();
-                var token = localStorage.getItem('auth');
-                params.append('pageNum',self.pageNum2);
-                params.append('pageSize',self.pageSize2);
-                
-                
-                params.append('month_time',self.months);
-                params.append('year_time',self.years);
-                params.append('query_type',self.countProperty);
-                params.append('user_id',self.countUserId);
-                
-                self.$axios({
-                    method: 'post',
-                    url: '/cases/cases/getByPage',
-                    data: params,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
-                 }).then(function(data){
-                    
-                    if(data.data.code==0){
-                      self.caseList1 = data.data.data.list;
-                      self.total2 = data.data.data.total;
-                      self.addHisDialog = true;
-                    }else{
-                      self.$response(data,self);
-                    }
-                 });
+          tabClick(res){
+            console.log(res)
+            this.activeName = res.name;
+            this.getDataList();
           },
           uploadSuccess(){
             this.$message({
@@ -404,8 +397,6 @@
           },
           //查询事件
           searchClick(){
-            console.log(this.months)
-            console.log(this.years)
             this.getDataList();
           },
           //补打条码
@@ -498,7 +489,7 @@
           },
           //分页器点击事件
           pageChange2(){
-            this.cellClick2();
+
           },
           //关键字模糊查询提示
           remoteMethod(query) {
@@ -511,62 +502,114 @@
                   return item.label.toLowerCase()
                     .indexOf(query.toLowerCase()) > -1;
                 });
-              }, 200);
+              }, 2000);
             } else {
               this.options4 = [];
             }
           },
           
+          
           //关键字模糊查询提示
           getNameList(query){
                 const self = this;
-                self.user_true_name = query;
+                self.case_name = query;
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-                params.append('pageNum',1);
-                params.append('pageSize',10);
-                params.append('user_true_name',query);
+                params.append('ad_user_true_name',self.case_name);
                 self.$axios({
                     method: 'post',
-                    url: '/user/getByPage',
+                    url: '/cases/cases/getCasesName',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
                     
                     if(data.data.code==0){
-                        self.states = data.data.data.list;
+                        self.states = data.data.data;
                         self.list = self.states.map(item => {
-                          return { value: item.user_id, label: item.user_true_name};
+                          return { value: item.case_name, label: item.case_name};
                         });
-                        self.options4 =  self.list
                     }else{
                       self.$response(data,self);
                     }
                  });
           },
-          //获取默认列表数据
-          getDataList(){
+          getNumBage(){
                 const self = this;
-                self.tableLoading = true;
+               
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
-
-                params.append('pageNum',self.pageNum);
-                params.append('pageSize',self.pageSize);
-                params.append('year_time',self.years);
-                params.append('month_time',self.months);
-                params.append('user_id',self.user_true_name);
+                params.append('tongyi_status','1');
+                params.append('stock_status','unnone');
 
                 self.$axios({
                     method: 'post',
-                    url: '/chart/getInitCaseCountUser',
+                    url: '/cases/cases/getCountForType',
                     data: params,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
                  }).then(function(data){
-                    self.tableLoading = false;
+                    
                     if(data.data.code==0){
-                        self.caseList = data.data.data.list;
+                      
+                       self.num1 = data.data.data._30;
+                       self.num2 = data.data.data._31;
+                       self.num3 = data.data.data._32;
+                       self.num4 = data.data.data._33;
+                       self.num5 = data.data.data._34;
+                       self.num6 = data.data.data._35;
+                       self.num7 = data.data.data._44;
+                       self.num8 = data.data.data._45;
+                       // console.log(self.num1)
+                       // console.log(self.$children)
+                       self.$children[5].$children[0].$forceUpdate();
+                       // self.$forceUpdate()
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
+        //   doubleClick(row, column, event){
+        //     // console.log(window.location.origin+'/#/gerenchaxun?nd=2019&area='+row.org_id)
+        //     window.open(window.location.origin+'/old_qd/#/gerenchaxun?nd=2019&area='+row.org_id)
+        //     // window.location.href = 
+        //     // window.load();
+        //     // window.location = ""
+        //   },
+          //获取默认列表数据
+          getDataList(){
+                const self = this;
+                // self.getNumBage();
+                var params = {};
+                var token = localStorage.getItem('auth');
+               
+                var requestUrl = '';
+                
+                    
+                
+                var areaId = localStorage.getItem('areaId');
+                var timeYear = localStorage.getItem('timeYear');
+                self.cityShow = false;
+                self.orgShow = true;
+                self.loading2  = true;
+                self.loading1  = false;
+                requestUrl = 'chart/area/getStockCountByArea';
+                
+                params = {
+                    area_id:areaId,
+                    nd:timeYear
+                }
+                
+                self.$axios({
+                    method: 'get',
+                    url: requestUrl,
+                    params: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                 }).then(function(data){
+                    console.log(data)
+                    if(data.data.code==0){
+                        self.caseList = data.data.data;
                         self.total = data.data.data.total;
+                        self.loading1  = false;
+                        self.loading2  = false;
                     }else{
                       self.$response(data,self);
                     }
@@ -575,11 +618,13 @@
           
          //修改单元行颜色
           rowStyle({ row, rowIndex}){
-            if(rowIndex%2 ==0){
-              return 'background:#eee;color:#000;'
-            }else{
-             return 'background:#e5e7e8;color:#000;'
-            }
+            // console.log('看这里',row)
+            return 'color:green!important;'
+            // if(rowIndex%2 ==0){
+            //   return 'background:#eee;color:#000;height:200px;!important'
+            // }else{
+            //  return 'background:#e5e7e8;color:#000;height:200px;!important'
+            // }
           },      
          
           
@@ -588,25 +633,25 @@
       }
      
   }
-    window.addEventListener('message', function(event) {
-        // 接收位置信息，用户选择确认位置点后选点组件会触发该事件，回传用户的位置信息
-        var loc = event.data;
-        if (loc && loc.module == 'locationPicker') {//防止其他应用也会向该页面post信息，需判断module是否为'locationPicker'
-          console.log('location', loc);
-          localStorage.setItem('locationDes',loc.poiaddress);
-          localStorage.setItem('localLat',loc.latlng.lat);
-          localStorage.setItem('localLng',loc.latlng.lng);
-          localStorage.setItem('isLocalChoosed',1);
-        }
-    }, false);
+    // window.onload = window.onresize = function () {
+    //   var devicewidth = document.documentElement.clientWidth;
+    //   var scale =  1920/devicewidth;  // 分母——设计稿的尺寸
+    //   document.body.style.zoom = 1;
+    // };
 </script>
 
 <style scoped>
+    
     .tree{
       float: left;
       width: 20%;
       height: 600px;
       
+    }
+    .titleBg{
+      width: 55%;
+      margin:0 auto;
+      position:relative;
     }
     .el-tree{
       background: rgba(255,215,0,0.3);
@@ -615,17 +660,22 @@
 
     .tableClass{
       width: 100%;
-      height: auto;
-      background-color: #231a75;
+      height: 750px;
+      /* overflow-y: scroll; */
+      border-top: 1px solid #fff;
+      background-color: #fff!important;
     }
     .tableList{
-      width: 99%;
-      height: 460px!important;
-      overflow-y: scroll;
+      width: 55%;
+      height: 750px!important;
+      /* overflow-y: scroll; */
       border:1px solid #231a75;
      /* border-radius: 20px;*/
+      
+      margin:0 auto;
       margin-top: 20px;
       background-color: #231a75;
+      background-size: 180% 6%;
     }
     .tableList::-webkit-scrollbar {/*滚动条整体样式*/
             width: 4px;     /*高宽分别对应横竖滚动条的尺寸*/
@@ -658,7 +708,7 @@
     }
 
     /*#container {
-        min-width:900px;
+        min-width:750px;
         min-height:607px;
         
         overflow-y: hidden;
@@ -724,5 +774,8 @@
     }
     .colorRed{
       color: red;
+    }
+    .el-table__row{
+      height: 120px!important;
     }
 </style>

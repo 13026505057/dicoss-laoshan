@@ -254,7 +254,7 @@
 
                 
                 params.append('stock_log_id',res.stock_log_id);
-                
+                params.append('print_id',localStorage.setItem('printId'));
                 const loading = self.$loading({
                   lock: true,
                   text: '打印中',
@@ -291,7 +291,7 @@
 
                 
                 params.append('exhibit_id',res.exhibit_id);
-                
+                params.append('print_id',localStorage.getItem('printId'));
                 const loading = self.$loading({
                   lock: true,
                   text: '打印中',

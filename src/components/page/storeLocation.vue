@@ -408,9 +408,21 @@
                   </template>
                 </el-table-column>
                 <el-table-column
+                  label="总行数"
+                  align="center"
+                  prop="hang"
+                  >
+                </el-table-column>
+                <el-table-column
+                  label="总列数"
+                  align="center"
+                  prop="lie"
+                  >
+                </el-table-column>
+                <el-table-column
                   label="创建时间"
                   align="center"
-                  prop="shale_name">
+                  prop="create_time">
                 </el-table-column>
                 <el-table-column
                   label="操作"
@@ -515,7 +527,9 @@
               addNewShebei:false,
               againForm:{},
               form:{
-                shale_name:''
+                shale_name:'',
+                hang:'',
+                lie:''
               },
               
               printAgain:false,
@@ -551,7 +565,7 @@
                 params.append('shale_id',self.shale_id_count);
                 params.append('hang',hang);
                 params.append('lie',lie);
-                
+                params.append('print_id',localStorage.getItem('printId'));
 
                 self.$axios({
                     method: 'post',

@@ -2,7 +2,17 @@
     <div>
         
         <div >
-            <div class="titleBg">办案人归档率每日排名 <el-button type="warning" style="width:120px;position:absolute!important;top:25px;right:30px;" @click="loginClick">登录系统</el-button></div>
+            <div class="titleBg">归档率每日排名
+              <el-date-picker
+                  style="width: 200px;margin-left: 30px;"
+                  v-model="timeYear"
+                  align="right"
+                  type="year"
+                  format="yyyy年"
+                  value-format="yyyy"
+                  @change="timeSure"
+                  placeholder="选择年份">
+                </el-date-picker><el-button type="warning" style="width:120px;position:absolute!important;top:35px;right:50px;" @click="loginClick">登录系统</el-button></div>
             <div class="block" v-if="false">
                 
                 <!-- <el-input style="width:250px;" v-model="case_number" placeholder="案卷号查询"></el-input>
@@ -186,14 +196,14 @@
                     prop="persent"
                     >
                   </el-table-column>
-                  <!-- <el-table-column
-                    label="归档率"
+                  <el-table-column
+                    label="详情"
                     align="center"
                     >
                     <template slot-scope="props">
-                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
+                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="doubleClick1(props.row)">详情</el-button>
                     </template>
-                  </el-table-column> -->
+                  </el-table-column>
                   
                 </el-table>
               
@@ -326,6 +336,7 @@
               options4: [],
               case_name: [],
               list: [],
+              timeYear:'2019',
               loading: false,
               states: [],
               caseList: [
@@ -357,7 +368,7 @@
       },
       methods: {
           loginClick(){
-            window.open('http://141.113.80.44/')
+            this.$router.push('/login');
           },
           tabClick(res){
             console.log(res)
@@ -393,6 +404,9 @@
             this.exhibits = res.exhibits;
             this.case_detail_dialog = true;
           },
+          timeSure(){
+            this.getDataList();
+          },
           //查询事件
           searchClick(){
             this.getDataList();
@@ -405,7 +419,7 @@
 
                 
                 params.append('exhibit_id',res.exhibit_id);
-                
+                params.append('print_id',localStorage.getItem('printId'));
                 const loading = self.$loading({
                   lock: true,
                   text: '打印中',
@@ -565,12 +579,20 @@
                     }
                  });
           },
+          doubleClick1(row){
+            localStorage.setItem('areaId',row.org_id);
+            localStorage.setItem('timeYear',self.timeYear);
+            this.$router.push('/gerenchaxun2');
+          },
           doubleClick(row, column, event){
             // console.log(window.location.origin+'/#/gerenchaxun?nd=2019&area='+row.org_id)
-            window.open(window.location.origin+'/old_qd/#/gerenchaxun?nd=2019&area='+row.org_id)
+            // window.open(window.location.origin+'/old_qd/#/gerenchaxun?nd=2019&area='+row.org_id)
             // window.location.href = 
             // window.load();
             // window.location = ""
+            localStorage.setItem('areaId',row.org_id);
+            localStorage.setItem('timeYear',self.timeYear);
+            this.$router.push('/gerenchaxun2');
           },
           //获取默认列表数据
           getDataList(){
@@ -578,38 +600,21 @@
                 // self.getNumBage();
                 var params = {};
                 var token = localStorage.getItem('auth');
-                var urlNum = self.url.indexOf('city');
                 
-                
-                console.log(urlNum)
                 var requestUrl = '';
-                if(urlNum>0){
-                    var cityId = self.url.split('city=')[1];
-                    self.orgShow = false;
-                    self.cityShow = true;
-                    self.loading1  = true;
-                    self.loading2  = false;
-                    requestUrl = 'chart/city/getStockPersentByCity';
-                    
-                   
-                    params = {
-                        city_id:cityId,
-                        nd:'2019'
-                    }
-                    
-                }else{
-                    var areaId = self.url.split('area=')[1];
-                    self.cityShow = false;
-                    self.orgShow = true;
-                    self.loading2  = true;
-                    self.loading1  = false;
-                    requestUrl = 'chart/area/getStockCountByArea';
-                    
-                    params = {
-                        area_id:areaId,
-                        nd:'2019'
-                    }
+                self.orgShow = false;
+                self.cityShow = true;
+                self.loading1  = true;
+                self.loading2  = false;
+                requestUrl = 'chart/city/getStockPersentByCity';
+                
+                
+                params = {
+                    city_id:'370200',
+                    nd:self.timeYear
                 }
+                    
+                
                 
                 
                   

@@ -308,6 +308,7 @@
               caseList: [
                 
               ],
+              orgId:localStorage.getItem('orgId'),
               exhibits:[],
               total:0,
               pageNum:1,
@@ -396,7 +397,7 @@
 
                 
                 params.append('exhibit_id',res.exhibit_id);
-                
+                params.append('print_id',localStorage.getItem('printId'));
                 const loading = self.$loading({
                   lock: true,
                   text: '打印中',
@@ -572,7 +573,7 @@
                 params.append('dh',self.case_number);
                 params.append('nd',self.timeYear);
                 params.append('exhibit_type',self.stateFlag);
-                
+                params.append('org_id',self.orgId);
                 // params.append('stock_status','out');
                 // params.append('tongyi_status','');
                 // switch(self.activeName){

@@ -339,6 +339,215 @@
                 :total="total2">
           </el-pagination>
         </el-dialog>
+        <el-dialog title="卷宗列表" :visible.sync="case_detail_dialogCuobang" width="80%">
+          <div class="block" style="background-size:100%;height:100px;">
+                
+                <el-input clearable style="width:150px;margin-top:10px;" v-model="case_bh_duo" placeholder="统一受案号"></el-input>
+                
+                <el-input clearable style="width:150px;margin-top:10px;" v-model="xainyiname_duo" placeholder="嫌疑人"></el-input>
+                <el-input  style="width:150px;margin-top:10px;" @change="scanDuo" v-model="scanNumDuo" placeholder="扫描条形码"></el-input>
+                <el-select clearable style="width: 150px;margin-left: 20px;" v-model="case_type_duo" placeholder="卷宗类型">
+                  <el-option
+                    v-for="item in juanzongList"
+                    :key="item.type_id"
+                    :label="item.type_name"
+                    :value="item.type_id">
+                  </el-option>
+                </el-select>
+                <!-- 关键词联想组建 -->
+                <!-- <el-select
+                  v-model="case_name"
+                  style="width: 150px;margin-left: 20px;"
+                  filterable
+                  remote
+                  clearable
+                  reserve-keyword
+                  placeholder="请输入案件名"
+                  :remote-method="remoteMethod"
+                  :loading="loading">
+                  <el-option
+                    v-for="item in options4"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <el-select
+                  v-model="case_name"
+                  style="width: 150px;margin-left: 20px;"
+                  filterable
+                  remote
+                  clearable
+                  reserve-keyword
+                  placeholder="请输入罪名"
+                  :remote-method="remoteMethod"
+                  :loading="loading">
+                  <el-option
+                    v-for="item in options4"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <el-date-picker
+                  style="width: 150px;margin-left: 20px;"
+                  v-model="timeYear"
+                  align="right"
+                  type="year"
+                  format="yyyy年"
+                  value-format="yyyy"
+                  placeholder="选择年份">
+                </el-date-picker>
+                <el-select
+                  v-model="user_true_name"
+                  style="width: 150px;margin-left: 20px;"
+                  filterable
+                  remote
+                  clearable
+                  reserve-keyword
+                  placeholder="请输入承办人"
+                  :remote-method="remoteMethod2"
+                  :loading="loading2">
+                  <el-option
+                    v-for="item in options42"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <el-select style="width: 150px;margin-left: 20px;" v-model="case_value" placeholder="是否已交卷">
+                  <el-option
+                    v-for="item in options5"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <el-select v-model="orgId" placeholder="请选择单位" v-show="orgId1==370200?true:false">
+                  <el-option
+                    v-for="item in orgList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select> -->
+                <!-- <el-date-picker
+                  style="margin-left: 20px;width:420px;"
+                  v-model="date"
+                  type="daterange"
+                  range-separator="至"
+                  format="yyyy 年 MM 月 dd 日"
+                  value-format="yyyy-MM-dd"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期">
+                </el-date-picker> -->
+                
+                <el-button type="warning" style="margin-left: 20px;" @click="searchDuo">查询</el-button>
+                <!-- <el-button type="warning" style="margin-left: 20px;" @click="exportClick">导出</el-button> -->
+                <!-- <el-button type="warning" style="margin-left: 20px;" @click="printClickForreturn">批量打印回执单</el-button> -->
+                
+            </div>
+          <el-table
+              :data="exhibitsCuobang"
+              :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+              :row-style="rowStyle"
+              class="tableClass"
+              style="height:600px"
+              @selection-change="handleSelectionChange"
+              >
+              <el-table-column
+                type="index"
+                :index="indexMethod"
+                align="center"
+                width="50">
+              </el-table-column>
+              <el-table-column
+                label="统一受案号"
+                align="center"
+                prop="tysah">
+                <!-- <template slot-scope="props">
+                  <span>签到考勤</span>
+                </template> -->
+              </el-table-column>
+              <el-table-column
+                label="部门受案号"
+                align="center"
+                prop="bmsah"
+                >
+              </el-table-column>
+              <!-- <el-table-column
+                label="卷号"
+                align="center"
+                prop="jh"
+                >
+              </el-table-column> -->
+              <el-table-column
+                label="案件名称"
+                align="center"
+                prop="case_name"
+                >
+              </el-table-column>
+              <el-table-column
+                label="案件描述"
+                align="center"
+                prop="case_desc"
+                >
+              </el-table-column>
+              <!-- <el-table-column
+                label="嫌疑人"
+                align="center"
+                prop="bgr"
+                >
+              </el-table-column> -->
+              <el-table-column
+                label="承办人"
+                align="center"
+                prop="case_take_user_name"
+                >
+              </el-table-column>
+              <el-table-column
+                label="案件类型"
+                align="center"
+                prop="case_type_name"
+                >
+              </el-table-column>
+              <!-- <el-table-column
+                label="案卷状态"
+                align="center"
+                >
+                <template slot-scope="props">
+                  <span v-bind:class="[props.row.stock_status=='in'?'':'colorRed']">{{props.row.stock_status=='in'?'已入库':'待入库'}}</span>
+                </template>
+              </el-table-column> -->
+              <!-- <el-table-column
+                label="是否有效"
+                align="center"
+                >
+                <template slot-scope="props">
+                  <span v-bind:class="[props.row.exhibit_status=='0'?'colorRed':'']">{{props.row.exhibit_status=='0'?'失效':'有效'}}</span>
+                </template>
+              </el-table-column> -->
+              <!-- <el-table-column
+                label="存放位置"
+                align="center"
+                prop="case_type"
+                >
+              </el-table-column> -->
+              <el-table-column
+                label="操作"
+                width="400px"
+                align="center"
+                >
+                <template slot-scope="props">
+                  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="hebing(props.row)">并卷</el-button>
+                  <!-- <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printAgain(props.row)">补打条码</el-button>
+                  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printAgain2(props.row)">打印回执单</el-button>
+                  <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="zuofeiClick(props.row)">作废</el-button> -->
+                </template>
+              </el-table-column>
+            </el-table> 
+            
+        </el-dialog>
         <div id="container" style="width: 100%;height: 110%;  float: right;">
           
           
@@ -372,6 +581,14 @@
                     label="案件编号"
                     align="center"
                     prop="case_bh">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="部门受案号"
+                    align="center"
+                    prop="bmsah">
                     <!-- <template slot-scope="props">
                       <span>签到考勤</span>
                     </template> -->
@@ -431,20 +648,11 @@
                     >
                     <template slot-scope="props">
                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="cuobanggenggai(props.row)">多案并案</el-button> -->
                       
                     </template>
                   </el-table-column>
-                  <!-- <el-table-column
-                    label="操作"
-                    width="300px"
-                    align="center"
-                    >
-                    <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
-                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
-                      
-                    </template>
-                  </el-table-column> -->
+                  
                 </el-table> 
               </el-tab-pane>
               <el-tab-pane name="tabName2" class="tabClass">
@@ -475,6 +683,14 @@
                     label="案件编号"
                     align="center"
                     prop="case_bh">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="部门受案号"
+                    align="center"
+                    prop="bmsah">
                     <!-- <template slot-scope="props">
                       <span>签到考勤</span>
                     </template> -->
@@ -535,20 +751,11 @@
                     >
                     <template slot-scope="props">
                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="cuobanggenggai(props.row)">多案并案</el-button> -->
                       
                     </template>
                   </el-table-column>
-                  <!-- <el-table-column
-                    label="操作"
-                    width="300px"
-                    align="center"
-                    >
-                    <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
-                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
-                      
-                    </template>
-                  </el-table-column> -->
+                  
                 </el-table>
               </el-tab-pane>
               <el-tab-pane name="tabName3" class="tabClass">
@@ -584,6 +791,14 @@
                     </template> -->
                   </el-table-column>
                   <el-table-column
+                    label="部门受案号"
+                    align="center"
+                    prop="bmsah">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
                     label="案件名称"
                     align="center"
                     prop="case_name"
@@ -638,20 +853,11 @@
                     >
                     <template slot-scope="props">
                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="cuobanggenggai(props.row)">多案并案</el-button> -->
                       
                     </template>
                   </el-table-column>
-                  <!-- <el-table-column
-                    label="操作"
-                    width="300px"
-                    align="center"
-                    >
-                    <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
-                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
-                      
-                    </template>
-                  </el-table-column> -->
+                  
                 </el-table>
               </el-tab-pane>
               <el-tab-pane name="tabName9" class="tabClass">
@@ -687,6 +893,14 @@
                     </template> -->
                   </el-table-column>
                   <el-table-column
+                    label="部门受案号"
+                    align="center"
+                    prop="bmsah">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
                     label="案件名称"
                     align="center"
                     prop="case_name"
@@ -741,20 +955,11 @@
                     >
                     <template slot-scope="props">
                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="cuobanggenggai(props.row)">多案并案</el-button> -->
                       
                     </template>
                   </el-table-column>
-                  <!-- <el-table-column
-                    label="操作"
-                    width="300px"
-                    align="center"
-                    >
-                    <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
-                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
-                      
-                    </template>
-                  </el-table-column> -->
+                  
                 </el-table>
               </el-tab-pane>
               <el-tab-pane name="tabName4" class="tabClass">
@@ -790,6 +995,14 @@
                     </template> -->
                   </el-table-column>
                   <el-table-column
+                    label="部门受案号"
+                    align="center"
+                    prop="bmsah">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
                     label="案件名称"
                     align="center"
                     prop="case_name"
@@ -825,7 +1038,6 @@
                         
                     </template>
                   </el-table-column>
-                  </el-table-column>
                   <el-table-column
                     label="交卷日期"
                     align="center"
@@ -845,20 +1057,11 @@
                     >
                     <template slot-scope="props">
                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="cuobanggenggai(props.row)">多案并案</el-button> -->
                       
                     </template>
                   </el-table-column>
-                  <!-- <el-table-column
-                    label="操作"
-                    width="300px"
-                    align="center"
-                    >
-                    <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
-                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
-                      
-                    </template>
-                  </el-table-column> -->
+                  
                 </el-table>
               </el-tab-pane>
               <el-tab-pane name="tabName5" class="tabClass">
@@ -894,6 +1097,14 @@
                     </template> -->
                   </el-table-column>
                   <el-table-column
+                    label="部门受案号"
+                    align="center"
+                    prop="bmsah">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
                     label="案件名称"
                     align="center"
                     prop="case_name"
@@ -948,20 +1159,11 @@
                     >
                     <template slot-scope="props">
                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="cuobanggenggai(props.row)">多案并案</el-button> -->
                       
                     </template>
                   </el-table-column>
-                  <!-- <el-table-column
-                    label="操作"
-                    width="300px"
-                    align="center"
-                    >
-                    <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
-                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
-                      
-                    </template>
-                  </el-table-column> -->
+                  
                 </el-table>
               </el-tab-pane>
               <el-tab-pane name="tabName6" class="tabClass">
@@ -997,6 +1199,14 @@
                     </template> -->
                   </el-table-column>
                   <el-table-column
+                    label="部门受案号"
+                    align="center"
+                    prop="bmsah">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
                     label="案件名称"
                     align="center"
                     prop="case_name"
@@ -1051,20 +1261,11 @@
                     >
                     <template slot-scope="props">
                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="cuobanggenggai(props.row)">多案并案</el-button> -->
                       
                     </template>
                   </el-table-column>
-                  <!-- <el-table-column
-                    label="操作"
-                    width="300px"
-                    align="center"
-                    >
-                    <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
-                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
-                      
-                    </template>
-                  </el-table-column> -->
+                  
                 </el-table>
               </el-tab-pane>
               <el-tab-pane name="tabName7" class="tabClass">
@@ -1100,104 +1301,9 @@
                     </template> -->
                   </el-table-column>
                   <el-table-column
-                    label="案件名称"
+                    label="部门受案号"
                     align="center"
-                    prop="case_name"
-                    >
-                  </el-table-column>
-                  <el-table-column
-                    label="案件描述"
-                    show-overflow-tooltip
-                    align="center"
-                    prop="case_desc"
-                    >
-                  </el-table-column>
-                  <el-table-column
-                    label="案件类型"
-                    align="center"
-                    prop="case_type_name"
-                    >
-                  </el-table-column>
-                  
-                  <el-table-column
-                    label="承办人"
-                    align="center"
-                    prop="case_take_user_name"
-                    >
-                  </el-table-column>
-                  
-                  <el-table-column
-                    label="是否交卷"
-                    align="center"
-                    >
-                    <template slot-scope="props">
-                        <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
-                        
-                    </template>
-                  </el-table-column>
-                  <el-table-column
-                    label="交卷日期"
-                    align="center"
-                    prop="dangan_accept_time"
-                    >
-                  </el-table-column>
-                  <el-table-column
-                    label="交卷天数"
-                    align="center"
-                    prop="dangan_accept_day"
-                    >
-                  </el-table-column>
-                  <el-table-column
-                    label="操作"
-                    width="300px"
-                    align="center"
-                    >
-                    <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
-                      
-                    </template>
-                  </el-table-column>
-                  <!-- <el-table-column
-                    label="操作"
-                    width="300px"
-                    align="center"
-                    >
-                    <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
-                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
-                      
-                    </template>
-                  </el-table-column> -->
-                </el-table>
-              </el-tab-pane>
-              <el-tab-pane name="tabName8" class="tabClass">
-                <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
-                  检委会
-                  <el-badge :value="num8" :hidden="num8==0?true:false" :max="99" class="badgeClass"> 
-                  </el-badge>
-                </span>
-                <el-table
-                  ref="multipleTable8"
-                  :data="caseList"
-                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
-                  :row-style="rowStyle"
-                  class="tableClass"
-                  @selection-change="handleSelectionChange"
-                  >
-                  <el-table-column
-                    type="index"
-                    :index="indexMethod"
-                    align="center"
-                    width="50">
-                  </el-table-column>
-                  <el-table-column
-                    type="selection"
-                    width="65">
-                  </el-table-column>
-                  <el-table-column
-                    label="案件编号"
-                    align="center"
-                    prop="case_bh">
+                    prop="bmsah">
                     <!-- <template slot-scope="props">
                       <span>签到考勤</span>
                     </template> -->
@@ -1257,20 +1363,455 @@
                     >
                     <template slot-scope="props">
                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="cuobanggenggai(props.row)">多案并案</el-button> -->
                       
                     </template>
                   </el-table-column>
-                  <!-- <el-table-column
+                  
+                </el-table>
+              </el-tab-pane>
+              <el-tab-pane name="tabName8" class="tabClass">
+                <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
+                  检委会
+                  <el-badge :value="num8" :hidden="num8==0?true:false" :max="99" class="badgeClass"> 
+                  </el-badge>
+                </span>
+                <el-table
+                  ref="multipleTable8"
+                  :data="caseList"
+                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                  :row-style="rowStyle"
+                  class="tableClass"
+                  @selection-change="handleSelectionChange"
+                  >
+                  <el-table-column
+                    type="index"
+                    :index="indexMethod"
+                    align="center"
+                    width="50">
+                  </el-table-column>
+                  <el-table-column
+                    type="selection"
+                    width="65">
+                  </el-table-column>
+                  <el-table-column
+                    label="案件编号"
+                    align="center"
+                    prop="case_bh">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="部门受案号"
+                    align="center"
+                    prop="bmsah">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="案件名称"
+                    align="center"
+                    prop="case_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件描述"
+                    show-overflow-tooltip
+                    align="center"
+                    prop="case_desc"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件类型"
+                    align="center"
+                    prop="case_type_name"
+                    >
+                  </el-table-column>
+                  
+                  <el-table-column
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  
+                  <el-table-column
+                    label="是否交卷"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.dangan_accept_status=='0'?'未交卷':'已交卷'}}</span>
+                        
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="交卷日期"
+                    align="center"
+                    prop="dangan_accept_time"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="交卷天数"
+                    align="center"
+                    prop="dangan_accept_day"
+                    >
+                  </el-table-column>
+                  <el-table-column
                     label="操作"
                     width="300px"
                     align="center"
                     >
                     <template slot-scope="props">
                       <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
-                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增案卷</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="cuobanggenggai(props.row)">多案并案</el-button> -->
                       
                     </template>
+                  </el-table-column>
+                  
+                </el-table>
+              </el-tab-pane>
+              <el-tab-pane name="tabName10" class="tabClass">
+                <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
+                  自侦
+                  <el-badge :value="num10" :hidden="num10==0?true:false" :max="9999" class="badgeClass"> 
+                  </el-badge>
+                </span>
+                <el-table
+                  ref="multipleTable8"
+                  :data="caseList"
+                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                  :row-style="rowStyle"
+                  class="tableClass"
+                  @selection-change="handleSelectionChange"
+                  >
+                  <el-table-column
+                    type="index"
+                    :index="indexMethod"
+                    align="center"
+                    width="50">
+                  </el-table-column>
+                  <el-table-column
+                    type="selection"
+                    width="65">
+                  </el-table-column>
+                  <el-table-column
+                    label="案件编号"
+                    align="center"
+                    prop="case_bh">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="案件名称"
+                    align="center"
+                    prop="case_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件类型"
+                    align="center"
+                    prop="case_type_name"
+                    >
+                  </el-table-column>
+                  <!-- <el-table-column
+                    label="案件状态"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.case_none_status==1?'评查中':'待入库'}}</span>
+                    </template>
                   </el-table-column> -->
+                  <el-table-column
+                    label="案件描述"
+                    align="center"
+                    show-overflow-tooltip
+                    prop="case_desc"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.time_status=='in'?'已归档':''}}</span>
+                        <span>{{props.row.time_status=='in_jj_out'?'已归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_rk_out'?'已归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_all_out'?'已归档（双超期）':''}}</span>
+                        <span>{{props.row.time_status=='none'?'未归档':''}}</span>
+                        <span>{{props.row.time_status=='none_jj_out'?'未归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_rk_out'?'未归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="总案卷数"
+                    align="center"
+                    prop="total_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="在库案卷数"
+                    align="center"
+                    prop="in_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="待入库案卷数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
+                    </template>
+                  </el-table-column>
+                  
+                  <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="cuobanggenggai(props.row)">多案并案</el-button> -->
+                      
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-tab-pane>
+              <el-tab-pane name="tabName11" class="tabClass">
+                <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
+                  侦检业务
+                  <el-badge :value="num11" :hidden="num11==0?true:false" :max="9999" class="badgeClass"> 
+                  </el-badge>
+                </span>
+                <el-table
+                  ref="multipleTable8"
+                  :data="caseList"
+                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                  :row-style="rowStyle"
+                  class="tableClass"
+                  @selection-change="handleSelectionChange"
+                  >
+                  <el-table-column
+                    type="index"
+                    :index="indexMethod"
+                    align="center"
+                    width="50">
+                  </el-table-column>
+                  <el-table-column
+                    type="selection"
+                    width="65">
+                  </el-table-column>
+                  <el-table-column
+                    label="案件编号"
+                    align="center"
+                    prop="case_bh">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="案件名称"
+                    align="center"
+                    prop="case_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件类型"
+                    align="center"
+                    prop="case_type_name"
+                    >
+                  </el-table-column>
+                  <!-- <el-table-column
+                    label="案件状态"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.case_none_status==1?'评查中':'待入库'}}</span>
+                    </template>
+                  </el-table-column> -->
+                  <el-table-column
+                    label="案件描述"
+                    align="center"
+                    show-overflow-tooltip
+                    prop="case_desc"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.time_status=='in'?'已归档':''}}</span>
+                        <span>{{props.row.time_status=='in_jj_out'?'已归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_rk_out'?'已归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_all_out'?'已归档（双超期）':''}}</span>
+                        <span>{{props.row.time_status=='none'?'未归档':''}}</span>
+                        <span>{{props.row.time_status=='none_jj_out'?'未归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_rk_out'?'未归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="总案卷数"
+                    align="center"
+                    prop="total_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="在库案卷数"
+                    align="center"
+                    prop="in_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="待入库案卷数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
+                    </template>
+                  </el-table-column>
+                  
+                  <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="cuobanggenggai(props.row)">多案并案</el-button> -->
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-tab-pane>
+              <el-tab-pane name="tabName12" class="tabClass">
+                <span style="font-size:19px;" slot="label"><i class="el-icon-date"></i>
+                  申诉
+                  <el-badge :value="num12" :hidden="num12==0?true:false" :max="9999" class="badgeClass"> 
+                  </el-badge>
+                </span>
+                <el-table
+                  ref="multipleTable8"
+                  :data="caseList"
+                  :header-cell-style="{ 'background-color': '#deedf4','color':'#000'}"
+                  :row-style="rowStyle"
+                  class="tableClass"
+                  @selection-change="handleSelectionChange"
+                  >
+                  <el-table-column
+                    type="index"
+                    :index="indexMethod"
+                    align="center"
+                    width="50">
+                  </el-table-column>
+                  <el-table-column
+                    type="selection"
+                    width="65">
+                  </el-table-column>
+                  <el-table-column
+                    label="案件编号"
+                    align="center"
+                    prop="case_bh">
+                    <!-- <template slot-scope="props">
+                      <span>签到考勤</span>
+                    </template> -->
+                  </el-table-column>
+                  <el-table-column
+                    label="案件名称"
+                    align="center"
+                    prop="case_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="案件类型"
+                    align="center"
+                    prop="case_type_name"
+                    >
+                  </el-table-column>
+                  <!-- <el-table-column
+                    label="案件状态"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.case_none_status==1?'评查中':'待入库'}}</span>
+                    </template>
+                  </el-table-column> -->
+                  <el-table-column
+                    label="案件描述"
+                    align="center"
+                    show-overflow-tooltip
+                    prop="case_desc"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="是否归档"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.time_status=='in'?'已归档':''}}</span>
+                        <span>{{props.row.time_status=='in_jj_out'?'已归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_rk_out'?'已归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='in_all_out'?'已归档（双超期）':''}}</span>
+                        <span>{{props.row.time_status=='none'?'未归档':''}}</span>
+                        <span>{{props.row.time_status=='none_jj_out'?'未归档（交卷超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_rk_out'?'未归档（入库超期）':''}}</span>
+                        <span>{{props.row.time_status=='none_all_out'?'未归档（双超期）':''}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="承办人"
+                    align="center"
+                    prop="case_take_user_name"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="总案卷数"
+                    align="center"
+                    prop="total_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="在库案卷数"
+                    align="center"
+                    prop="in_quantity"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    label="待入库案卷数"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                        <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
+                    </template>
+                  </el-table-column>
+                  
+                  <el-table-column
+                    label="操作"
+                    width="300px"
+                    align="center"
+                    >
+                    <template slot-scope="props">
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="cuobanggenggai(props.row)">多案并案</el-button> -->
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
+                    </template>
+                  </el-table-column>
                 </el-table>
               </el-tab-pane>
             </el-tabs>
@@ -1315,11 +1856,17 @@
               num7:0,
               num8:0,
               num9:0,
+              num10:0,
+              num11:0,
+              num12:0,
+              scanNumDuo:'',
+              case_type_duo:'',
               printDialog:false,
               exhibits2:[],
               addNewAnJuan:false,
               activeName:'tabName1',
               case_detail_dialog:false,
+              case_detail_dialogCuobang:false,
               case_number:'',
               options4: [],
               case_name: [],
@@ -1338,10 +1885,13 @@
                 bgr:''
               },
               exhibits:[],
+              exhibitsCuobang:[],
               total:0,
               pageNum:1,
               pageSize:10,
               total2:0,
+              case_bh_duo:'',
+              xainyiname_duo:'',
               pageNum2:1,
               pageSize2:10,
               addHisDialog:false,
@@ -1377,8 +1927,14 @@
                   time_name:'60年'
                 }
               ],
+              weigui_case_id:'',
+              yigui_case_id:'',
               case_id_count:'',
               juanzongList:[
+                {
+                  type_id:'',
+                  type_name:'全部'
+                },
                 {
                   type_id:'SS',
                   type_name:'诉讼'
@@ -1471,7 +2027,104 @@
           // },10000)
       },
       methods: {
+          hebing(row){
+                  const self = this;
+                  var params = new URLSearchParams();
+                  var token = localStorage.getItem('auth');
+                  
+                  self.yigui_case_id = row.case_id;
+                  params.append('weigui_case_id',self.weigui_case_id);
+                  params.append('yigui_case_id',self.yigui_case_id);
+                  self.$axios({
+                      method: 'post',
+                      url: '/exhibit/exhibit/isAddCase',
+                      data: params,
+                      headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                   }).then(function(data){
+                      
+                      if(data.data.code==0){
+                        self.$message({
+                            type: 'success',
+                            message: '操作成功'
+                        });
+
+
+                      }else{
+                        self.$response(data,self);
+                        
+                      }
+                   });
+          },
+          searchDuo(){
+            this.getDuoData();
+          },
+          scanDuo(val){
+                  const self = this;
+                  var params = new URLSearchParams();
+                  var token = localStorage.getItem('auth');
+                  
+                  self.exhibitsCuobang = [];
+                  params.append('code',val);
+                  params.append('exhibit_type',self.case_type_duo);
+                  self.$axios({
+                      method: 'post',
+                      url: '/stock/stock/getScanCode',
+                      data: params,
+                      headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                   }).then(function(data){
+                      
+                      if(data.data.code==0){
+                        self.scanNumDuo = '';
+                          if(data.data.data.type=="exhibit"){
+                              self.exhibitsCuobang.push(data.data.data.cases);
+                              // console.log(self.exhibitsCuobang)
+
+                            }else if(data.data.data.type=="cell"){
+                              // self.locationInfo = data.data.data.cell;
+                            }
+
+
+                      }else{
+                        self.$response(data,self);
+                        self.scanNumDuo = '';
+                      }
+                   });
+          },
+          cuobanggenggai(data){
           
+            // console.log(data)
+            this.weigui_case_id = data.case_id;
+            this.case_bh_duo = data.case_bh;
+            this.case_detail_dialogCuobang = true;
+            this.getDuoData()
+          },
+          getDuoData(data){
+                const self = this;
+                // self.user_true_name = query;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                // self.case_bh_duo = data.case_bh;
+                params.append('case_bh',self.case_bh_duo);
+                params.append('case_name',self.xainyiname_duo);
+                params.append('pageNum',1);
+                params.append('pageSize',1000);
+                self.$axios({
+                    method: 'post',
+                    url: '/cases/cases/getInByPage',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                        self.exhibitsCuobang = data.data.data.list;
+                        // self.list2 = self.states2.map(item => {
+                        //   return { value: item.user_true_name, label: item.user_true_name};
+                        // });
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+          },
           remoteMethod2(query) {
             if (query !== '') {
               this.loading2 = true;
@@ -1549,6 +2202,7 @@
                 for(var i = 0; i < self.multipleSelection.length; i++){
                   ids.push(self.multipleSelection[i].exhibit_id)
                 }
+                params.append('print_id',localStorage.getItem('printId'));
                 params.append('exhibit_ids',ids.join(','));
                 self.$axios({
                     method: 'post',
@@ -1683,7 +2337,7 @@
 
                 
                 params.append('exhibit_id',res.exhibit_id);
-                
+                params.append('print_id',localStorage.getItem('printId'));
                 const loading = self.$loading({
                   lock: true,
                   text: '打印中',
@@ -1716,7 +2370,7 @@
 
                 
                 params.append('exhibit_id',res.exhibit_id);
-                
+                params.append('print_id',localStorage.getItem('printId'));
                 const loading = self.$loading({
                   lock: true,
                   text: '打印中',
@@ -1917,6 +2571,9 @@
                        self.num7 = data.data.data._44;
                        self.num8 = data.data.data._45;
                        self.num9 = data.data.data._46;
+                       self.num10 = data.data.data._50;
+                       self.num11 = data.data.data._51;
+                       self.num12 = data.data.data._52;
                        // console.log(self.num1)
                       //  console.log(self.$children)
                        self.$children[13].$children[0].$forceUpdate();
@@ -1978,6 +2635,15 @@
                   break;
                 case 'tabName9':
                   params.append('case_type_id','46');
+                  break;
+                case 'tabName10':
+                  params.append('case_type_id','50');
+                  break;
+                case 'tabName11':
+                  params.append('case_type_id','51');
+                  break;
+                case 'tabName12':
+                  params.append('case_type_id','52');
                   break;
                 default:
                   

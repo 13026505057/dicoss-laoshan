@@ -415,8 +415,33 @@
     this.getSheetDate();
     this.getMonth();
     this.drawLine();
+    this.getDayin();
   },
   methods: {
+    getDayin(){
+        const self = this;
+        var params = new URLSearchParams();
+        var token = localStorage.getItem('auth');
+        params.append('pageNum','1');   
+        params.append('pageSize','100');        
+        self.$axios({
+            method: 'post',
+            url: '/orgPrintGetByPage',
+            data: params,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+            }).then(function(data){
+            if(data.data.code==0){
+                if(data.data.data.list.length==1){
+                    localStorage.setItem('printId',data.data.data.list[0].print_id)
+                }else{
+                    
+                }
+                
+            }else{
+                self.$response(data,self);
+            }
+            });      
+    },
     getInByDept(){
                 var self = this;
                 var params = new URLSearchParams();

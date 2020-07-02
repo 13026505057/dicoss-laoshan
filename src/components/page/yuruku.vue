@@ -5,7 +5,7 @@
             <div class="titleBg">预入库<div style="font-size: 20px;line-height: 20px;margin-top: -25px;"></div></div>
             <div class="block">
                 
-                <el-input style="width:200px;" v-model="case_number" placeholder="请输入统一涉案号"></el-input>
+                <el-input clearable style="width:200px;" v-model="case_number" placeholder="请输入统一涉案号"></el-input>
                 <el-input @change="scanChange"  style="width:200px;margin-left: 20px;" v-model="scan_number" placeholder="请扫描案卷条码"></el-input>
                 <!-- 关键词联想组建 -->
                 <el-select
@@ -77,7 +77,7 @@
           :visible.sync="addNewClickDialog" 
           >
             <el-form ref="form" :model="form" label-width="120px" label-position="left" style="margin-left:20px;">
-              <el-form-item label="案件名称" style="display: inline-block;">
+              <el-form-item label="案卷名称" style="display: inline-block;">
                 <el-input v-model="form.exhibit_name" style="width: 200px;float: left;"></el-input>
               </el-form-item>
               <el-form-item label="年度" style="display: inline-block;margin-left:80px;">
@@ -251,17 +251,25 @@
                     label="统一涉案号"
                     align="center"
                     prop="tysah">
-                    <!-- <template slot-scope="props">
-                      <span>签到考勤</span>
-                    </template> -->
+                   
                   </el-table-column>
                   <el-table-column
-                    label="条形码号"
+                    label="案卷名称"
                     align="center"
-                    prop="out_exhibit_id">
-                    <!-- <template slot-scope="props">
-                      <span>签到考勤</span>
-                    </template> -->
+                    prop="exhibit_name">
+                   
+                  </el-table-column>
+                  <el-table-column
+                    label="案由"
+                    align="center"
+                    prop="ay">
+                   
+                  </el-table-column>
+                  <el-table-column
+                    label="嫌疑人"
+                    align="center"
+                    prop="bgr">
+                   
                   </el-table-column>
                   <el-table-column
                     label="档号"
@@ -276,10 +284,9 @@
                     >
                   </el-table-column>
                   <el-table-column
-                    label="案卷名称"
+                    label="承办人"
                     align="center"
-                    show-overflow-tooltip
-                    prop="exhibit_name"
+                    prop="case_take_user_name"
                     >
                   </el-table-column>
                   <el-table-column
@@ -292,6 +299,18 @@
                         <span>{{props.row.exhibit_type=='JS'?'技术':''}}</span>
                         <span>{{props.row.exhibit_type=='WS'?'文书':''}}</span>
                     </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="保管期限"
+                    align="center"
+                    prop="bgqx">
+                   
+                  </el-table-column>
+                  <el-table-column
+                    label="条形码号"
+                    align="center"
+                    prop="out_exhibit_id">
+                   
                   </el-table-column>
                   <el-table-column
                     label="存放位置"
@@ -332,17 +351,17 @@
                     <template slot-scope="props">
                         <span>{{props.row.total_quantity-props.row.in_quantity}}</span>
                     </template>
-                  </el-table-column>
+                  </el-table-column> -->
                   <el-table-column
                     label="操作"
-                    width="300px"
+                    width="120px"
                     align="center"
                     >
                     <template slot-scope="props">
-                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button>
-                      <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button>
+                      <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="zuofeiClick(props.row)">作废</el-button>
+                      <!-- <el-button  type="warning" size="mini" style="margin-left: 20px;" @click="printClick(props.row)">新增条码</el-button> -->
                     </template>
-                  </el-table-column> -->
+                  </el-table-column>
                 </el-table> 
            
                 
@@ -379,8 +398,13 @@
               num8:0,
               form:{
                 print_code:'1',
-                dh:''
+                dh:'',
+                nd:localStorage.getItem('nd'),
+                bgqx:'1',
+                case_type_id:'30',
+                exhibit_type:'SS'
               },
+              orgId:localStorage.getItem('orgId'),
               addNewClickDialog:false,
               activeName:'tabName1',
               case_detail_dialog:false,
@@ -405,7 +429,16 @@
                 {
                   name:'短期',
                   value:'3'
+                },
+                {
+                  name:'30年',
+                  value:'30'
+                },
+                {
+                  name:'60年',
+                  value:'60'
                 }
+
               ],
               typeList:[
                 {
@@ -523,10 +556,54 @@
           lishiClick(){
             this.$router.push('/pipeilishi');
           },
+          zuofeiClick(row){
+            var self = this;
+            this.$confirm('确定作废？', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('exhibit_id',row.exhibit_id);
+                params.append('exhibit_status','0');
+                self.$axios({
+                    method: 'post',
+                    url: '/yrExhibitUpdate',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                 }).then(function(data){
+                    
+                    if(data.data.code==0){
+                        self.$message({
+                          type: 'success',
+                          message: '操作成功!'
+                        });
+                        self.getDataList();
+                    }else{
+                      self.$response(data,self);
+                    }
+                 });
+              
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消'
+              });     
+            });       
+          },
           sureAdd(){
                 var self = this;
                 var params = new URLSearchParams();
                 var token = localStorage.getItem('auth');
+                if(self.form.nd>2020||self.form.nd<1950){
+                      self.$message({
+                        type: 'error',
+                        message: '年份错误'
+                      });
+                      return false;
+                }
+                localStorage.setItem('nd',self.form.nd);
                 params.append('nd',self.form.nd);
                 params.append('exhibit_type',self.form.exhibit_type);
                 params.append('bgqx',self.form.bgqx);
@@ -538,7 +615,9 @@
                 params.append('dh',self.form.dh);
                 params.append('jh',self.form.jh);
                 params.append('print_code',self.form.print_code);
+                params.append('print_id',localStorage.getItem('printId'));
                 params.append('case_type_id',self.form.case_type_id);
+                params.append('org_id',self.orgId);
                 // const loading = self.$loading({
                 //   lock: true,
                 //   text: '打印中',
@@ -560,7 +639,12 @@
                       });
                       self.getDataList();
                       self.form = {
-                        print_code:'1'
+                        print_code:'1',
+                        dh:'',
+                        nd:localStorage.getItem('nd'),
+                        bgqx:'1',
+                        case_type_id:'30',
+                        exhibit_type:'SS'
                       }
                       self.addNewClickDialog = false;
                     }else{
@@ -643,7 +727,7 @@
 
                 
                 params.append('exhibit_id',res.exhibit_id);
-                
+                params.append('print_id',localStorage.getItem('printId'));
                 const loading = self.$loading({
                   lock: true,
                   text: '打印中',
@@ -821,7 +905,7 @@
                 params.append('stock_status',self.stateFlag);
                 params.append('out_exhibit_id',self.scan_number);
                 params.append('case_type_id',self.caseType);
-                
+                params.append('org_id',self.orgId);
                 // params.append('stock_status','out');
                 params.append('tongyi_status','');
                 // switch(self.activeName){

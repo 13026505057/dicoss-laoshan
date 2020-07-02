@@ -426,9 +426,13 @@ import md5 from 'js-md5';
                                 title: '> 人员设置'
                             },
                             {   
-                                index: 'camera',
-                                title: '> 摄像头设置'
+                                index: 'dayinji',
+                                title: '> 打印机设置'
                             },
+                            // {   
+                            //     index: 'camera',
+                            //     title: '> 摄像头设置'
+                            // },
                             {   
                                 index: 'storeLocation',
                                 title: '> 存储位置设置'

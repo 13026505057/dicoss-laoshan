@@ -481,6 +481,7 @@
               form:{
                 print_code:'1'
               },
+              orgId:localStorage.setItem('orgId'),
               addNewClickDialog:false,
               activeName:'tabName1',
               case_detail_dialog:false,
@@ -692,6 +693,7 @@
                 params.append('dh',self.form.dh);
                 params.append('jh',self.form.jh);
                 params.append('print_code',self.form.print_code);
+                params.append('print_id',localStorage.setItem('printId'));
                 // const loading = self.$loading({
                 //   lock: true,
                 //   text: '打印中',
@@ -845,7 +847,7 @@
 
                 
                 params.append('exhibit_id',res.exhibit_id);
-                
+                params.append('print_id',localStorage.getItem('printId'));
                 const loading = self.$loading({
                   lock: true,
                   text: '打印中',
@@ -1002,6 +1004,7 @@
                 params.append('case_name',self.case_name);
                 params.append('case_bh',self.case_number);
                 params.append('timeYear',self.timeYear);
+                params.append('org_id',self.orgId);
                 // switch(self.activeName){
                 // case 'tabName1':
                 //   params.append('case_type_id','30');

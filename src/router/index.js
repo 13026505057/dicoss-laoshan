@@ -8,7 +8,7 @@ export default new Router({
     // mode: 'history',
     routes: [{
             path: '/',
-            redirect: '/login'
+            redirect: '/gerenchaxun'
         },
         {
             path: '/readme',
@@ -47,6 +47,11 @@ export default new Router({
                     name: '时效评价',
                     path: '/shixiaopingjia',
                     component: resolve => require(['../components/page/shixiaopingjia.vue'], resolve) // Vue-Quill-Editor组件
+                },
+                {
+                    name: '打印机设置',
+                    path: '/dayinji',
+                    component: resolve => require(['../components/page/dayinji.vue'], resolve) // Vue-Quill-Editor组件
                 },
                 {
                     name: '应归档',
@@ -422,6 +427,11 @@ export default new Router({
             name: '办案人归档率每日排名',
             path: '/gerenchaxun',
             component: resolve => require(['../components/page/gerenchaxun.vue'], resolve) // Vue-Quill-Editor组件
+        },
+        {
+            name: '办案人归档率每日排名2',
+            path: '/gerenchaxun2',
+            component: resolve => require(['../components/page/gerenchaxun2.vue'], resolve) // Vue-Quill-Editor组件
         },
         {
             path: '/login',
