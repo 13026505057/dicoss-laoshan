@@ -342,6 +342,9 @@
                     <template slot-scope="props">
                       <!-- <el-button  type="warning" size="mini" style="margin-left: 0px;" @click="caseDetailClick(props.row)">已有案卷</el-button> -->
                       <el-button  type="warning" size="mini"  @click="zuofeiClick(props.row)">作废</el-button>
+                      <el-button  type="warning" size="mini"  @click="pushClick(props.row)">推送</el-button>
+
+                      
                     </template>
                   </el-table-column>
                 </el-table> 
@@ -365,171 +368,188 @@
 </template>
 
 <script>
-  import  TMap from '../../TMap';
-  import md5 from 'js-md5';
-  export default {
-      data: function(){
-          return {
-              num1:0,
-              num2:0,
-              num3:0,
-              num4:0,
-              num5:0,
-              num6:0,
-              num7:0,
-              num8:0,
-              form:{
-                print_code:'1'
-              },
-              org_id:localStorage.getItem('orgId'),
-              addNewClickDialog:false,
-              activeName:'tabName1',
-              case_detail_dialog:false,
-              case_number:'',
-              options4: [],
-              case_name: [],
-              list: [],
-              loading: false,
-              states: [],
-              caseList: [
-                
-              ],
-              bgqxList:[
-                {
-                  name:'永久',
-                  value:'1'
+    import  TMap from '../../TMap';
+    import md5 from 'js-md5';
+    export default {
+        data: function(){
+            return {
+                num1:0,
+                num2:0,
+                num3:0,
+                num4:0,
+                num5:0,
+                num6:0,
+                num7:0,
+                num8:0,
+                form:{
+                    print_code:'1'
                 },
-                {
-                  name:'长期',
-                  value:'2'
-                },
-                {
-                  name:'短期',
-                  value:'3'
-                }
-              ],
-              typeList:[
-                {
-                  name:'诉讼',
-                  value:'SS',
-                },
-                {
-                  name:'技术',
-                  value:'JS',
-                },
-                {
-                  name:'文书',
-                  value:'WS',
-                }
-              ],
-              exhibits:[],
-              scan_number15:'',
-              scan_number:'',
-              total:0,
-              pageNum:1,
-              pageSize:10,
-              total2:0,
-              pageNum2:1,
-              pageSize2:10,
-              addHisDialog:false,
-              uploadUrl:'',
-              myHeaders:'',
-              timeYear:'',
-              stateList:[
-                {
-                  value:'',
-                  label:'全部'
-                },
-                {
-                  value:'none',
-                  label:'未入库'
-                },
-                {
-                  value:'in',
-                  label:'已入库'
-                }
-              ],
-              stateFlag:'',
-              caseType:'',
-              typeList1:[
-                {
-                  value:'',
-                  label:'全部'
-                },
-                {
-                  value:'30',
-                  label:'侦监业务'
-                },
-                {
-                  value:'31',
-                  label:'公诉业务'
-                },{
-                  value:'32',
-                  label:'民行业务'
-                },{
-                  value:'33',
-                  label:'公益诉讼'
-                },{
-                  value:'34',
-                  label:'执检业务'
-                },{
-                  value:'35',
-                  label:'控申业务'
-                },{
-                  value:'44',
-                  label:'未检业务'
-                },{
-                  value:'45',
-                  label:'检察技术'
-                },{
-                  value:'46',
-                  label:'检委会'
-                }
-              ],
+                org_id:localStorage.getItem('orgId'),
+                addNewClickDialog:false,
+                activeName:'tabName1',
+                case_detail_dialog:false,
+                case_number:'',
+                options4: [],
+                case_name: [],
+                list: [],
+                loading: false,
+                states: [],
+                caseList: [
+                    
+                ],
+                bgqxList:[
+                    {
+                    name:'永久',
+                    value:'1'
+                    },
+                    {
+                    name:'长期',
+                    value:'2'
+                    },
+                    {
+                    name:'短期',
+                    value:'3'
+                    }
+                ],
+                typeList:[
+                    {
+                    name:'诉讼',
+                    value:'SS',
+                    },
+                    {
+                    name:'技术',
+                    value:'JS',
+                    },
+                    {
+                    name:'文书',
+                    value:'WS',
+                    }
+                ],
+                exhibits:[],
+                scan_number15:'',
+                scan_number:'',
+                total:0,
+                pageNum:1,
+                pageSize:10,
+                total2:0,
+                pageNum2:1,
+                pageSize2:10,
+                addHisDialog:false,
+                uploadUrl:'',
+                myHeaders:'',
+                timeYear:'',
+                stateList:[
+                    {
+                    value:'',
+                    label:'全部'
+                    },
+                    {
+                    value:'none',
+                    label:'未入库'
+                    },
+                    {
+                    value:'in',
+                    label:'已入库'
+                    }
+                ],
+                stateFlag:'',
+                caseType:'',
+                typeList1:[
+                    {
+                    value:'',
+                    label:'全部'
+                    },
+                    {
+                    value:'30',
+                    label:'侦监业务'
+                    },
+                    {
+                    value:'31',
+                    label:'公诉业务'
+                    },{
+                    value:'32',
+                    label:'民行业务'
+                    },{
+                    value:'33',
+                    label:'公益诉讼'
+                    },{
+                    value:'34',
+                    label:'执检业务'
+                    },{
+                    value:'35',
+                    label:'控申业务'
+                    },{
+                    value:'44',
+                    label:'未检业务'
+                    },{
+                    value:'45',
+                    label:'检察技术'
+                    },{
+                    value:'46',
+                    label:'检委会'
+                    }
+                ],
             }
-              
-      },
-      mounted() {
-          this.getDataList();
-          var myHeaders = localStorage.getItem('auth');
-          var uploadUrl = this.$axios.defaults.baseURL+'/cases/cases/addByExcel';
-          this.uploadUrl = uploadUrl;
-          var token = {"kf-token":myHeaders};
-          this.myHeaders = token;
-          this.getNumBage();
-      },
-      methods: {
-          zuofeiClick(res){
-            var self = this;
-            var params = new URLSearchParams();
-            var token = localStorage.getItem('auth');
-
-            params.append('exhibit_id',res.exhibit_id);
-            params.append('exhibit_status','0');
-            
-
-            self.$axios({
-                method: 'post',
-                url: '/exhibit/exhibit/update',
-                data: params,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
-             }).then(function(data){
                 
-                if(data.data.code==0){
-                  
-                  self.$message({
-                    type: 'success',
-                    message: '操作成功'
-                  });
-                  self.case_detail_dialog = false;
-                  self.getDataList();
-                }else{
-
-                  self.$response(data,self);
-                  
-                }
-             });
-          },
+        },
+        mounted() {
+            this.getDataList();
+            var myHeaders = localStorage.getItem('auth');
+            var uploadUrl = this.$axios.defaults.baseURL+'/cases/cases/addByExcel';
+            this.uploadUrl = uploadUrl;
+            var token = {"kf-token":myHeaders};
+            this.myHeaders = token;
+            this.getNumBage();
+        },
+        methods: {
+            //   作废
+            zuofeiClick(res){
+                var self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('exhibit_id',res.exhibit_id);
+                params.append('exhibit_status','0');
+                self.$axios({
+                    method: 'post',
+                    url: '/exhibit/exhibit/update',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                }).then(function(data){
+                    if(data.data.code==0){
+                        self.$message({
+                            type: 'success',
+                            message: '操作成功'
+                        });
+                        self.case_detail_dialog = false;
+                        self.getDataList();
+                    }else{
+                        self.$response(data,self);
+                    }
+                });
+            },
+            // 推送
+            pushClick(res){
+                var self = this;
+                var params = new URLSearchParams();
+                var token = localStorage.getItem('auth');
+                params.append('exhibit_id',res.exhibit_id);
+                self.$axios({
+                    method: 'post',
+                    url: '/errorExhibitUpdate',
+                    data: params,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','kf-token':token},
+                }).then(function(data){
+                    if(data.data.code==0){
+                        self.$message({
+                            type: 'success',
+                            message: '操作成功'
+                        });
+                        self.getDataList();
+                    }else{
+                        self.$response(data,self);
+                    }
+                });
+            },
           indexMethod(index){
             return this.pageSize*(this.pageNum-1)+index+1;
           },
