@@ -158,7 +158,7 @@
                     height="10%"
                     >
                     <template >
-                      <span>2019</span>
+                      <span>{{timeYear}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column
